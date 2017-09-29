@@ -1,0 +1,62 @@
+package com.graction.developer.lumi.Activity;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+
+import com.graction.developer.lumi.Fragment.HomeFragment;
+import com.graction.developer.lumi.Fragment.TestFragment;
+import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.UI.UIFactory;
+import com.graction.developer.lumi.Util.Log.HLogger;
+
+public class MainActivity extends AppCompatActivity {
+    private HLogger logger;
+    private UIFactory uiFactory;
+    private Fragment fragment;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    fragment = HomeFragment.getInstance();
+                    break;
+                case R.id.navigation_dashboard:
+                    fragment = TestFragment.getInstance();
+                    break;
+                case R.id.navigation_notifications:
+                    break;
+            }
+            replaceContent();
+            return true;
+        }
+
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        init();
+    }
+
+    private void init() {
+        logger = new HLogger(getClass());
+        uiFactory = UIFactory.getInstance(this);
+
+        BottomNavigationView navigation = uiFactory.createView(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_home);
+    }
+
+    private void replaceContent(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+    }
+
+}

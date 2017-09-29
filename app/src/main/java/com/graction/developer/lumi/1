@@ -1,0 +1,113 @@
+
+<weather id="500" message="light rain"/>
+<weather id="501" message="moderate rain"/>
+<weather id="502" message="heavy intensity rain"/>
+<weather id="503" message="very heavy rain"/>
+<weather id="504" message="extreme rain"/>
+<weather id="511" message="freezing rain"/>
+<weather id="520" message="light intensity shower rain"/>
+<weather id="521" message="shower rain"/>
+<weather id="522" message="heavy intensity shower rain"/>
+<weather id="531" message="ragged shower rain"/>
+<weather id="600" message="light snow"/>
+<weather id="601" message="snow"/>
+<weather id="602" message="heavy snow"/>
+<weather id="611" message="sleet"/>
+<weather id="612" message="shower sleet"/>
+<weather id="615" message="light rain and snow"/>
+<weather id="616" message="rain and snow"/>
+<weather id="620" message="light shower snow"/>
+<weather id="621" message="shower snow"/>
+<weather id="622" message="heavy shower snow"/>
+<weather id="701" message="mist"/>
+<weather id="711" message="smoke"/>
+<weather id="721" message="haze"/>
+<weather id="731" message="sand, dust whirls"/>
+<weather id="741" message="fog"/>
+<weather id="751" message="sand"/>
+<weather id="761" message="dust"/>
+<weather id="762" message="volcanic ash"/>
+<weather id="771" message="squalls"/>
+<weather id="781" message="tornado"/>
+<weather id="800" message="clear sky"/>
+<weather id="801" message="few clouds"/>
+<weather id="802" message="scattered clouds"/>
+<weather id="803" message="broken clouds"/>
+<weather id="804" message="overcast clouds"/>
+<weather id="900" message="tornado"/>
+<weather id="901" message="tropical storm"/>
+<weather id="902" message="hurricane"/>
+<weather id="903" message="cold"/>
+<weather id="904" message="hot"/>
+<weather id="905" message="windy"/>
+<weather id="906" message="hail"/>
+<weather id="951" message="calm"/>
+<weather id="952" message="light breeze"/>
+<weather id="953" message="gentle breeze"/>
+<weather id="954" message="moderate breeze"/>
+<weather id="955" message="fresh breeze"/>
+<weather id="956" message="strong breeze"/>
+<weather id="957" message="high wind, near gale"/>
+<weather id="958" message="gale"/>
+<weather id="959" message="severe gale"/>
+<weather id="960" message="storm"/>
+<weather id="961" message="violent storm"/>
+<weather id="962" message="hurricane"/>
+
+
+500	light rain
+501	moderate rain
+502	heavy intensity rain
+503	very heavy rain
+504	extreme rain
+511	freezing rain
+520	light intensity shower rain
+521	shower rain
+522	heavy intensity shower rain
+531	ragged shower rain
+
+600	light snow
+601	snow
+602	heavy snow
+611	sleet
+612	shower sleet
+615	light rain and snow
+616	rain and snow
+620	light shower snow
+621	shower snow
+622	heavy shower snow
+
+701	mist
+711	smoke
+721	haze
+731	sand, dust whirls
+741	fog
+751	sand
+761	dust
+762	volcanic ash
+771	squalls
+781	tornado
+800	clear sky
+801	few clouds
+802	scattered clouds
+803	broken clouds
+804	overcast clouds
+900	tornado
+901	tropical storm
+902	hurricane
+903	cold
+904	hot
+905	windy
+906	hail
+951	calm
+952	light breeze
+953	gentle breeze
+954	moderate breeze
+955	fresh breeze
+956	strong breeze
+957	high wind, near gale
+958	gale
+959	severe gale
+960	storm
+961	violent storm
+962	hurricane
