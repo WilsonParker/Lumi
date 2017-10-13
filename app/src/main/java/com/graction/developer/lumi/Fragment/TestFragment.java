@@ -11,7 +11,7 @@ import com.graction.developer.lumi.R;
 
 public class TestFragment extends BaseFragment {
 
-    public static Fragment getInstance(){
+    public static Fragment getInstance() {
         Fragment fragment = new TestFragment();
         return fragment;
     }
@@ -19,11 +19,10 @@ public class TestFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, null);
+        return inflater.inflate(R.layout.fragment_test, null);
     }
 
     @Override
     void init(View view) {
-        
     }
 }

@@ -5,7 +5,9 @@ import com.graction.developer.lumi.Model.weather.Weather;
 
 import java.util.ArrayList;
 
-
+/*
+ * 16 day weather model
+ */
 public class DailyForecast {
     private int cod // Internal parameter
             , cnt; // Number of lines returned by this API call

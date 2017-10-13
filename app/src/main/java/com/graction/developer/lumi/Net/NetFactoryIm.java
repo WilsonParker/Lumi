@@ -9,9 +9,11 @@ import retrofit2.http.Query;
 
 public interface NetFactoryIm {
 
+	// 16 day weather forecast
 	@GET("app/dailyforecast")
 	Call<DailyForecast> selectForecastDaily(@Query("lat") double lat, @Query("lon") double lon);
 
+	// Current weather
 	@GET("app/weather")
 	Call<WeatherModel> selectWeather(@Query("lat") double lat, @Query("lon") double lon);
 }

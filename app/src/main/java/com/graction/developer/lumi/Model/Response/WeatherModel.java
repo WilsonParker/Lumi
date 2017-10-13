@@ -10,6 +10,9 @@ import com.graction.developer.lumi.Model.weather.Wind;
 
 import java.util.ArrayList;
 
+/*
+ * Current weather model
+ */
 public class WeatherModel {
 	private Coord coord;
 	private ArrayList<Weather> weather;
@@ -20,6 +23,9 @@ public class WeatherModel {
 	private String base		// Internal parameter
 					, name	//	City Mane
 					, address	// Address obtained with lat & lng
+					, address_do
+					, address_si
+					, address_gu
 					;
 
 	private long dt			// Time of data calculation, unix, UTC
@@ -126,6 +132,30 @@ public class WeatherModel {
 		this.address = address;
 	}
 
+	public String getAddress_do() {
+		return address_do;
+	}
+
+	public void setAddress_do(String address_do) {
+		this.address_do = address_do;
+	}
+
+	public String getAddress_si() {
+		return address_si;
+	}
+
+	public void setAddress_si(String address_si) {
+		this.address_si = address_si;
+	}
+
+	public String getAddress_gu() {
+		return address_gu;
+	}
+
+	public void setAddress_gu(String address_gu) {
+		this.address_gu = address_gu;
+	}
+
 	@Override
 	public String toString() {
 		return "WeatherModel{" +
@@ -138,6 +168,9 @@ public class WeatherModel {
 				", base='" + base + '\'' +
 				", name='" + name + '\'' +
 				", address='" + address + '\'' +
+				", address_do='" + address_do + '\'' +
+				", address_si='" + address_si + '\'' +
+				", address_gu='" + address_gu + '\'' +
 				", dt=" + dt +
 				", id=" + id +
 				", cod=" + cod +
