@@ -73,9 +73,9 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        root = uiFactory.createView(R.id.fragment_home$root);
-        TV_address = uiFactory.createView(R.id.fragment_home$TV_address);
-        IV_background = uiFactory.createView(R.id.fragment_home$IV_background);
+        root = uiFactory.createView(R.id.fragment_home_root);
+        TV_address = uiFactory.createView(R.id.fragment_home_TV_address);
+        IV_background = uiFactory.createView(R.id.fragment_home_IV_background);
     }
 
     @Override
