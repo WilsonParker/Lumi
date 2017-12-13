@@ -14,6 +14,6 @@ public interface NetFactoryIm {
 	Call<DailyForecast> selectForecastDaily(@Query("lat") double lat, @Query("lon") double lon);
 
 	// Current weather
-	@GET("app/weather")
+	@GET("app/current_weather")
 	Call<WeatherModel> selectWeather(@Query("lat") double lat, @Query("lon") double lon);
 }

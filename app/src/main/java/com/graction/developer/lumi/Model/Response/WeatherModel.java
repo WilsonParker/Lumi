@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * Current weather model
  */
 public class WeatherModel {
+	private static final String RESOURCE_URL = "http://192.168.0.8:8101/lumiAssets";
 	private Coord coord;
 	private ArrayList<Weather> weather;
 	private Main main;
@@ -26,6 +27,9 @@ public class WeatherModel {
 					, address_do
 					, address_si
 					, address_gu
+					, background_img_url
+					, character_img_url
+					, effect_img_url
 					;
 
 	private long dt			// Time of data calculation, unix, UTC
@@ -156,6 +160,30 @@ public class WeatherModel {
 		this.address_gu = address_gu;
 	}
 
+	public String getBackground_img_url() {
+		return RESOURCE_URL+background_img_url;
+	}
+
+	public void setBackground_img_url(String background_img_url) {
+		this.background_img_url = background_img_url;
+	}
+
+	public String getCharacter_img_url() {
+		return RESOURCE_URL+character_img_url;
+	}
+
+	public void setCharacter_img_url(String character_img_url) {
+		this.character_img_url = character_img_url;
+	}
+
+	public String getEffect_img_url() {
+		return RESOURCE_URL+effect_img_url;
+	}
+
+	public void setEffect_img_url(String effect_img_url) {
+		this.effect_img_url = effect_img_url;
+	}
+
 	@Override
 	public String toString() {
 		return "WeatherModel{" +
@@ -171,6 +199,9 @@ public class WeatherModel {
 				", address_do='" + address_do + '\'' +
 				", address_si='" + address_si + '\'' +
 				", address_gu='" + address_gu + '\'' +
+				", background_img_url='" + background_img_url + '\'' +
+				", character_img_url='" + character_img_url + '\'' +
+				", effect_img_url='" + effect_img_url + '\'' +
 				", dt=" + dt +
 				", id=" + id +
 				", cod=" + cod +

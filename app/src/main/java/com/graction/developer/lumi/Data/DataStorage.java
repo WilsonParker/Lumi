@@ -28,9 +28,11 @@ public class DataStorage {
                 PARAM_KEY_LAT = "lat",
                 PARAM_KEY_LON = "lon";
 
+        /*
         public static final String API_KEY = "5a165ea40110d89c6a33e762fb7501c6",
                 API_URL = "http://api.openweathermap.org",
                 RESOURCE_MODE = "json";
+        */
     }
 
     public class Path{

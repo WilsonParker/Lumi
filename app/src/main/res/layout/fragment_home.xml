@@ -3,12 +3,17 @@
     android:id="@+id/fragment_home_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     tools:context="com.graction.developer.lumi.Fragment.HomeFragment">
 
     <ImageView
         android:id="@+id/fragment_home_IV_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <com.felipecsl.gifimageview.library.GifImageView
+        android:id="@+id/fragment_home_GV_background"
+        android:layout_width="400px"
+        android:layout_height="400px" />
 
     <TextView
         android:id="@+id/fragment_home_TV_address"

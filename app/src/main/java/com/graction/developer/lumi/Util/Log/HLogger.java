@@ -83,14 +83,14 @@ public class HLogger {
 
     public void log(LogType logType, String method, String message, Throwable t) {
         setBuliderData(message, method, t.getMessage());
-        t.printStackTrace();
         print(logType, builder.toString());
+        t.printStackTrace();
     }
 
     public void log(LogType logType, String method, String message, Exception e) {
         setBuliderData(message, method, e.getMessage());
-        e.printStackTrace();
         print(logType, builder.toString());
+        e.printStackTrace();
     }
 
 

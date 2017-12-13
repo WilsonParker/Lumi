@@ -10,13 +10,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.graction.developer.lumi.Data.DataStorage;
+import com.felipecsl.gifimageview.library.GifImageView;
 import com.graction.developer.lumi.Listener.AddressHandleListener;
 import com.graction.developer.lumi.Model.Response.DailyForecast;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
 import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
+import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.GPS.GoogleLocationManager;
 import com.graction.developer.lumi.Util.GPS.GpsManager;
 import com.graction.developer.lumi.Util.GPS.LocationManager;
@@ -27,6 +28,8 @@ import com.graction.developer.lumi.Util.Weather.WeatherManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.graction.developer.lumi.Data.DataStorage.weatherModel;
 
 public class HomeFragment extends BaseFragment {
     private HLogger logger;
@@ -40,6 +43,9 @@ public class HomeFragment extends BaseFragment {
     private FrameLayout root;
     private ImageView IV_background;
     private TextView TV_address;
+    private GifImageView gifImageView;
+
+    private String background_url ="", character_url="", effect_url="";
 
     public static Fragment getInstance() {
         Fragment fragment = new HomeFragment();
@@ -76,6 +82,14 @@ public class HomeFragment extends BaseFragment {
         root = uiFactory.createView(R.id.fragment_home_root);
         TV_address = uiFactory.createView(R.id.fragment_home_TV_address);
         IV_background = uiFactory.createView(R.id.fragment_home_IV_background);
+        gifImageView = uiFactory.createView(R.id.fragment_home_GV_background);
+
+//        gifImageView.gotoFrame(2);
+        /*gifImageView.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
+            @Override public Bitmap onFrameAvailable(Bitmap bitmap) {
+                return blurFilter.blur(bitmap);
+            }
+        });*/
     }
 
     @Override
@@ -87,12 +101,31 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void reloadWeatherInfo() {
+//        gifImageView.startAnimation();
         if (gpsManager.isGetLocation()) {
 //            googleLocationManager.getAddress(gpsManager.getLocation());
-            if (DataStorage.weatherModel != null) {
-                TV_address.setText(DataStorage.weatherModel.getAddress());
+            if (weatherModel != null) {
+                TV_address.setText(weatherModel.getAddress());
                 try {
-                    weatherManager.setWeatherBackground(getContext(), IV_background, DataStorage.weatherModel.getFirstWeather());
+//                    weatherManager.setWeatherBackground(getContext(), IV_background, DataStorage.weatherModel.getFirstWeather());
+                    // imageManager.loadImage(getContext(), weatherModel.getBackground_img_url(), IV_background, ImageManager.Type.FIT_TYPE);
+                    if(!background_url.equals(weatherModel.getBackground_img_url())){
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : "+weatherModel.getBackground_img_url());
+                        // RequestCreator rq = imageManager.createRequestCreator(getContext(),weatherModel.getBackground_img_url(), ImageManager.Type.FIT_TYPE).noFade().placeholder(BaseActivityFileManager.getInstance().getDrawableFromAssets(getResources().getAssets(),"images/background/sunny.jpg"));
+                        background_url = weatherModel.getBackground_img_url();
+                        imageManager.loadImage(getContext(), background_url, IV_background, ImageManager.Type.FIT_TYPE);
+                    }
+
+                    if(!character_url.equals(weatherModel.getCharacter_img_url())){
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : "+weatherModel.getCharacter_img_url());
+                        character_url = weatherModel.getCharacter_img_url();
+                        gifImageView.setBytes(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif"));
+                        gifImageView.startAnimation();
+                    }
+//                    imageManager.loadImage(rq, IV_background);
+//                    File file = BaseActivityFileManager.getInstance().getFile("images/background/sunny.jpg");
+//                    imageManager.loadImage(getContext(), BaseActivityFileManager.getInstance().getAssetFileToByte("images/background/sunny.jpg"), IV_background, ImageManager.Type.FIT_TYPE);
+                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : "+weatherModel.getBackground_img_url());
                 } catch (Exception e) {
                     logger.log(HLogger.LogType.ERROR, "reloadWeatherInfo()", "reloadWeatherInfo Error", e);
                 }
@@ -128,7 +161,7 @@ public class HomeFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "isSuccessful");
                     logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
-                    DataStorage.weatherModel = response.body();
+                    weatherModel = response.body();
                     reloadWeatherInfo();
                 } else {
                     logger.log(HLogger.LogType.WARN, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "is not Successful");
@@ -138,6 +171,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFailure(Call<WeatherModel> call, Throwable t) {
                 logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "onFailure", t);
+                t.printStackTrace();
             }
         });
     }

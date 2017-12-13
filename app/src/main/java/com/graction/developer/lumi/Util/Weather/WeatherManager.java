@@ -26,8 +26,7 @@ public class WeatherManager {
     }
 
     public void setWeatherBackground(Context context, ImageView imageView, Weather weather) {
-        imageManager.loadImage(imageManager.createRequestCreator(context, DataStorage.Path.PATH_ASSET + DataStorage.Path.PATH_BACKGROUND + DataStorage.weathers.get(weather.getId()).getImage(), ImageManager.TYPE.FIT_TYPE).centerCrop(), imageView);
+        imageManager.loadImage(imageManager.createRequestCreator(context, DataStorage.Path.PATH_ASSET + DataStorage.Path.PATH_BACKGROUND + DataStorage.weathers.get(weather.getId()).getImage(), ImageManager.Type.FIT_TYPE).centerCrop(), imageView);
     }
-
 
 }

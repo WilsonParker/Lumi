@@ -2,7 +2,10 @@ package com.graction.developer.lumi.Util.Image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
@@ -12,6 +15,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by Hare on 2017-07-19.
@@ -23,7 +30,7 @@ import java.io.File;
 public class ImageManager {
     private static ImageManager imageManager = new ImageManager();
 //    public static final int BASIC_TYPE = 0x0000, FIT_TYPE = 0x0001, PICTURE_TYPE = 0x0010, THUMBNAIL_TYPE = 0x0011, ICON_TYPE = 0x0100;
-    public enum TYPE {
+    public enum Type {
         BASIC_TYPE, FIT_TYPE, PICTURE_TYPE, THUMBNAIL_TYPE, ICON_TYPE
     }
 
@@ -31,15 +38,15 @@ public class ImageManager {
         return imageManager;
     }
 
-    public void loadImage(Context context, String downloadURI, ImageView imageView, TYPE type) {
+    public void loadImage(Context context, String downloadURI, ImageView imageView, Type type) {
         createRequestCreator(context, downloadURI, type).into(imageView);
     }
 
-    public void loadImage(Context context, int id, ImageView imageView, TYPE type) {
+    public void loadImage(Context context, int id, ImageView imageView, Type type) {
         createRequestCreator(context, id, type).into(imageView);
     }
 
-    public void loadImage(Context context, File file, ImageView imageVIew, TYPE type) {
+    public void loadImage(Context context, File file, ImageView imageVIew, Type type) {
         createRequestCreator(context, file, type).into(imageVIew);
     }
 
@@ -47,19 +54,19 @@ public class ImageManager {
         requestCreator.into(imageView);
     }
 
-    public RequestCreator createRequestCreator(Context context, int id, TYPE type) {
+    public RequestCreator createRequestCreator(Context context, int id, Type type) {
         return requestCreatorSetCase(Picasso.with(context).load(id), type);
     }
 
-    public RequestCreator createRequestCreator(Context context, String url, TYPE type) {
+    public RequestCreator createRequestCreator(Context context, String url, Type type) {
         return requestCreatorSetCase(Picasso.with(context).load(url), type);
     }
 
-    public RequestCreator createRequestCreator(Context context, File file, TYPE type) {
+    public RequestCreator createRequestCreator(Context context, File file, Type type) {
         return requestCreatorSetCase(Picasso.with(context).load(file), type);
     }
 
-    public RequestCreator createRequestCreator(Context context, Uri uri, TYPE type) {
+    public RequestCreator createRequestCreator(Context context, Uri uri, Type type) {
         return requestCreatorSetCase(Picasso.with(context).load(uri), type);
     }
 
@@ -70,7 +77,7 @@ public class ImageManager {
                 .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE);
     }
 
-    private RequestCreator requestCreatorSetCase(RequestCreator requestCreator, TYPE type) {
+    private RequestCreator requestCreatorSetCase(RequestCreator requestCreator, Type type) {
         requestCreator = basicSetting(requestCreator);
         switch (type) {
             case BASIC_TYPE:
@@ -119,5 +126,16 @@ public class ImageManager {
                 width, height, matrix, true);
 
         return resizedBitmap;
+    }
+
+    public Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(x);
     }
 }
