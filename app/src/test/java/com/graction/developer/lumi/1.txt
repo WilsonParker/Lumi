@@ -1,0 +1,199 @@
+package com.konest.map.cn.planner.adapter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.konest.map.cn.R;
+import com.konest.map.cn.common.listener.OnSingleClickListener;
+import com.konest.map.cn.databinding.ListItemPlannerRecSubjectBinding;
+import com.konest.map.cn.planner.activity.PlannerRecSubjectDetailActivity;
+import com.konest.map.cn.planner.model.RecSubList;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+/**
+ * Created by User on 2017-11-13.
+ * 추천 주제 전체보기 리사이클러뷰 어댑터
+ */
+
+public class PlannerRecSubjectListAdapter extends RecyclerView.Adapter {
+
+    Context mContext;
+    ArrayList<RecSubList> mItems;
+    ListItemPlannerRecSubjectBinding binding;
+    private PlannerRecSubjectListImageAdapter horizontalAdapter;
+    String onlyDate, mDate;
+
+    public PlannerRecSubjectListAdapter(Context context, ArrayList<RecSubList> items) {
+        this.mContext = context;
+        this.mItems = items;
+        if (mItems == null)
+            this.mItems = new ArrayList<>();
+    }
+
+    public void initData() {
+        if (mItems == null) return;
+        mItems.clear();
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_planner_rec_subject, parent, false);
+        binding = ListItemPlannerRecSubjectBinding.bind(view);
+        return new PlannerRecSubjectListAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        ViewHolder holder = (ViewHolder) viewHolder;
+
+        holder.toBind(mItems.get(position));
+
+        // 리사이클러뷰 구분선
+        if(position == 0) {
+            holder.line.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mItems == null) return 0;
+        return mItems.size();
+    }
+
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title, contents, likeCount, date, poiCount;
+        RecyclerView horizontal_recycler_view;
+        RelativeLayout item_linear;
+        ImageView like_btn, arrow_right, arrow_left;
+        View line;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            title = binding.textTitle;
+            contents = binding.textContents;
+            likeCount = binding.likeCount;
+            item_linear = binding.itemLayout;
+            date = binding.textDate;
+            like_btn = binding.likeBtn;
+            poiCount = binding.poiCount;
+            arrow_right = binding.imageRight;
+            arrow_left = binding.imageLeft;
+            line = binding.line;
+
+            horizontal_recycler_view = binding.horizontalRecyclerView;
+            horizontal_recycler_view.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            horizontalAdapter = new PlannerRecSubjectListImageAdapter(mContext);
+            horizontal_recycler_view.setAdapter(horizontalAdapter);
+            horizontal_recycler_view.setFocusable(false);
+
+        }
+
+        void toBind(RecSubList item) {
+            horizontalAdapter.setData(item.getPoiSimpleList(), item); // 이미지 어댑터
+            title.setText(item.getTitle());                     // 타이틀
+            contents.setText(item.getContent());                 // 헤드라인
+            likeCount.setText(item.getLikeCount() + "");          // 담기(좋아요) 개수
+            onlyDate = item.getRegDate().substring(0, 10);
+            mDate = onlyDate.replaceAll("-", ".");
+            date.setText(mDate);                 // 업로드 일자 (yyyy.mm.dd)
+            poiCount.setText(item.getPoiSimpleList().size() + "");   // poi 개수
+
+            if (contents == null || contents.getText().toString() == "") {
+                contents.setVisibility(View.GONE);
+            }
+
+            // 타이틀, 헤드라인 클릭 시 추천 주제 상세페이지로 이동
+            item_linear.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    Intent intent = new Intent(mContext, PlannerRecSubjectDetailActivity.class);
+                    intent.putExtra(PlannerRecSubjectDetailActivity.ARG_ID, item.getId());
+                    intent.putExtra(PlannerRecSubjectDetailActivity.ARG_FNO, item.getFno());
+                    mContext.startActivity(intent);
+                }
+            });
+
+            // 좋아요 버튼 클릭 시
+            like_btn.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    if (!like_btn.isSelected()) {
+                        like_btn.setImageResource(R.drawable.heart_icon_press);
+                        likeCount.setText(item.getLikeCount() + 1 + "");
+                        like_btn.setSelected(true);
+                    } else {
+                        like_btn.setImageResource(R.drawable.heart_icon_normal);
+                        likeCount.setText(item.getLikeCount() + "");
+                        like_btn.setSelected(false);
+                    }
+                }
+            });
+
+            // 점포 이미지 화살표
+            horizontal_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    int lastVisibleItemPosition = ((LinearLayoutManager)recyclerView.getLayoutManager())
+                            .findLastCompletelyVisibleItemPosition();
+                    int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
+                    if (lastVisibleItemPosition == itemTotalCount) {
+                        arrow_right.setVisibility(View.GONE);
+                        arrow_left.setVisibility(View.VISIBLE);
+                    }else if((!horizontal_recycler_view.canScrollHorizontally(-1))) {
+                        arrow_right.setVisibility(View.VISIBLE);
+                        arrow_left.setVisibility(View.GONE);
+                    }else{
+                        arrow_right.setVisibility(View.VISIBLE);
+                        arrow_left.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+            horizontal_recycler_view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d(TAG, "ACTION : "+event.getAction());
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        //Log.d(TAG, "ACTION_DOWN");
+                        arrow_right.setPressed(true);
+                        arrow_left.setPressed(true);
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        //int x = binding.horizontalScrollView.getScrollX();
+                        //Log.d(TAG, "ACTION_UP x = " + x);
+                        arrow_right.setPressed(false);
+                        arrow_left.setPressed(false);
+                    } else if (event.getAction() == MotionEvent.ACTION_SCROLL) {
+                        arrow_right.setPressed(false);
+                        arrow_left.setPressed(false);
+                    }
+                    return false;
+                }
+            });
+
+        }
+    }
+}
+
+
+
+
+

@@ -1,22 +1,14 @@
 package com.graction.developer.lumi.Model.weather;
 
 public class Wind {
-	private double speed;	// Wind speed, Unit Default: meter/sec, Metricr: meer/sec, Imperial: miles/hour
-	private int deg;		// Wind direction, degrees (meteorological)
+	private double speed	// Wind speed, Unit Default: meter/sec, Metricr: meer/sec, Imperial: miles/hour
+				, deg;		 // Wind direction, degrees (meteorological)
 
-	public double getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(double speed) {
-		this.speed = speed;
-	}
-
-	public int getDeg() {
+	public double getDeg() {
 		return deg;
 	}
 
-	public void setDeg(int deg) {
+	public void setDeg(double deg) {
 		this.deg = deg;
 	}
 

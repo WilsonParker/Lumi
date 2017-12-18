@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
     defaultConfig {
         applicationId "com.graction.developer.lumi"
         minSdkVersion 16
@@ -35,17 +35,20 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.code.geocoder-java/geocoder-java
     compile group: 'com.google.code.geocoder-java', name: 'geocoder-java', version: '0.16'
 
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support:support-vector-drawable:26.+'
+    compile 'com.android.support:appcompat-v7:27.+'
+    compile 'com.android.support:design:27.+'
+    compile 'com.android.support:support-vector-drawable:27.+'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+//    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:support-v4:26.+'
+    // compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.bumptech.glide:glide:4.4.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    compile 'com.github.bumptech.glide:glide:4.4.0'
+    compile 'com.android.support:support-v4:27.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.felipecsl:gifimageview:2.2.0'
     testCompile 'junit:junit:4.12'

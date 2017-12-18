@@ -6,15 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.widget.ImageView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
+import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -27,50 +22,23 @@ import java.net.URL;
 /*
     compile 'com.squareup.picasso:picasso:2.5.2'
  */
-public class ImageManager {
-    private static ImageManager imageManager = new ImageManager();
+public class GlideImageManager {
+    private static GlideImageManager imageManager = new GlideImageManager();
 //    public static final int BASIC_TYPE = 0x0000, FIT_TYPE = 0x0001, PICTURE_TYPE = 0x0010, THUMBNAIL_TYPE = 0x0011, ICON_TYPE = 0x0100;
     public enum Type {
         BASIC_TYPE, FIT_TYPE, PICTURE_TYPE, THUMBNAIL_TYPE, ICON_TYPE
     }
 
-    public static ImageManager getInstance() {
+    public static GlideImageManager getInstance() {
         return imageManager;
     }
 
-    public void loadImage(Context context, String downloadURI, ImageView imageView, Type type) {
-        createRequestCreator(context, downloadURI, type).into(imageView);
+    private void init(Context context, ImageView img){
+        Glide.with(context).load("").into(img);
     }
 
-    public void loadImage(Context context, int id, ImageView imageView, Type type) {
-        createRequestCreator(context, id, type).into(imageView);
-    }
-
-    public void loadImage(Context context, File file, ImageView imageVIew, Type type) {
-        createRequestCreator(context, file, type).into(imageVIew);
-    }
-
-    public void loadImage(RequestCreator requestCreator, ImageView imageView) {
-        requestCreator.into(imageView);
-    }
-
-    public RequestCreator createRequestCreator(Context context, int id, Type type) {
-        return requestCreatorSetCase(Picasso.with(context).load(id), type);
-    }
-
-    public RequestCreator createRequestCreator(Context context, String url, Type type) {
-        return requestCreatorSetCase(Picasso.with(context).load(url), type);
-    }
-
-    public RequestCreator createRequestCreator(Context context, File file, Type type) {
-        return requestCreatorSetCase(Picasso.with(context).load(file), type);
-    }
-
-    public RequestCreator createRequestCreator(Context context, Uri uri, Type type) {
-        return requestCreatorSetCase(Picasso.with(context).load(uri), type);
-    }
-
-    private RequestCreator basicSetting(RequestCreator requestCreator) {
+   /* private RequestCreator basicSetting(RequestCreator requestCreator) {
+        GlideApp.with
         return requestCreator
 //                .error(R.drawable.noimage)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
@@ -96,7 +64,7 @@ public class ImageManager {
                 break;
         }
         return requestCreator;
-    }
+    }*/
 
     public Bitmap resizeImage(Bitmap bitmap, int newSize){
         int width = bitmap.getWidth();
