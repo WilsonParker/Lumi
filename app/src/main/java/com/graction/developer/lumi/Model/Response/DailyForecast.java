@@ -1,7 +1,7 @@
 package com.graction.developer.lumi.Model.Response;
 
-import com.graction.developer.lumi.Model.weather.Coord;
 import com.graction.developer.lumi.Model.weather.Weather;
+import com.graction.developer.lumi.Util.StringUtil;
 
 import java.util.ArrayList;
 
@@ -9,19 +9,9 @@ import java.util.ArrayList;
  * 16 day weather model
  */
 public class DailyForecast {
-    private int cod // Internal parameter
-            , cnt; // Number of lines returned by this API call
-    private String message; // Internal parameter
+    private int cod, cnt;
+    private String message;
     private ArrayList<DailyForecastItem> list;
-    private City city;
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
 
     public int getCod() {
         return cod;
@@ -55,104 +45,76 @@ public class DailyForecast {
         this.list = list;
     }
 
+
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("DailyForecast [\ncod=" + cod + "\n, cnt=" + cnt + "\n, message=" + message + "\n, list=");
-        if (list!= null)
-            for (DailyForecastItem item : list)
-            builder.append("\n" + item);
-        builder.append("\n, city=" + city + "\n]");
-        return builder.toString();
+        return "DailyForecastModel [cod=" + cod + ", cnt=" + cnt + ", message=" + message + ", " + StringUtil.createString("list", list) + "]";
     }
 
-    class City {
-        private long id // City ID
-                , populationo; //
-        private String name // City name
-                , country; // City code (GB, JP etc)
-        private Coord coord;
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public long getPopulationo() {
-            return populationo;
-        }
-
-        public void setPopulationo(long populationo) {
-            this.populationo = populationo;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getCountry() {
-            return country;
-        }
-
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
-        public Coord getCoord() {
-            return coord;
-        }
-
-        public void setCoord(Coord coord) {
-            this.coord = coord;
-        }
-
-        @Override
-        public String toString() {
-            return "City [id=" + id + ", populationo=" + populationo + ", name=" + name + ", country=" + country
-                    + ", coord=" + coord + "]";
-        }
-
-    }
-
-    class DailyForecastItem {
-        private int humidity // Humidity, %
-                , deg // Wind direction, degrees (meteorological)
-                , clouds; // Cloudiness, %
-        private long dt; // Time of data forecasted
-        private double pressure // Atmospheric pressure on the sea level, hPa
-                , speed; // Wind speed, Unit Default: meter/sec,
-        // Metric:meter/sec, Imperial: miles/hour
+    public class DailyForecastItem {
+        private long dt;
+        private int humidity, deg;
+        private double pressure, speed, clouds, rain, snow;
+        private Temp temp;
         private ArrayList<Weather> weather;
 
-        public int getHumidity() {
-            return humidity;
-        }
+        public class Temp {
+            private double day, min, max, night, eve, morn;
 
-        public void setHumidity(int humidity) {
-            this.humidity = humidity;
-        }
+            public double getDay() {
+                return day;
+            }
 
-        public int getDeg() {
-            return deg;
-        }
+            public void setDay(double day) {
+                this.day = day;
+            }
 
-        public void setDeg(int deg) {
-            this.deg = deg;
-        }
+            public double getMin() {
+                return min;
+            }
 
-        public int getClouds() {
-            return clouds;
-        }
+            public void setMin(double min) {
+                this.min = min;
+            }
 
-        public void setClouds(int clouds) {
-            this.clouds = clouds;
+            public double getMax() {
+                return max;
+            }
+
+            public void setMax(double max) {
+                this.max = max;
+            }
+
+            public double getNight() {
+                return night;
+            }
+
+            public void setNight(double night) {
+                this.night = night;
+            }
+
+            public double getEve() {
+                return eve;
+            }
+
+            public void setEve(double eve) {
+                this.eve = eve;
+            }
+
+            public double getMorn() {
+                return morn;
+            }
+
+            public void setMorn(double morn) {
+                this.morn = morn;
+            }
+
+            @Override
+            public String toString() {
+                return "Temp [day=" + day + ", min=" + min + ", max=" + max + ", night=" + night + ", eve=" + eve
+                        + ", morn=" + morn + "]";
+            }
+
         }
 
         public long getDt() {
@@ -179,6 +141,54 @@ public class DailyForecast {
             this.speed = speed;
         }
 
+        public int getHumidity() {
+            return humidity;
+        }
+
+        public void setHumidity(int humidity) {
+            this.humidity = humidity;
+        }
+
+        public int getDeg() {
+            return deg;
+        }
+
+        public void setDeg(int deg) {
+            this.deg = deg;
+        }
+
+        public double getClouds() {
+            return clouds;
+        }
+
+        public void setClouds(double clouds) {
+            this.clouds = clouds;
+        }
+
+        public double getRain() {
+            return rain;
+        }
+
+        public void setRain(double rain) {
+            this.rain = rain;
+        }
+
+        public double getSnow() {
+            return snow;
+        }
+
+        public void setSnow(double snow) {
+            this.snow = snow;
+        }
+
+        public Temp getTemp() {
+            return temp;
+        }
+
+        public void setTemp(Temp temp) {
+            this.temp = temp;
+        }
+
         public ArrayList<Weather> getWeather() {
             return weather;
         }
@@ -187,22 +197,12 @@ public class DailyForecast {
             this.weather = weather;
         }
 
-        public Weather getFirstWeather() {
-            return weather.get(0);
-        }
-
         @Override
         public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("DailyForecastItem [humidity=" + humidity + ", deg=" + deg + ", clouds=" + clouds + ", dt="
-                    + dt + ", pressure=" + pressure + ", speed=" + speed + ", weather=");
-            if (weather != null)
-                for (Weather w : weather)
-                    builder.append("\n" + w);
-            builder.append("]");
-            return builder.toString();
+            return "DailyForecastItem [dt=" + dt + ", pressure=" + pressure + ", speed=" + speed + ", humidity="
+                    + humidity + ", deg=" + deg + ", clouds=" + clouds + ", rain=" + rain + ", snow=" + snow + ", temp="
+                    + temp + ", " + StringUtil.createString("weather", weather) + "]";
         }
 
     }
-
 }

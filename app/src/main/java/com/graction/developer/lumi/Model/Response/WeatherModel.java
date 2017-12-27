@@ -1,6 +1,9 @@
 package com.graction.developer.lumi.Model.Response;
 
 
+import com.graction.developer.lumi.Model.AddressModel;
+import com.graction.developer.lumi.Model.FineDustModel;
+import com.graction.developer.lumi.Model.ImageModel;
 import com.graction.developer.lumi.Model.weather.Clouds;
 import com.graction.developer.lumi.Model.weather.Coord;
 import com.graction.developer.lumi.Model.weather.Main;
@@ -23,24 +26,15 @@ public class WeatherModel {
 	private Sys sys;
 	private String base		// Internal parameter
 					, name	//	City Mane
-					, address	// Address obtained with lat & lng
-					, address_do
-					, address_si
-					, address_gu
-					, background_img_path
-					, background_img_name
-		//			, background_img_url
-					, character_img_path
-					, character_img_name
-		//			, character_img_url
-					, effect_img_path
-					, effect_img_name
-		//			, effect_img_url
 					;
 
 	private long dt			// Time of data calculation, unix, UTC
 				, id;		// City ID
 	private int cod;		// Internal parameter
+
+	private FineDustModel fineDustModel;
+	private AddressModel addressModel;
+	private ImageModel imageModel;
 
 	public Coord getCoord() {
 		return coord;
@@ -134,98 +128,41 @@ public class WeatherModel {
 		this.cod = cod;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getAddress_do() {
-		return address_do;
-	}
-
-	public void setAddress_do(String address_do) {
-		this.address_do = address_do;
-	}
-
-	public String getAddress_si() {
-		return address_si;
-	}
-
-	public void setAddress_si(String address_si) {
-		this.address_si = address_si;
-	}
-
-	public String getAddress_gu() {
-		return address_gu;
-	}
-
-	public void setAddress_gu(String address_gu) {
-		this.address_gu = address_gu;
-	}
-
-	public String getBackground_img_path() {
-		return background_img_path;
-	}
-
-	public void setBackground_img_path(String background_img_path) {
-		this.background_img_path = background_img_path;
-	}
-
-	public String getBackground_img_name() {
-		return background_img_name;
-	}
-
-	public void setBackground_img_name(String background_img_name) {
-		this.background_img_name = background_img_name;
-	}
-
-	public String getCharacter_img_path() {
-		return character_img_path;
-	}
-
-	public void setCharacter_img_path(String character_img_path) {
-		this.character_img_path = character_img_path;
-	}
-
-	public String getCharacter_img_name() {
-		return character_img_name;
-	}
-
-	public void setCharacter_img_name(String character_img_name) {
-		this.character_img_name = character_img_name;
-	}
-
-	public String getEffect_img_path() {
-		return effect_img_path;
-	}
-
-	public void setEffect_img_path(String effect_img_path) {
-		this.effect_img_path = effect_img_path;
-	}
-
-	public String getEffect_img_name() {
-		return effect_img_name;
-	}
-
-	public void setEffect_img_name(String effect_img_name) {
-		this.effect_img_name = effect_img_name;
-	}
-
 	public String getBackground_img_url() {
-		return RESOURCE_URL+getBackground_img_path()+getBackground_img_name();
+		return RESOURCE_URL+imageModel.getBackground_img_path()+imageModel.getBackground_img_name();
 	}
 
 	public String getCharacter_img_url() {
-		return RESOURCE_URL+getCharacter_img_path()+getCharacter_img_name();
+		return RESOURCE_URL+imageModel.getCharacter_img_path()+imageModel.getCharacter_img_name();
 	}
 
 	public String getEffect_img_url() {
-		return RESOURCE_URL+getEffect_img_path()+getEffect_img_name();
+		return RESOURCE_URL+imageModel.getEffect_img_path()+imageModel.getEffect_img_name();
 	}
 
+	public FineDustModel getFineDustModel() {
+		return fineDustModel;
+	}
+
+	public void setFineDustModel(FineDustModel fineDustModel) {
+		this.fineDustModel = fineDustModel;
+	}
+
+	public AddressModel getAddressModel() {
+		return addressModel;
+	}
+
+	public void setAddressModel(AddressModel addressModel) {
+		this.addressModel = addressModel;
+	}
+
+	public ImageModel getImageModel() {
+		return imageModel;
+	}
+
+	public void setImageModel(ImageModel imageModel) {
+		this.imageModel = imageModel;
+	}
 
 	@Override
 	public String toString() {
@@ -238,16 +175,12 @@ public class WeatherModel {
 				", sys=" + sys +
 				", base='" + base + '\'' +
 				", name='" + name + '\'' +
-				", address='" + address + '\'' +
-				", address_do='" + address_do + '\'' +
-				", address_si='" + address_si + '\'' +
-				", address_gu='" + address_gu + '\'' +
-				", background_img_url='" + getBackground_img_url() + '\'' +
-				", character_img_url='" + getCharacter_img_url() + '\'' +
-				", effect_img_url='" + getEffect_img_url() + '\'' +
 				", dt=" + dt +
 				", id=" + id +
 				", cod=" + cod +
+				", fineDustModel=" + fineDustModel +
+				", addressModel=" + addressModel +
+				", imageModel=" + imageModel +
 				'}';
 	}
 }

@@ -1,6 +1,7 @@
 package com.graction.developer.lumi.Data;
 
 
+import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
 import com.graction.developer.lumi.Model.Xml.Weather;
 
@@ -17,6 +18,7 @@ public class DataStorage {
 
     public static boolean GpsPermissionOn = false;
     public static WeatherModel weatherModel;
+    public static IntegratedAirQualityModel integratedAirQualityModel;
     public static Map<Integer, Weather> weathers;
 
     public class OpenWeather {

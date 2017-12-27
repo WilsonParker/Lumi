@@ -1,5 +1,6 @@
 package com.graction.developer.lumi.Activity;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,13 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.graction.developer.lumi.Fragment.HomeFragment;
-import com.graction.developer.lumi.Fragment.TestFragment;
+import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
 import com.graction.developer.lumi.Util.Log.HLogger;
+import com.graction.developer.lumi.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private HLogger logger;
+    private ActivityMainBinding binding;
     private UIFactory uiFactory;
     private Fragment fragment;
 
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = HomeFragment.getInstance();
                     break;
                 case R.id.navigation_dashboard:
-                    fragment = TestFragment.getInstance();
+                    fragment = Forecast5DayFragment.getInstance();
                     break;
                 case R.id.navigation_notifications:
                     break;
@@ -42,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         init();
     }
 
