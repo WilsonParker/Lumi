@@ -23,19 +23,23 @@ public class HLogger {
     }
 
     private void print(LogType logType, String message) {
-        switch (logType) {
-            case INFO:
-                Log.i(TAG, message);
-                break;
-            case DEBUG:
-                Log.d(TAG, message);
-                break;
-            case WARN:
-                Log.w(TAG, message);
-                break;
-            case ERROR:
-                Log.e(TAG, message);
-                break;
+        if(isDebug){
+            switch (logType) {
+                case INFO:
+                    Log.i(TAG, message);
+                    break;
+                case DEBUG:
+                    Log.d(TAG, message);
+                    break;
+                case WARN:
+                    Log.w(TAG, message);
+                    break;
+                case ERROR:
+                    Log.e(TAG, message);
+                    break;
+            }
+        }else{
+            builder = new StringBuilder();
         }
     }
 
@@ -70,6 +74,16 @@ public class HLogger {
 
     public void log(LogType logType, String method, String message) {
         setBuliderData(message, method);
+        print(logType, builder.toString());
+    }
+
+    public void log(LogType logType, String method, String format, Object... params) {
+        setBuliderData(String.format(format, params), method);
+        print(logType, builder.toString());
+    }
+
+    public void log(LogType logType, String format, Object... params) {
+        log(logType, "", format, params);
         print(logType, builder.toString());
     }
 

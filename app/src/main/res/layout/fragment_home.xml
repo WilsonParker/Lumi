@@ -95,6 +95,48 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="최저 온도" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{weatherModel.main.temp_min+""}' />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="최고 온도" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{weatherModel.main.temp_max+""}' />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="미세 먼지" />
 
                 <ImageView
@@ -323,6 +365,19 @@
                     android:text='@{integratedAirQualityModelItem.khaiValue+""}' />
             </LinearLayout>
 
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:layout_marginLeft="50dp"
+                android:id="@+id/donut_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:donut_progress="40"
+                app:donut_background_color="#3d3d3d"
+                app:donut_finished_color="#eaeaeaea"
+                app:donut_circle_starting_degree="-90"
+                app:donut_show_text="true"
+                app:donut_inner_bottom_text="h2"
+                app:donut_max="100"
+                />
         </LinearLayout>
 
     </RelativeLayout>

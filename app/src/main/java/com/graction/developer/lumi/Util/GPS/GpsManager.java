@@ -20,6 +20,8 @@ import android.support.v4.content.PermissionChecker;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.Util.Log.HLogger;
 
+import static com.graction.developer.lumi.Data.DataStorage.Request.RESULT_OK;
+
 /**
  * Created by Hare on 2017-07-16.
  */
@@ -178,8 +180,8 @@ public class GpsManager {
             return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            activity.requestPermissions(Permission, RequestCode);
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, DataStorage.RequetCode);
+//            activity.requestPermissions(Permission, RESULT_OK);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RESULT_OK);
         }
      /*   if (activity.checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || activity.checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
             return;

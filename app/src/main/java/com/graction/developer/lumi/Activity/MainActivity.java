@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.graction.developer.lumi.Fragment.HomeFragment;
 import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
+import com.graction.developer.lumi.Fragment.AlarmFragment;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = Forecast5DayFragment.getInstance();
                     break;
                 case R.id.navigation_notifications:
+                    fragment = AlarmFragment.getInstance();
                     break;
             }
             replaceContent();

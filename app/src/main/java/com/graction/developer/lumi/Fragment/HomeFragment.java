@@ -35,9 +35,9 @@ public class HomeFragment extends BaseFragment {
     private WeatherManager weatherManager;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
+    private Call call;
 
-
-    private String background_img_url ="", character_img_url ="", effect_img_url ="";
+    private String background_img_url = "", character_img_url = "", effect_img_url = "";
 
     public static Fragment getInstance() {
         Fragment fragment = new HomeFragment();
@@ -84,10 +84,19 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         currentWeather();
+        // callIntegratedAirQuality();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(call.isExecuted())
+            call.cancel();
     }
 
     private void currentWeather() {
-        Net.getInstance().getFactoryIm().selectWeather(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<WeatherModel>() {
+        call = Net.getInstance().getFactoryIm().selectWeather(gpsManager.getLatitude(), gpsManager.getLongitude());
+        call.enqueue(new Callback<WeatherModel>() {
             @Override
             public void onResponse(Call<WeatherModel> call, Response<WeatherModel> response) {
                 if (response.isSuccessful()) {
@@ -95,8 +104,10 @@ public class HomeFragment extends BaseFragment {
                     logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
                     weatherModel = response.body();
                     reloadWeatherInfo();
+                    callIntegratedAirQuality();
                 } else {
                     logger.log(HLogger.LogType.WARN, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "is not Successful");
+                    logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
                 }
             }
 
@@ -115,19 +126,19 @@ public class HomeFragment extends BaseFragment {
             if (weatherModel != null) {
                 binding.setWeatherModel(weatherModel);
                 try {
-                    if(!background_img_url.equals(weatherModel.getBackground_img_url())){
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : "+weatherModel.getBackground_img_url()+" / origin : "+background_img_url);
+                    if (!background_img_url.equals(weatherModel.getBackground_img_url())) {
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url() + " / origin : " + background_img_url);
                         background_img_url = weatherModel.getBackground_img_url();
                         Glide.with(this).load(background_img_url).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
                     }
 
-                    if(!character_img_url.equals(weatherModel.getCharacter_img_url())){
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : "+weatherModel.getCharacter_img_url());
+                    if (!character_img_url.equals(weatherModel.getCharacter_img_url())) {
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : " + weatherModel.getCharacter_img_url());
                         character_img_url = weatherModel.getCharacter_img_url();
                         Glide.with(this).load(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif")).into(binding.fragmentHomeIVCharacter);
                     }
-                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : "+weatherModel.getBackground_img_url());
-                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "weatherModel : "+weatherModel);
+                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url());
+                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "weatherModel : " + weatherModel);
                 } catch (Exception e) {
                     logger.log(HLogger.LogType.ERROR, "reloadWeatherInfo()", "reloadWeatherInfo Error", e);
                 }
@@ -136,19 +147,20 @@ public class HomeFragment extends BaseFragment {
             gpsManager.showSettingsAlert();
         }
 
-        callIntegratedAirQuality();
+        // callIntegratedAirQuality();
     }
 
-    private void callIntegratedAirQuality(){
-        Net.getInstance().getFactoryIm().selectIntegratedAirQuality(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<IntegratedAirQualityModel>() {
+    private void callIntegratedAirQuality() {
+        call = Net.getInstance().getFactoryIm().selectIntegratedAirQuality(gpsManager.getLatitude(), gpsManager.getLongitude());
+        call.enqueue(new Callback<IntegratedAirQualityModel>() {
             @Override
             public void onResponse(Call<IntegratedAirQualityModel> call, Response<IntegratedAirQualityModel> response) {
                 if (response.isSuccessful()) {
                     integratedAirQualityModel = response.body();
-                    if(integratedAirQualityModel!=null){
+                    if (integratedAirQualityModel != null) {
                         binding.setIntegratedAirQualityModel(integratedAirQualityModel);
                         binding.setIntegratedAirQualityModelItem(integratedAirQualityModel.getFirstItem());
-                        logger.log(HLogger.LogType.INFO, "void callIntegratedAirQuality()", "response body: "+integratedAirQualityModel);
+                        logger.log(HLogger.LogType.INFO, "void callIntegratedAirQuality()", "response body: " + integratedAirQualityModel);
                     }
                 }
             }

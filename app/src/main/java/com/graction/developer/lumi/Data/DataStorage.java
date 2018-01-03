@@ -14,7 +14,6 @@ import java.util.Map;
 public class DataStorage {
 //    public static double Location_Longitude, Location_Latitude;
 //    public static FragmentEventListener S_FragmentEventListener;
-    public static final int RequetCode = 200;
 
     public static boolean GpsPermissionOn = false;
     public static WeatherModel weatherModel;
@@ -42,6 +41,16 @@ public class DataStorage {
                                 , PATH_XML = "xml/"
                                 , PATH_IMAGES= "images/"
                                 , PATH_BACKGROUND= PATH_IMAGES+"background/"
+                                ;
+    }
+
+    public class Request{
+        public static final int PLACE_PICKER_REQUEST = 0x001
+
+                                , RESULT_OK = 200
+
+                                , GOOGLE_PLACE_OK = -1
+                                , GOOGLE_PLACE_NONE_SELECTED = 0
                                 ;
     }
 }

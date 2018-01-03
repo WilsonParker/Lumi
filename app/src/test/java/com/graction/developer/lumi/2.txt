@@ -1,0 +1,343 @@
+package com.example.hwjeon.warpvoice_update;
+
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.UUID;
+
+public class VoiceActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+    ////////////////////////////////////////////블루투스 변수 시작//////////////////////////////////////////
+    String name;
+    String address; //MAC주소를 받기 위한 변수
+
+    //GUI 요소 선언
+    TextView slaveName;
+    TextView slaveMAC;
+
+    //로딩을 나타내기 위한 ProgressDialog
+    private ProgressDialog progressDialog;
+
+    //블루투스 관련 변수, 상수
+    private BluetoothDevice mBluetoothDevice = null;
+    private BluetoothAdapter mBluetoothAdapter = null;
+    BluetoothSocket btSocket = null;
+    boolean isBtOn = true;
+
+    //블루투스 통신 관련 변수
+    BufferedReader bufferedReader;
+    String inputLine = "";
+    InputStream inputStream;
+    OutputStream outputStream;
+    PrintWriter printWriter;
+
+    //UUID 상수값
+    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); //UUID 초기화
+    ////////////////////////////////////////////블루투스 변수 끝//////////////////////////////////////////
+
+    ////////////////////////////////////////////음성인식 변수 시작//////////////////////////////////////////////////
+    //GUI 구성요소 선언
+    private TextView speech_sendMessage; //내 음성, 블루투스 기기로 보내는 메시지
+    private ImageButton btnSpeak; //마이크 버튼
+    TextView receiveMessage; //블루투스 기기로 부터 받는 메시지
+
+    //음성인식 상수값 정리
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+    ////////////////////////////////////////////음성인식 변수 끝 //////////////////////////////////////////////////
+
+    ////////////////////////////////////////////음성대답 (TextToSpeech) 시작///////////////////////////////////////
+    private TextToSpeech textToSpeech;
+    private String myText;
+    ////////////////////////////////////////////음성대답 (TextToSpeech) 끝///////////////////////////////////////
+
+    ///////////////////////////////////////블루투스 데이터 통신 디버깅용 버튼 /////////////////////////////////////
+    Button test1;
+    Button test2;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_voice);
+
+        //음성 대답(TextToSpeech 객체화)
+        textToSpeech = new TextToSpeech(this, this);
+
+        //GUI 구성요소 초기화
+        slaveName = (TextView) findViewById(R.id.slaveName);
+        slaveMAC = (TextView) findViewById(R.id.slaveMAC);
+        speech_sendMessage = (TextView) findViewById(R.id.speech_sendMessage);
+        btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
+        receiveMessage = (TextView) findViewById(R.id.receiveMessage);
+
+        //디버깅용 버튼
+        test1 = (Button) findViewById(R.id.test1);
+        test2 = (Button) findViewById(R.id.test2);
+
+        //PairingActivity에서 보낸 address를 받는다.
+        Intent intent = getIntent();
+        address = getIntent().getStringExtra(PairingActivity.EXTRA_ADDRESS);
+
+        //BluetoothAdapter 초기화 및 페어링 할 수 있는 디바이스 가져오기.//
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        //BluetoothDevice 초기화 및 name 받는다.
+        mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
+        name = mBluetoothDevice.getName().toString();
+
+        //Async클래스 객체화 및 클라이언트 시작.
+        new myAsyncTask().execute("클라이언트 시작");
+
+        //음성인식 마이크 버튼 기능.
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promptSpeechInput();
+            }
+        });
+
+        //데이터 전송 디버깅용 버튼1
+        test1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMsg(name, "1", 0);
+
+            }
+        });
+
+        //데이터 전송 디버깅용 버튼2
+        test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMsg(name, "0", 0);
+            }
+        });
+    }
+    //onCreate 종료
+
+    /////////////////////////////////음성대답에 필요한 코드 시작 /////////////////////////////////
+    @Override
+    protected void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+
+            int language = textToSpeech.setLanguage(Locale.KOREAN);
+
+            if (language == TextToSpeech.LANG_MISSING_DATA || language == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
+            } else {
+            }
+        } else {
+            Toast.makeText(this, "TTS 실패입니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /////////////////////////////////음성대답에 필요한 코드 끝 /////////////////////////////////
+
+    //======================================= AsyncTask 클래스 정의 =========================================
+    class myAsyncTask extends AsyncTask<String, String, Integer> {
+        private boolean ConnectSuccess = true;
+
+        //AsyncTask Step0) myAsyncTask를 객체화 하기 위한 Constructor
+        public myAsyncTask() {
+            Log.d("ASYNC0", "들어왔다0");
+        }
+
+        //AsyncTask Step1)
+        protected void onPreExecute() {
+            Log.d("ASYNC1", "들어왔다1");
+            progressDialog = ProgressDialog.show(VoiceActivity.this, "Connecting", "Please Wait");// show a progress of connection
+        }
+
+        //AsyncTask Step2)
+        protected Integer doInBackground(String... value) {
+            Log.d("ASYNC2", "들어왔다2");
+            slaveName.setText(name);
+            slaveMAC.setText(address);
+
+            try {
+
+                if (btSocket == null) {
+                    btSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(myUUID);
+                    btSocket.connect();
+                    publishProgress("연결되었습니다..."); //용도 물어보기, 없으면 progressDialog 안없어짐
+                }
+
+                inputStream = btSocket.getInputStream();
+                outputStream = btSocket.getOutputStream();
+
+                bufferedReader = new BufferedReader(new InputStreamReader(btSocket.getInputStream()));
+                printWriter = new PrintWriter(new OutputStreamWriter(btSocket.getOutputStream()));
+
+            } catch (IOException e) {
+                ConnectSuccess = false;
+
+                Log.i("connect", "Connection Error:" + e.getMessage());
+                try {
+                    btSocket.close();
+                } catch (IOException e2) {
+                }
+                return 0;
+            }
+
+            while (isBtOn) {
+                try {
+                    byte buffer[] = new byte[256];
+                    inputStream.read(buffer);
+
+                    inputLine = bufferedReader.readLine();
+                    printWriter.println(inputLine);
+                    publishProgress(inputLine);
+                } catch (IOException e) {
+                }
+            }
+            return 0;
+        }
+
+        //AsyncTask Step3)
+        protected void onProgressUpdate(String... msg) {
+            Log.d("ASYNC3", "들어왔다3");
+            progressDialog.dismiss(); //progressDialog 닫는다.
+
+
+            // 1바이트 데이터 수신 후 치환 -> 정상적을 데이터 수신 가능!
+            if (inputLine.equals("#")) {
+                myText = "네 안녕하세요.".toString();
+                receiveMessage.setText(myText);
+                mySpeak();
+
+            } else if (inputLine.equals("2")) {
+                receiveMessage.setText("네 집에갈꼐요 잡스! LED 끕니다.");
+            } else if (inputLine.equals("S")) {
+                receiveMessage.setText("여기는 서울입니다!! 반갑습니다.  Welocme to Seoul. ");
+            } else if (inputLine.equals("1")) {
+                receiveMessage.setText("전원을 킵니다. (스위치)");
+            } else if (inputLine.equals("0")) {
+                receiveMessage.setText("전원을 끕니다.(스위치)");
+            } else if (inputLine.equals("s")) {
+                receiveMessage.setText("무엇을 도와드릴까요? How can I help you sir?");
+            }
+
+
+/*{ 이렇게 했을 때, 렉먹어서 잘 안됨. (이유 알아보기)
+if (inputLine.equals(" 네 안녕하세요"))
+receiveMessage.setText(inputLine + "");
+}*/
+
+/*송신값을 ATmega328p가 확인하고 해당되는 대답을 되돌려준다.
+receiveMessage.setText(inputLine+""); -> 데이터 유실 발생*/
+
+            Log.d("RECEIVE", inputLine);
+            Log.d("RECEIVE", inputLine.getClass().getName());
+        }
+
+        //AsyncTask Step4)
+        protected void onPostExecute(Integer result) {
+            Log.d("ASYNC4", "들어왔다4");
+
+            if (!ConnectSuccess) {
+                Toast.makeText(VoiceActivity.this, "페어링을 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(VoiceActivity.this, "페어링 성공.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //음성인식 명령 함수
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());  //잘 안되면
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "말하세요".toString());
+
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(), "실패".toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //음성인식 결과처리 및 블루투스 소켓을 통해 데이터 전송 함수
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            //마이크 음성 청취 동작 후 텍스트를 화면에 출력
+            case REQ_CODE_SPEECH_INPUT:
+                if (resultCode == RESULT_OK && null != data) {
+                    //Toast.makeText(this, "음성인식 결과가 있습니다.", Toast.LENGTH_SHORT).show();
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    speech_sendMessage.setText(result.get(0));
+
+                    Log.d("SEND", result.get(0)); // 보낸 문자 확인
+                    Log.d("SEND", result.get(0).getClass().getName()); //보낸 문자 타입
+
+                    ////////////////////////////////////////음성으로 데이터 전송//////////////////////////////////////
+                    if (btSocket != null) { //만약 소켓이 null이 아니면 (블루투스 연결이 됬다면)
+                        try {
+                            btSocket.getOutputStream().write(result.get(0).toString().getBytes()); //블루투스 모듈로 "on"이라는 String 메시지 보내기.
+
+                        } catch (IOException e) {
+                            Toast.makeText(this, "페어링을 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    // sendMsg디버깅용 버튼 함수 (블루투스 데이터 전송)
+    public void sendMsg(String chatName, String msg, int msgType) {
+        // 형식에 맞춰 서버에 메시지를 전송
+        try {
+            outputStream.write(msg.getBytes());
+            outputStream.flush();
+            speech_sendMessage.setText(msg.toString());
+        } catch (Exception e) {
+
+        }
+    }
+
+    //TextToSpeech 관련 함수.
+    private void mySpeak(){
+            String text = getTextToSpeak.getText().toString();
+            tts.setPitch((float) 1); // 음량
+            tts.setSpeechRate((float) 0.95); //재생 속도
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+
+
+            textToSpeech.speak(myText, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
