@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.graction.developer.lumi.Listener.AddressHandleListener;
 import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
@@ -30,6 +31,7 @@ import static com.graction.developer.lumi.Data.DataStorage.integratedAirQualityM
 import static com.graction.developer.lumi.Data.DataStorage.weatherModel;
 
 public class HomeFragment extends BaseFragment {
+    private static final HomeFragment instance = new HomeFragment();
     private FragmentHomeBinding binding;
     private HLogger logger;
     private WeatherManager weatherManager;
@@ -40,8 +42,7 @@ public class HomeFragment extends BaseFragment {
     private String background_img_url = "", character_img_url = "", effect_img_url = "";
 
     public static Fragment getInstance() {
-        Fragment fragment = new HomeFragment();
-        return fragment;
+        return instance;
     }
 
     @Nullable
@@ -78,12 +79,13 @@ public class HomeFragment extends BaseFragment {
                 return blurFilter.blur(bitmap);
             }
         });*/
+
+        currentWeather();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        currentWeather();
         // callIntegratedAirQuality();
     }
 
@@ -119,6 +121,7 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+    ViewTarget character;
     private void reloadWeatherInfo() {
 //        gifImageView.startAnimation();
         if (gpsManager.isGetLocation()) {
@@ -135,7 +138,8 @@ public class HomeFragment extends BaseFragment {
                     if (!character_img_url.equals(weatherModel.getCharacter_img_url())) {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : " + weatherModel.getCharacter_img_url());
                         character_img_url = weatherModel.getCharacter_img_url();
-                        Glide.with(this).load(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif")).into(binding.fragmentHomeIVCharacter);
+                        // Glide.with(this).load(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif")).into(binding.fragmentHomeIVCharacter);
+                        character = Glide.with(this).load(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif")).into(binding.fragmentHomeIVCharacter);
                     }
                     logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url());
                     logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "weatherModel : " + weatherModel);
@@ -147,6 +151,22 @@ public class HomeFragment extends BaseFragment {
             gpsManager.showSettingsAlert();
         }
 
+        byte[] img = BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test2.gif");
+        binding.fragmentHomeIVCharacter2.setBytes(img);
+        binding.fragmentHomeIVCharacter2.startAnimation();
+
+//        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.animtest);
+//        binding.fragmentHomeIVCharacter2.startAnimation(animation);
+        long duration = binding.fragmentHomeIVCharacter2.getFramesDisplayDuration();
+        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "duration : "+duration);
+        binding.fragmentHomeIVCharacter2.setFramesDisplayDuration(duration);
+
+        binding.fragmentHomeIVCharacter2.setOnClickListener((view)->{
+            if(binding.fragmentHomeIVCharacter2.isAnimating())
+                binding.fragmentHomeIVCharacter2.stopAnimation();
+            else
+                binding.fragmentHomeIVCharacter2.startAnimation();
+        });
         // callIntegratedAirQuality();
     }
 

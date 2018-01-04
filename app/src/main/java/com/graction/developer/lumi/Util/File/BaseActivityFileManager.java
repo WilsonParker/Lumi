@@ -217,6 +217,11 @@ public class BaseActivityFileManager {
         return file;
     }
 
+    /*
+    *
+    * ex) path : images/background/test.gif
+    *
+    * */
     public byte[] getAssetFileToByte(AssetManager assetManager, String path){
         InputStream inputStream;
         byte[] fileBytes = null;

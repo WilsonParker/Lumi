@@ -35,8 +35,14 @@
             android:layout_height="128dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            />
+
+        <com.felipecsl.gifimageview.library.GifImageView
+            android:id="@+id/fragment_home_IV_character2"
+            android:layout_alignRight="@id/fragment_home_IV_character"
+            android:layout_width="100dp"
+            android:layout_height="128dp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

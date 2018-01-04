@@ -24,6 +24,7 @@ import static com.graction.developer.lumi.Data.DataStorage.Request.GOOGLE_PLACE_
 import static com.graction.developer.lumi.Data.DataStorage.Request.PLACE_PICKER_REQUEST;
 
 public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnConnectionFailedListener {
+    private static final AlarmFragment instance = new AlarmFragment();
     private GoogleApiClient mGoogleApiClient;
     private FragmentAlarmBinding binding;
     private HLogger logger;
@@ -31,8 +32,7 @@ public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnCon
     private PlacePicker.IntentBuilder builder;
 
     public static Fragment getInstance() {
-        Fragment fragment = new AlarmFragment();
-        return fragment;
+        return instance;
     }
 
     @Nullable
@@ -52,7 +52,7 @@ public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnCon
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         try {
-            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+            // startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
