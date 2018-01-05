@@ -9,12 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.graction.developer.lumi.R;
-import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.FragmentHomeBinding;
 
 public class EmptyFragment extends BaseFragment {
     private FragmentHomeBinding binding;
-    private HLogger logger;
 
     public static Fragment getInstance() {
         Fragment fragment = new EmptyFragment();
@@ -24,13 +22,12 @@ public class EmptyFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, null, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alarm, null, false);
         return binding.getRoot();
     }
 
     @Override
-    void init(View view) {
-        logger = new HLogger(getClass());
+    protected void init(View view) {
     }
 
     @Override

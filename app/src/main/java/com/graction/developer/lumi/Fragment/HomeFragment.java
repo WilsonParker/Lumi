@@ -16,13 +16,16 @@ import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
 import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.R;
-import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.GPS.GoogleLocationManager;
 import com.graction.developer.lumi.Util.GPS.GpsManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Weather.WeatherManager;
 import com.graction.developer.lumi.databinding.FragmentHomeBinding;
 
+import java.io.IOException;
+
+import pl.droidsonroids.gif.AnimationListener;
+import pl.droidsonroids.gif.GifDrawable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +36,6 @@ import static com.graction.developer.lumi.Data.DataStorage.weatherModel;
 public class HomeFragment extends BaseFragment {
     private static final HomeFragment instance = new HomeFragment();
     private FragmentHomeBinding binding;
-    private HLogger logger;
     private WeatherManager weatherManager;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
@@ -54,8 +56,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    void init(View view) {
-        logger = new HLogger(getClass());
+    protected void init(View view) {
         weatherManager = WeatherManager.getInstance();
         gpsManager = new GpsManager(getActivity());
 
@@ -67,18 +68,6 @@ public class HomeFragment extends BaseFragment {
                 binding.fragmentHomeTVAddress.setText(address);
             }
         });
-
-//        root = uiFactory.createView(R.id.fragment_home_root);
-//        TV_address = uiFactory.createView(R.id.fragment_home_TV_address);
-//        IV_background = uiFactory.createView(R.id.fragment_home_IV_background);
-//        IV_character = uiFactory.createView(R.id.fragment_home_IV_character);
-
-//        gifImageView.gotoFrame(2);
-        /*gifImageView.setOnFrameAvailable(new GifImageView.OnFrameAvailable() {
-            @Override public Bitmap onFrameAvailable(Bitmap bitmap) {
-                return blurFilter.blur(bitmap);
-            }
-        });*/
 
         currentWeather();
     }
@@ -138,8 +127,24 @@ public class HomeFragment extends BaseFragment {
                     if (!character_img_url.equals(weatherModel.getCharacter_img_url())) {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : " + weatherModel.getCharacter_img_url());
                         character_img_url = weatherModel.getCharacter_img_url();
-                        // Glide.with(this).load(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif")).into(binding.fragmentHomeIVCharacter);
-                        character = Glide.with(this).load(BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test4.gif")).into(binding.fragmentHomeIVCharacter);
+
+                        try {
+                            GifDrawable gifDrawable = new GifDrawable(getResources().getAssets(), "images/background/test2.gif");
+
+                            gifDrawable.addAnimationListener(new AnimationListener() {
+                                @Override
+                                public void onAnimationCompleted(int loopNumber) {
+                                    gifDrawable.stop();
+                                }
+                            });
+
+                            binding.fragmentHomeIVCharacter.setImageDrawable(gifDrawable);
+                            binding.fragmentHomeIVCharacter.setOnClickListener((v)->{
+                                gifDrawable.start();
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url());
                     logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "weatherModel : " + weatherModel);
@@ -151,22 +156,6 @@ public class HomeFragment extends BaseFragment {
             gpsManager.showSettingsAlert();
         }
 
-        byte[] img = BaseActivityFileManager.getInstance().getAssetFileToByte(getResources().getAssets(), "images/background/test2.gif");
-        binding.fragmentHomeIVCharacter2.setBytes(img);
-        binding.fragmentHomeIVCharacter2.startAnimation();
-
-//        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.animtest);
-//        binding.fragmentHomeIVCharacter2.startAnimation(animation);
-        long duration = binding.fragmentHomeIVCharacter2.getFramesDisplayDuration();
-        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "duration : "+duration);
-        binding.fragmentHomeIVCharacter2.setFramesDisplayDuration(duration);
-
-        binding.fragmentHomeIVCharacter2.setOnClickListener((view)->{
-            if(binding.fragmentHomeIVCharacter2.isAnimating())
-                binding.fragmentHomeIVCharacter2.stopAnimation();
-            else
-                binding.fragmentHomeIVCharacter2.startAnimation();
-        });
         // callIntegratedAirQuality();
     }
 
@@ -191,4 +180,5 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
 }

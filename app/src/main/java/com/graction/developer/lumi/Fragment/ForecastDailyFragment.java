@@ -21,7 +21,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ForecastDailyFragment extends BaseFragment {
-    private HLogger logger;
     private WeatherManager weatherManager;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
@@ -38,8 +37,7 @@ public class ForecastDailyFragment extends BaseFragment {
     }
 
     @Override
-    void init(View view) {
-        logger = new HLogger(getClass());
+    protected void init(View view) {
         weatherManager = WeatherManager.getInstance();
         gpsManager = new GpsManager(getActivity());
 

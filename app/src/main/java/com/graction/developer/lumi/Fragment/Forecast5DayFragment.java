@@ -22,7 +22,6 @@ import retrofit2.Response;
 
 public class Forecast5DayFragment extends BaseFragment {
     private FragmentForecast5dayBinding binding;
-    private HLogger logger;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
     private Forecast5DayModel model;
@@ -39,8 +38,7 @@ public class Forecast5DayFragment extends BaseFragment {
     }
 
     @Override
-    void init(View view) {
-        logger = new HLogger(getClass());
+    protected void init(View view) {
         gpsManager = new GpsManager(getActivity());
 
         googleLocationManager = new GoogleLocationManager(new AddressHandleListener() {

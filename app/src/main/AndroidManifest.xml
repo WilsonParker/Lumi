@@ -28,6 +28,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Receiver -->
+        <receiver android:name=".Receiver.AlarmReceiver">
+        </receiver>
+
+        <!-- Service -->
+        <service android:name=".Service.AlarmService"/>
+
         <!-- Google Map API KEY -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"

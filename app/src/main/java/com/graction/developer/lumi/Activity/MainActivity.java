@@ -8,9 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.graction.developer.lumi.Fragment.HomeFragment;
-import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.Fragment.AlarmFragment;
+import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
+import com.graction.developer.lumi.Fragment.HomeFragment;
+import com.graction.developer.lumi.Fragment.TestFragment;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -28,14 +29,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_current:
                     fragment = HomeFragment.getInstance();
                     break;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_daily:
                     fragment = Forecast5DayFragment.getInstance();
                     break;
                 case R.id.navigation_notifications:
                     fragment = AlarmFragment.getInstance();
+                    break;
+                case R.id.navigation_alarmtest:
+                    fragment = TestFragment.getInstance();
                     break;
             }
             replaceContent();
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = uiFactory.createView(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_home);
+        navigation.setSelectedItemId(R.id.navigation_current);
     }
 
     private void replaceContent(){

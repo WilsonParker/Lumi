@@ -106,4 +106,55 @@ public class GlideImageManager {
         x = BitmapFactory.decodeStream(input);
         return new BitmapDrawable(x);
     }
+
+   /* private void initGlideGifImageView() {
+
+        showProgressDialog("Loading image...");
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(imgSafetyGif, 1);
+        Glide
+                .with(this)
+                .load(GIF_SOURCE_URL)
+                .placeholder(R.drawable.img_placeholder_1)
+                .error(R.drawable.img_error_1_280_text)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        hideProgressDialog();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        hideProgressDialog();
+
+                        GifDrawable gifDrawable = null;
+                        Handler handler = new Handler();
+                        if (resource instanceof GifDrawable) {
+                            gifDrawable = (GifDrawable) resource;
+
+                            int duration = 0;
+                            GifDecoder decoder = gifDrawable.getDecoder();
+                            for (int i = 0; i < gifDrawable.getFrameCount(); i++) {
+                                duration += decoder.getDelay(i);
+                            }
+
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    SplashScreenActivity.this.finish();
+                                }
+                            }, (duration + 3000));
+
+                        }
+
+                        return false;
+                    }
+
+                })
+                .into(imageViewTarget);
+    }*/
 }

@@ -27,7 +27,6 @@ public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnCon
     private static final AlarmFragment instance = new AlarmFragment();
     private GoogleApiClient mGoogleApiClient;
     private FragmentAlarmBinding binding;
-    private HLogger logger;
 
     private PlacePicker.IntentBuilder builder;
 
@@ -43,8 +42,7 @@ public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnCon
     }
 
     @Override
-    void init(View view) {
-        logger = new HLogger(getClass());
+    protected void init(View view) {
         builder = new PlacePicker.IntentBuilder();
         mGoogleApiClient = new GoogleApiClient
                 .Builder(getActivity())
@@ -52,7 +50,7 @@ public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnCon
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         try {
-            // startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+             startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
