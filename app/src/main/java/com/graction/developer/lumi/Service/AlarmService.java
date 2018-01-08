@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
  */
 
 public class AlarmService extends Service{
-    private IBinder binder = new AlarmBinder();
+    private final IBinder binder = new AlarmBinder();
 
     @Nullable
     @Override

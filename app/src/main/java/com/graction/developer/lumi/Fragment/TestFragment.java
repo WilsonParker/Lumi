@@ -18,12 +18,13 @@ import android.view.ViewGroup;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Service.AlarmService;
 import com.graction.developer.lumi.Util.Log.HLogger;
-import com.graction.developer.lumi.databinding.FragmentAlarmBinding;
+import com.graction.developer.lumi.databinding.FragmentTestBinding;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class TestFragment extends BaseFragment {
-    private FragmentAlarmBinding binding;
+    private FragmentTestBinding binding;
     private AlarmService alarmService;
     private boolean mBound = false; // 서비스 연결 여부
 
@@ -49,14 +50,14 @@ public class TestFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alarm, null, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_test, null, false);
         return binding.getRoot();
     }
 
     @Override
     protected void init(View view) {
         logger.log(HLogger.LogType.INFO, "init");
-
+        binding.setActivity(this);
         initService();
     }
 
@@ -66,19 +67,21 @@ public class TestFragment extends BaseFragment {
     }
 
     // http://ccdev.tistory.com/28 -> 작성 중
-    // https://developer.android.com/guide/components/bound-services.html?hl=ko
+    // c
     // http://developer88.tistory.com/83
     // http://developer88.tistory.com/36
     private void initService() {
-        Intent serviceIntent = new Intent();
+        Intent serviceIntent = new Intent(getActivity(), AlarmService.class);
         getActivity().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private void alarmTest(){
+    // onClick
+    public void alarmTest(View view){
+
         Calendar mCalendar = Calendar.getInstance();
-        mCalendar.set(Calendar.HOUR_OF_DAY, 16);
-        mCalendar.set(Calendar.MINUTE, 5);
-        mCalendar.set(Calendar.SECOND, 00);
+        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
+        mCalendar.set(Calendar.MINUTE, Integer.parseInt(binding.fragmentTestETMinute.getText()+""));
+        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText()+""));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getContext(),
