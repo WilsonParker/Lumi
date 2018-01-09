@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,13 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.Receiver.AlarmReceiver;
 import com.graction.developer.lumi.Service.AlarmService;
-import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.FragmentTestBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
+import static com.graction.developer.lumi.Util.Log.HLogger.LogType.INFO;
 
 public class TestFragment extends BaseFragment {
     private FragmentTestBinding binding;
@@ -56,7 +60,7 @@ public class TestFragment extends BaseFragment {
 
     @Override
     protected void init(View view) {
-        logger.log(HLogger.LogType.INFO, "init");
+        logger.log(INFO, "init");
         binding.setActivity(this);
         initService();
     }
@@ -66,10 +70,6 @@ public class TestFragment extends BaseFragment {
         super.onResume();
     }
 
-    // http://ccdev.tistory.com/28 -> 작성 중
-    // c
-    // http://developer88.tistory.com/83
-    // http://developer88.tistory.com/36
     private void initService() {
         Intent serviceIntent = new Intent(getActivity(), AlarmService.class);
         getActivity().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -77,17 +77,23 @@ public class TestFragment extends BaseFragment {
 
     // onClick
     public void alarmTest(View view){
+        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECIEVE_ACTION_ALARM));
 
+        logger.log(INFO, "alarmTest onClick");
         Calendar mCalendar = Calendar.getInstance();
-        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
+        /*mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
         mCalendar.set(Calendar.MINUTE, Integer.parseInt(binding.fragmentTestETMinute.getText()+""));
-        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText()+""));
+        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText()+""));*/
+        mCalendar.set(Calendar.SECOND, mCalendar.get(Calendar.SECOND)+3);
+        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+//        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
 
+        Intent alarmIntent = new Intent(DataStorage.Action.RECIEVE_ACTION_ALARM);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getContext(),
                 0,
-                new Intent(""),
-                PendingIntent.FLAG_ONE_SHOT
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
@@ -97,6 +103,9 @@ public class TestFragment extends BaseFragment {
                 pendingIntent
         );
 
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        logger.log(INFO, simpleDateFormat.format(mCalendar.getTimeInMillis()));
     }
 
 }

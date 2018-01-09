@@ -1,6 +1,6 @@
 package com.graction.developer.lumi.Model.Response;
 
-import com.graction.developer.lumi.Model.weather.Weather;
+import com.graction.developer.lumi.Model.Weather.Weather;
 import com.graction.developer.lumi.Util.StringUtil;
 
 import java.util.ArrayList;

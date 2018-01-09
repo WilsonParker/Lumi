@@ -1,13 +1,13 @@
 package com.graction.developer.lumi.Model.Response;
 
 
-import com.graction.developer.lumi.Model.weather.City;
-import com.graction.developer.lumi.Model.weather.Clouds;
-import com.graction.developer.lumi.Model.weather.Main;
-import com.graction.developer.lumi.Model.weather.Rain;
-import com.graction.developer.lumi.Model.weather.Sys;
-import com.graction.developer.lumi.Model.weather.Weather;
-import com.graction.developer.lumi.Model.weather.Wind;
+import com.graction.developer.lumi.Model.Weather.City;
+import com.graction.developer.lumi.Model.Weather.Clouds;
+import com.graction.developer.lumi.Model.Weather.Main;
+import com.graction.developer.lumi.Model.Weather.Rain;
+import com.graction.developer.lumi.Model.Weather.Sys;
+import com.graction.developer.lumi.Model.Weather.Weather;
+import com.graction.developer.lumi.Model.Weather.Wind;
 import com.graction.developer.lumi.Util.StringUtil;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.graction.developer.lumi.Model.weather;
+package com.graction.developer.lumi.Model.Weather;
 
 public class Rain {
 	private long _3h; // Rain volume for the last 3 hours

@@ -1,4 +1,4 @@
-package com.graction.developer.lumi.Model.weather;
+package com.graction.developer.lumi.Model.Weather;
 
 public class Coord {
 	private double lon		// City geo location, longitude

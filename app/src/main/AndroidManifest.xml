@@ -30,6 +30,9 @@
 
         <!-- Receiver -->
         <receiver android:name=".Receiver.AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.graction.developer.lumi.ALARM_START"/>
+            </intent-filter>
         </receiver>
 
         <!-- Service -->

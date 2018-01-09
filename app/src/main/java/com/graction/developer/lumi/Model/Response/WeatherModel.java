@@ -4,12 +4,12 @@ package com.graction.developer.lumi.Model.Response;
 import com.graction.developer.lumi.Model.AddressModel;
 import com.graction.developer.lumi.Model.FineDustModel;
 import com.graction.developer.lumi.Model.ImageModel;
-import com.graction.developer.lumi.Model.weather.Clouds;
-import com.graction.developer.lumi.Model.weather.Coord;
-import com.graction.developer.lumi.Model.weather.Main;
-import com.graction.developer.lumi.Model.weather.Sys;
-import com.graction.developer.lumi.Model.weather.Weather;
-import com.graction.developer.lumi.Model.weather.Wind;
+import com.graction.developer.lumi.Model.Weather.Clouds;
+import com.graction.developer.lumi.Model.Weather.Coord;
+import com.graction.developer.lumi.Model.Weather.Main;
+import com.graction.developer.lumi.Model.Weather.Sys;
+import com.graction.developer.lumi.Model.Weather.Weather;
+import com.graction.developer.lumi.Model.Weather.Wind;
 
 import java.util.ArrayList;
 

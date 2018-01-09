@@ -1,4 +1,4 @@
-package com.graction.developer.lumi.Model.weather;
+package com.graction.developer.lumi.Model.Weather;
 
 public class Sys {
 	private double message;	// Internal parameter

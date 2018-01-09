@@ -53,4 +53,10 @@ public class DataStorage {
                                 , GOOGLE_PLACE_NONE_SELECTED = 0
                                 ;
     }
+
+    public class Action{
+        public static final String RECIEVE_ACTION_ALARM = "com.graction.developer.lumi.ALARM_START"
+
+                            ;
+    }
 }

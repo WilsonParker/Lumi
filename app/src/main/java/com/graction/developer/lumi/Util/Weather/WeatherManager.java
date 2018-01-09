@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.graction.developer.lumi.Data.DataStorage;
-import com.graction.developer.lumi.Model.weather.Weather;
+import com.graction.developer.lumi.Model.Weather.Weather;
 import com.graction.developer.lumi.Util.Log.HLogger;
 
 /**

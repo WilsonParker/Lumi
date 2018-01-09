@@ -1,4 +1,4 @@
-package com.graction.developer.lumi.Model.weather;
+package com.graction.developer.lumi.Model.Weather;
 
 public class Wind {
 	private double speed	// Wind speed, Unit Default: meter/sec, Metricr: meer/sec, Imperial: miles/hour
