@@ -4,10 +4,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +19,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity android:name=".Activity.Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,17 +31,19 @@
         <!-- Receiver -->
         <receiver android:name=".Receiver.AlarmReceiver">
             <intent-filter>
-                <action android:name="com.graction.developer.lumi.ALARM_START"/>
+                <action android:name="com.graction.developer.lumi.ALARM_START" />
             </intent-filter>
         </receiver>
 
         <!-- Service -->
-        <service android:name=".Service.AlarmService"/>
+        <service android:name=".Service.AlarmService" />
 
         <!-- Google Map API KEY -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCEJrAe1Go07xiXi5lykoOs74ewu-y-xEQ"/>
+            android:value="AIzaSyCEJrAe1Go07xiXi5lykoOs74ewu-y-xEQ" />
+
+        <activity android:name=".Activity.AlarmActivity"></activity>
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.R;
-import com.graction.developer.lumi.Receiver.AlarmReceiver;
 import com.graction.developer.lumi.Service.AlarmService;
 import com.graction.developer.lumi.databinding.FragmentTestBinding;
 
@@ -77,8 +75,7 @@ public class TestFragment extends BaseFragment {
 
     // onClick
     public void alarmTest(View view){
-        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECIEVE_ACTION_ALARM));
-
+//        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECIEVE_ACTION_ALARM));
         logger.log(INFO, "alarmTest onClick");
         Calendar mCalendar = Calendar.getInstance();
         /*mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
