@@ -1,6 +1,7 @@
 package com.graction.developer.lumi.Fragment;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +11,12 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.graction.developer.lumi.Listener.AddressHandleListener;
 import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
 import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.GPS.GoogleLocationManager;
 import com.graction.developer.lumi.Util.GPS.GpsManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -42,6 +43,8 @@ public class HomeFragment extends BaseFragment {
     private Call call;
 
     private String background_img_url = "", character_img_url = "", effect_img_url = "";
+    private byte[] background_bytes, character_bytes;
+    private Bitmap background_bitmap;
 
     public static Fragment getInstance() {
         return instance;
@@ -81,7 +84,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(call.isExecuted())
+        if (call.isExecuted())
             call.cancel();
     }
 
@@ -110,7 +113,6 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    ViewTarget character;
     private void reloadWeatherInfo() {
 //        gifImageView.startAnimation();
         if (gpsManager.isGetLocation()) {
@@ -122,9 +124,18 @@ public class HomeFragment extends BaseFragment {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url() + " / origin : " + background_img_url);
                         background_img_url = weatherModel.getBackground_img_url();
                         Glide.with(this).load(background_img_url).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
+//                        background_bytes = BaseActivityFileManager.getInstance().getByteFromURL(background_img_url);
+                        background_bitmap = BaseActivityFileManager.getInstance().getBitmapFromURL(background_img_url);
+                    } else if (background_bitmap != null) {
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes != null");
+                        Glide.with(this).load(background_bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
+                    }else{
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes == null");
+                        Glide.with(this).load(background_bytes).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
                     }
+                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes is null?" + (background_bytes == null));
 
-                    if (!character_img_url.equals(weatherModel.getCharacter_img_url())) {
+                    if ((!character_img_url.equals(weatherModel.getCharacter_img_url())) || character_img_url != null) {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : " + weatherModel.getCharacter_img_url());
                         character_img_url = weatherModel.getCharacter_img_url();
 
@@ -139,7 +150,7 @@ public class HomeFragment extends BaseFragment {
                             });
 
                             binding.fragmentHomeIVCharacter.setImageDrawable(gifDrawable);
-                            binding.fragmentHomeIVCharacter.setOnClickListener((v)->{
+                            binding.fragmentHomeIVCharacter.setOnClickListener((v) -> {
                                 gifDrawable.start();
                             });
                         } catch (IOException e) {

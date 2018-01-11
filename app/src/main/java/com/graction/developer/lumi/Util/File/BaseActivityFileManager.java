@@ -8,8 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.graction.developer.lumi.Util.Log.LogManager;
-
-import org.apache.commons.httpclient.util.HttpURLConnection;
+import com.graction.developer.lumi.Util.Thread.ThreadManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
@@ -27,6 +27,8 @@ import java.net.URL;
 public class BaseActivityFileManager {
     private static final BaseActivityFileManager ourInstance = new BaseActivityFileManager();
     private static Activity activity;
+    private ThreadManager threadManager;
+    private byte[] buf;
 
     public static BaseActivityFileManager getInstance() {
         return ourInstance;
@@ -57,20 +59,30 @@ public class BaseActivityFileManager {
     }
 
 
-
-
-    private byte[] getByteFromURL(String url) {
-        byte[] buf = null;
-        try {
-            URL u = new URL(url);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            buf = new byte[inputStream.available()];
-            inputStream.read(buf);
-            inputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public byte[] getByteFromURL(String url) throws InterruptedException {
+        threadManager = new ThreadManager(
+                () -> {
+                    try {
+                        URL u = new URL(url);
+                        HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
+                        InputStream inputStream = httpURLConnection.getInputStream();
+                        buf = new byte[inputStream.available()];
+                        inputStream.read(buf);
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        threadManager.threadComplete();
+                    }
+                },
+                new ThreadManager.ThreadComplete() {
+                    @Override
+                    public byte[] complete() {
+                        return buf;
+                    }
+                }
+        );
+        buf = threadManager.run();
         return buf;
     }
 
@@ -95,6 +107,13 @@ public class BaseActivityFileManager {
             e.printStackTrace();
         }
         return buf;
+    }
+
+    public Bitmap getBitmapFromURL(String url) throws InterruptedException {
+        return convertByteArrayToBitmap(getByteFromURL(url));
+    }
+    public Bitmap convertByteArrayToBitmap(byte[] bytes){
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     public void copyAssetAll(String srcPath) {
@@ -182,22 +201,22 @@ public class BaseActivityFileManager {
         }
     }*/
 
-    public Drawable getDrawableFromAssets(AssetManager assetManager, String path){
-        InputStream is = null ;
+    public Drawable getDrawableFromAssets(AssetManager assetManager, String path) {
+        InputStream is = null;
 
         try {
-            is = assetManager.open(path) ;
+            is = assetManager.open(path);
             // TODO : use is(InputStream).
 
         } catch (Exception e) {
-            e.printStackTrace() ;
+            e.printStackTrace();
         }
 
         if (is != null) {
             try {
-                is.close() ;
+                is.close();
             } catch (Exception e) {
-                e.printStackTrace() ;
+                e.printStackTrace();
             }
         }
 
@@ -207,12 +226,12 @@ public class BaseActivityFileManager {
         return d;
     }
 
-    public File getFile(String path){
+    public File getFile(String path) {
         File file = null;
         try {
-            file = new File("file:///android_asset/"+path);
+            file = new File("file:///android_asset/" + path);
         } catch (Exception e) {
-            e.printStackTrace() ;
+            e.printStackTrace();
         }
         return file;
     }
@@ -222,7 +241,7 @@ public class BaseActivityFileManager {
     * ex) path : images/background/test.gif
     *
     * */
-    public byte[] getAssetFileToByte(AssetManager assetManager, String path){
+    public byte[] getAssetFileToByte(AssetManager assetManager, String path) {
         InputStream inputStream;
         byte[] fileBytes = null;
         try {
@@ -231,12 +250,10 @@ public class BaseActivityFileManager {
             inputStream.read(fileBytes);
             inputStream.close();
         } catch (Exception e) {
-            e.printStackTrace() ;
+            e.printStackTrace();
         }
         return fileBytes;
     }
-
-
 
 
 }

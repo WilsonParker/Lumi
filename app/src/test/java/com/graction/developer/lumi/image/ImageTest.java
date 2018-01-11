@@ -151,7 +151,7 @@ public class ImageTest extends BaseFragment{
 
             binding.fragmentHomeIVCharacter3.setImageDrawable(gifDrawable);
             binding.fragmentHomeIVCharacter3.setOnClickListener((v)->{
-                gifDrawable.start();
+                gifDrawable.run();
             });
         } catch (IOException e) {
             e.printStackTrace();
