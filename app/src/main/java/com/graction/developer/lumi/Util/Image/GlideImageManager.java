@@ -2,18 +2,16 @@ package com.graction.developer.lumi.Util.Image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.graction.developer.lumi.Net.Net;
+import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Hare on 2017-07-19.
@@ -96,18 +94,23 @@ public class GlideImageManager {
         return resizedBitmap;
     }
 
-    public Drawable drawableFromUrl(String url) throws IOException {
-        Bitmap x;
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.connect();
-        InputStream input = connection.getInputStream();
+    public void bindImage(Context context, ImageView imageView, RequestOptions requestOptions, String path, String name, String url) throws FileNotFoundException {
+        BaseActivityFileManager baseActivityFileManager = BaseActivityFileManager.getInstance();
+        String file = path + name;
+        if(baseActivityFileManager.isExists(file)){
+            Glide.with(context).load(new File(file)).apply(new RequestOptions().centerCrop()).into(imageView);
+        }else{
+            baseActivityFileManager.makeDirectory(path);
+            Glide.with(context).load(Net.BASE_URL+url).apply(new RequestOptions().centerCrop()).into(imageView);
+            baseActivityFileManager.saveDrawable(imageView.getDrawable(), path+name);
+        }
 
-        x = BitmapFactory.decodeStream(input);
-        return new BitmapDrawable(x);
     }
+}
 
-   /* private void initGlideGifImageView() {
+
+/* private void initGlideGifImageView() {
 
         showProgressDialog("Loading image...");
         GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(imgSafetyGif, 1);
@@ -157,4 +160,3 @@ public class GlideImageManager {
                 })
                 .into(imageViewTarget);
     }*/
-}

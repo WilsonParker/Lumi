@@ -16,6 +16,7 @@ import static junit.framework.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under currentWeather.

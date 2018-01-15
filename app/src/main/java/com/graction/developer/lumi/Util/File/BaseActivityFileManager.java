@@ -1,18 +1,22 @@
 package com.graction.developer.lumi.Util.File;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 
-import com.graction.developer.lumi.Util.Log.LogManager;
+import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Thread.ThreadManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,13 +24,18 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.graction.developer.lumi.Util.Log.HLogger.LogType.INFO;
+
 /**
  * Created by graction03 on 2017-09-29.
  */
 
 public class BaseActivityFileManager {
     private static final BaseActivityFileManager ourInstance = new BaseActivityFileManager();
-    private static Activity activity;
+    private Activity activity;
+    private AssetManager assetManager;
+    private final boolean OverrideDeault = false;
+
     private ThreadManager threadManager;
     private byte[] buf;
 
@@ -36,39 +45,44 @@ public class BaseActivityFileManager {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+        assetManager = activity.getAssets();
     }
 
-    public Bitmap encodeFileToBitmap(File file) {
+    public Bitmap encodeFileToBitmap(File file) throws FileNotFoundException {
         Bitmap bitmap = null;
-        try {
-            bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
-        } catch (Exception e) {
-            LogManager.log(getClass(), "encodeFileToBitmap(File file)", e);
-        }
+        bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
         return bitmap;
     }
 
     public byte[] encodeBitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        try {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        } catch (Exception e) {
-            LogManager.log(getClass(), "encodeBitmapToFile(Bitmap bitmap)", e);
-        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         return bytes.toByteArray();
     }
 
+
+    private HLogger logger = new HLogger(BaseActivityFileManager.class);
 
     public byte[] getByteFromURL(String url) throws InterruptedException {
         threadManager = new ThreadManager(
                 () -> {
                     try {
-                        URL u = new URL(url);
+                       /* URL u = new URL(url);
                         HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
                         InputStream inputStream = httpURLConnection.getInputStream();
                         buf = new byte[inputStream.available()];
+                        logger.log(HLogger.LogType.INFO, "byte[] getByteFromURL(String)", "buf is null 1?" + (buf == null));
+                        logger.log(HLogger.LogType.INFO, "byte[] getByteFromURL(String)", "buf is length 1?" + (buf.length));
+                        inputStream.read(buf);
+                        inputStream.close();*/
+
+                        URL u = new URL(url);
+                        InputStream inputStream = u.openStream();
+                        buf = new byte[u.openConnection().getContentLength()];
                         inputStream.read(buf);
                         inputStream.close();
+                        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is null 1?" + (buf == null));
+                        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is length 1?" + (buf.length));
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -83,149 +97,210 @@ public class BaseActivityFileManager {
                 }
         );
         buf = threadManager.run();
+        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is null 2?" + (buf == null));
+        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is length 2?" + (buf.length));
+
         return buf;
     }
 
-    private byte[] getByteFromURL2(String url) {
+    private byte[] getByteFromURL2(String url) throws IOException {
         byte[] buf = null;
-        try {
-            URL u = new URL(url);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            OutputStream outStream = httpURLConnection.getOutputStream();
-            // 읽어들일 버퍼크기를 메모리에 생성
-            int len = 0;
-            // 끝까지 읽어들이면서 File 객체에 내용들을 쓴다
-            while ((len = inputStream.read(buf)) > 0) {
-                outStream.write(buf, 0, len);
-            }
-//            File file = new File();
-            // Stream 객체를 모두 닫는다.
-            outStream.close();
-            inputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        URL u = new URL(url);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
+        InputStream inputStream = httpURLConnection.getInputStream();
+        OutputStream outStream = httpURLConnection.getOutputStream();
+        // 읽어들일 버퍼크기를 메모리에 생성
+        int len = 0;
+        // 끝까지 읽어들이면서 File 객체에 내용들을 쓴다
+        while ((len = inputStream.read(buf)) > 0) {
+            outStream.write(buf, 0, len);
         }
+//            File file = new File();
+        // Stream 객체를 모두 닫는다.
+        outStream.close();
+        inputStream.close();
         return buf;
     }
 
     public Bitmap getBitmapFromURL(String url) throws InterruptedException {
         return convertByteArrayToBitmap(getByteFromURL(url));
     }
-    public Bitmap convertByteArrayToBitmap(byte[] bytes){
+
+    public Bitmap convertByteArrayToBitmap(byte[] bytes) {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    public void copyAssetAll(String srcPath) {
+    public void copyAssetAll(String srcPath) throws IOException {
         AssetManager assetMgr = activity.getAssets();
         String assets[] = null;
-        try {
-            assets = assetMgr.list(srcPath);
-            if (assets.length == 0) {
-                copyFile(srcPath);
-            } else {
-                String destPath = activity.getFilesDir().getAbsolutePath() + File.separator + srcPath;
-                File dir = new File(destPath);
-                if (!dir.exists())
-                    dir.mkdir();
-                for (String element : assets) {
-                    copyAssetAll(srcPath + File.separator + element);
-                }
+        assets = assetMgr.list(srcPath);
+        if (assets.length == 0) {
+            copyAssetFromStorage(srcPath);
+        } else {
+            String destPath = activity.getFilesDir().getAbsolutePath() + File.separator + srcPath;
+            File dir = new File(destPath);
+            if (!dir.exists())
+                dir.mkdir();
+            for (String element : assets) {
+                copyAssetAll(srcPath + File.separator + element);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
 
-    public void copyFile(String srcFile) {
+    public void copyAssetFromStorage(String srcFile) throws IOException {
         AssetManager assetMgr = activity.getAssets();
+        String destFile = activity.getFilesDir().getAbsolutePath() + File.separator + srcFile;
+        InputStream is = assetMgr.open(srcFile);
+        OutputStream os = new FileOutputStream(destFile);
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = is.read(buffer)) != -1) {
+            os.write(buffer, 0, read);
+        }
+        is.close();
+        os.flush();
+        os.close();
 
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            String destFile = activity.getFilesDir().getAbsolutePath() + File.separator + srcFile;
+    }
 
-            is = assetMgr.open(srcFile);
-            os = new FileOutputStream(destFile);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = is.read(buffer)) != -1) {
-                os.write(buffer, 0, read);
-            }
+    public Bitmap getBitmapFromAssets(AssetManager assetManager, String path) throws IOException {
+        InputStream is = assetManager.open(path);
+        if (is != null)
             is.close();
-            os.flush();
-            os.close();
+        Bitmap b = BitmapFactory.decodeStream(is);
+        return b;
+    }
 
+    public Bitmap getBitmapFromAssets(String path) throws IOException {
+        return getBitmapFromAssets(assetManager, path);
+    }
+
+    public Bitmap convertDrawableToBitmap(Drawable drawable) {
+        Bitmap bitmap;
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable.getBitmap() != null)
+                return bitmapDrawable.getBitmap();
+        }
+
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+    public Drawable getDrawableFromAssets(AssetManager assetManager, String path) throws IOException {
+        Bitmap b = getBitmapFromAssets(assetManager, path);
+        b.setDensity(Bitmap.DENSITY_NONE);
+        Drawable d = new BitmapDrawable(b);
+        return d;
+    }
+
+    public Drawable getDrawableFromAssets(String path) throws IOException {
+        return getDrawableFromAssets(assetManager, path);
+    }
+
+    /*
+    *
+    * ex) path : images/background/test.gif
+    *
+    * */
+    public byte[] getAssetFileToByte(AssetManager assetManager, String path) throws IOException {
+        InputStream inputStream = assetManager.open(path);
+        byte[] fileBytes = new byte[inputStream.available()];
+        inputStream.read(fileBytes);
+        inputStream.close();
+        return fileBytes;
+    }
+
+    public byte[] getAssetFileToByte(String path) throws IOException {
+        return getAssetFileToByte(assetManager, path);
+    }
+
+    public void saveFile(String path, String url) throws IOException, InterruptedException {
+        saveFile(path, getByteFromURL(url), OverrideDeault);
+    }
+
+    public void saveFile(String path, String url, boolean override) throws IOException, InterruptedException {
+        saveFile(path, getByteFromURL(url), override);
+    }
+
+    // is work?
+    public void saveFile(String path, File file) throws IOException {
+        saveFile(path, file, OverrideDeault);
+    }
+
+    public void saveFile(String path, File file, boolean override) throws IOException {
+        FileOutputStream out = new FileOutputStream(file);
+        out.flush();
+        out.close();
+    }
+
+    public void saveFile(String path, byte[] data) throws IOException {
+        saveFile(path, data, OverrideDeault);
+    }
+
+    public void saveFile(String path, byte[] data, boolean override) throws IOException {
+        logger.log(INFO, "saveFile(String path, byte[] data, boolean override) ", "path : " + getPath() + path);
+        FileOutputStream out = activity.openFileOutput("sunny.png", Context.MODE_PRIVATE);
+        out.write(data);
+        out.close();
+    }
+
+    public void saveDrawable(Drawable drawable, String file) throws FileNotFoundException {
+        File save = new File(file);
+        FileOutputStream fos = new FileOutputStream(save);
+        Bitmap bitmap = convertDrawableToBitmap(drawable);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+    }
+
+    public boolean assetExists(String path) {
+        boolean result = true;
+        try {
+            assetManager.open(path);
         } catch (IOException e) {
             e.printStackTrace();
+            result = false;
         }
+        return result;
+    }
+
+    public String getPath() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? activity.getExternalFilesDir(null).getAbsolutePath() : activity.getFilesDir().getAbsolutePath();
     }
 
     public String getFilePath() {
         return activity.getFilesDir().getAbsolutePath() + File.separator;
     }
 
-    /*private void a(){
-        String externalDirPath = context.getExternalFilesDir("").getAbsolutePath() + "/", path = "images/background/",
-                fileName =  DataStorage.weathers.get(weather.getId()).getImage();
-
-        logger.log(HLogger.LogType.INFO, "external : " + externalDirPath);
-        logger.log(HLogger.LogType.INFO, "path : " + path);
-        File externalDir= new File(externalDirPath);
-        File outfile = new File(externalDirPath + fileName);
-        InputStream is = null;
-        FileOutputStream fo = null;
-        long filesize = 0;
-        try {
-            if(!externalDir.exists()){
-                externalDir.mkdir();
-            }
-//            is = context.getAssets().open(path, AssetManager.ACCESS_BUFFER);
-//            is = context.getAssets().open(path);
-//            is = context.getAssets().open("images/background/sunny.jpg");
-            is = context.getAssets().open("sunny.jpg");
-            filesize = is.available();
-            if (outfile.length() <= 0) {
-                byte[] tempdata = new byte[(int) filesize];
-                is.read(tempdata);
-                is.close();
-                outfile.createNewFile();
-                fo = new FileOutputStream(outfile);
-                fo.write(tempdata);
-                fo.close();
-            }
-        } catch (IOException e) {
-            logger.log(HLogger.LogType.ERROR, "setWeatherBackground(Context context, ImageView imageView, Weather weather)", "file error", e);
-        }
-    }*/
-
-    public Drawable getDrawableFromAssets(AssetManager assetManager, String path) {
-        InputStream is = null;
-
-        try {
-            is = assetManager.open(path);
-            // TODO : use is(InputStream).
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (is != null) {
-            try {
-                is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        Bitmap b = BitmapFactory.decodeStream(is);
-        b.setDensity(Bitmap.DENSITY_NONE);
-        Drawable d = new BitmapDrawable(b);
-        return d;
+    private String[] separatePathAndName(String file) {
+        String[] result = new String[2];
+        result[0] = file.substring(0, file.lastIndexOf("/") + 1);
+        result[1] = file.substring(file.lastIndexOf("/") + 1);
+        return result;
     }
 
+    public boolean makeDirectory(String path) {
+        File dir = new File(getPath() + path);
+        if (!dir.exists())
+            return dir.mkdirs();
+        else return false;
+    }
+
+    public boolean isExists(String file) {
+        return new File(getPath() + file).exists();
+    }
+}
+
+ /*
+    @Deprecated
     public File getFile(String path) {
         File file = null;
         try {
@@ -234,29 +309,7 @@ public class BaseActivityFileManager {
             e.printStackTrace();
         }
         return file;
-    }
-
-    /*
-    *
-    * ex) path : images/background/test.gif
-    *
-    * */
-    public byte[] getAssetFileToByte(AssetManager assetManager, String path) {
-        InputStream inputStream;
-        byte[] fileBytes = null;
-        try {
-            inputStream = assetManager.open(path);
-            fileBytes = new byte[inputStream.available()];
-            inputStream.read(fileBytes);
-            inputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileBytes;
-    }
-
-
-}
+    }*/
 
  /* public void doFileUpload(File file, String method) {
 
@@ -329,5 +382,39 @@ public class BaseActivityFileManager {
             inStream.close();
         } catch (IOException ioex) {
             Log.e("Debug", "error: " + ioex.getMessage(), ioex);
+        }
+    }*/
+
+   /*private void a(){
+        String externalDirPath = context.getExternalFilesDir("").getAbsolutePath() + "/", path = "images/background/",
+                fileName =  DataStorage.weathers.get(weather.getId()).getImage();
+
+        logger.log(HLogger.LogType.INFO, "external : " + externalDirPath);
+        logger.log(HLogger.LogType.INFO, "path : " + path);
+        File externalDir= new File(externalDirPath);
+        File outfile = new File(externalDirPath + fileName);
+        InputStream is = null;
+        FileOutputStream fo = null;
+        long filesize = 0;
+        try {
+            if(!externalDir.exists()){
+                externalDir.mkdir();
+            }
+//            is = context.getAssets().open(path, AssetManager.ACCESS_BUFFER);
+//            is = context.getAssets().open(path);
+//            is = context.getAssets().open("images/background/sunny.jpg");
+            is = context.getAssets().open("sunny.jpg");
+            filesize = is.available();
+            if (outfile.length() <= 0) {
+                byte[] tempdata = new byte[(int) filesize];
+                is.read(tempdata);
+                is.close();
+                outfile.createNewFile();
+                fo = new FileOutputStream(outfile);
+                fo.write(tempdata);
+                fo.close();
+            }
+        } catch (IOException e) {
+            logger.log(HLogger.LogType.ERROR, "setWeatherBackground(Context context, ImageView imageView, Weather weather)", "file error", e);
         }
     }*/

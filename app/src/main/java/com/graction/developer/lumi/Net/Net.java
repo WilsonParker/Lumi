@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Net {
 	private static final Net instance = new Net();
 //	private static final String BASE_URL = "http://10.0.2.2:8101/lumi/";
-	private static final String BASE_URL = "http://192.168.0.8:8101/lumi/";
+	public static final String BASE_URL = "http://192.168.0.8:8101/lumi/";
 	private NetFactoryIm netFactoryIm;
 	private Retrofit retrofit;
 	

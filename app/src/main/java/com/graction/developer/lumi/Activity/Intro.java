@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.Model.Xml.Weather;
 import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Parser.XmlPullParserManager;
 
@@ -26,6 +27,8 @@ public class Intro extends AppCompatActivity {
         public void run() {
             XmlPullParserManager xmlPullParserManager = XmlPullParserManager.getInstance();
             xmlPullParserManager.setContext(context);
+
+            BaseActivityFileManager.getInstance().setActivity(Intro.this);;
             try {
                 DataStorage.weathers = new HashMap<>();
                 for (Weather weather : xmlPullParserManager.<Weather>xmlParser(Weather.class, R.xml.weathers))

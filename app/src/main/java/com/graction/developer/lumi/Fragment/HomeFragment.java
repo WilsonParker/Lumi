@@ -2,6 +2,7 @@ package com.graction.developer.lumi.Fragment;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.graction.developer.lumi.Listener.AddressHandleListener;
+import com.graction.developer.lumi.Model.ImageModel;
 import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
 import com.graction.developer.lumi.Net.Net;
@@ -19,11 +21,13 @@ import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.GPS.GoogleLocationManager;
 import com.graction.developer.lumi.Util.GPS.GpsManager;
+import com.graction.developer.lumi.Util.Image.GlideImageManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Weather.WeatherManager;
 import com.graction.developer.lumi.databinding.FragmentHomeBinding;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
@@ -40,6 +44,7 @@ public class HomeFragment extends BaseFragment {
     private WeatherManager weatherManager;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
+    private BaseActivityFileManager baseActivityFileManager = BaseActivityFileManager.getInstance();
     private Call call;
 
     private String background_img_url = "", character_img_url = "", effect_img_url = "";
@@ -72,7 +77,20 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        initUI();
         currentWeather();
+    }
+
+    private void initUI() {
+        InputStream is = null;
+        try {
+            is = getActivity().getAssets().open("images/background/sunny.jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bitmap b = BitmapFactory.decodeStream(is);
+
+        Glide.with(this).load(b).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
     }
 
     @Override
@@ -120,20 +138,45 @@ public class HomeFragment extends BaseFragment {
             if (weatherModel != null) {
                 binding.setWeatherModel(weatherModel);
                 try {
-                    if (!background_img_url.equals(weatherModel.getBackground_img_url())) {
+                    if (background_bitmap == null || !background_img_url.equals(weatherModel.getBackground_img_url())) {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url() + " / origin : " + background_img_url);
                         background_img_url = weatherModel.getBackground_img_url();
-                        Glide.with(this).load(background_img_url).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
-//                        background_bytes = BaseActivityFileManager.getInstance().getByteFromURL(background_img_url);
-                        background_bitmap = BaseActivityFileManager.getInstance().getBitmapFromURL(background_img_url);
+//                      Glide.with(this).load(background_img_url).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
+//                      Drawable d = BaseActivityFileManager.getInstance().getDrawableFromAssets(getActivity().getAssets(), "images/background/sunny.jpg");
+
+                        ImageModel imageModel = weatherModel.getImageModel();
+                        logger.log(HLogger.LogType.INFO, "reloadWeatherInfo()", "%s, %s, %s", imageModel.getBackground_img_path(), imageModel.getBackground_img_name(), imageModel.getBackground_img_url());
+                        logger.log(HLogger.LogType.INFO, "reloadWeatherInfo()", "all path : "+baseActivityFileManager.getPath()+imageModel.getBackground_img_path()+ imageModel.getBackground_img_name());
+                        GlideImageManager.getInstance().bindImage(getActivity(), binding.fragmentHomeIVBackground, new RequestOptions().centerCrop(), imageModel.getBackground_img_path(), imageModel.getBackground_img_name(), imageModel.getBackground_img_url());
+
+
+                       /* String fName = "/images/background/sunny.jpg"
+                                , url = "http://192.168.0.8:8101/lumiAssets/assets/images/background/sunny.jpg";
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "path : " + baseActivityFileManager.getPath()+fName);
+                        File save = new File(baseActivityFileManager.getPath()+fName);
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "is exist : " + save.exists());
+                        byte[] bytes = baseActivityFileManager.getByteFromURL(url);
+                        FileOutputStream fos = new FileOutputStream(save);
+                        Bitmap bitmap2 = baseActivityFileManager.convertDrawableToBitmap(d);
+                        bitmap2.compress(Bitmap.CompressFormat.PNG, 100 ,fos);
+                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "is exist : " + save.exists());
+*/
+
+
+//                        FileInputStream fis = getActivity().openFileInput(fName);
+//                        Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fis.getFD());
+//                        Glide.with(this).load(bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
+
+//                      background_bytes = BaseActivityFileManager.getInstance().getByteFromURL(background_img_url);
+//                        background_bitmap = BaseActivityFileManager.getInstance().getBitmapFromURL(background_img_url);
                     } else if (background_bitmap != null) {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes != null");
                         Glide.with(this).load(background_bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
-                    }else{
+                    } else {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes == null");
-                        Glide.with(this).load(background_bytes).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
+                        Glide.with(this).load(background_bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
                     }
-                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes is null?" + (background_bytes == null));
+                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes is null?" + (background_bitmap == null));
 
                     if ((!character_img_url.equals(weatherModel.getCharacter_img_url())) || character_img_url != null) {
                         logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : " + weatherModel.getCharacter_img_url());
