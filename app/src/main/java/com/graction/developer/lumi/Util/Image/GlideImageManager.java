@@ -6,12 +6,11 @@ import android.graphics.Matrix;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
-import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by Hare on 2017-07-19.
@@ -22,7 +21,8 @@ import java.io.FileNotFoundException;
  */
 public class GlideImageManager {
     private static GlideImageManager imageManager = new GlideImageManager();
-//    public static final int BASIC_TYPE = 0x0000, FIT_TYPE = 0x0001, PICTURE_TYPE = 0x0010, THUMBNAIL_TYPE = 0x0011, ICON_TYPE = 0x0100;
+
+    //    public static final int BASIC_TYPE = 0x0000, FIT_TYPE = 0x0001, PICTURE_TYPE = 0x0010, THUMBNAIL_TYPE = 0x0011, ICON_TYPE = 0x0100;
     public enum Type {
         BASIC_TYPE, FIT_TYPE, PICTURE_TYPE, THUMBNAIL_TYPE, ICON_TYPE
     }
@@ -31,7 +31,7 @@ public class GlideImageManager {
         return imageManager;
     }
 
-    private void init(Context context, ImageView img){
+    private void init(Context context, ImageView img) {
         Glide.with(context).load("").into(img);
     }
 
@@ -64,20 +64,20 @@ public class GlideImageManager {
         return requestCreator;
     }*/
 
-    public Bitmap resizeImage(Bitmap bitmap, int newSize){
+    public Bitmap resizeImage(Bitmap bitmap, int newSize) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
         int newWidth = 0;
         int newHeight = 0;
 
-        if(width > height){
+        if (width > height) {
             newWidth = newSize;
-            newHeight = (newSize * height)/width;
-        } else if(width < height){
+            newHeight = (newSize * height) / width;
+        } else if (width < height) {
             newHeight = newSize;
-            newWidth = (newSize * width)/height;
-        } else if (width == height){
+            newWidth = (newSize * width) / height;
+        } else if (width == height) {
             newHeight = newSize;
             newWidth = newSize;
         }
@@ -95,18 +95,22 @@ public class GlideImageManager {
     }
 
 
-    public void bindImage(Context context, ImageView imageView, RequestOptions requestOptions, String path, String name, String url) throws FileNotFoundException {
+    /*
+     * If you have an image, import it download as url if not
+     */
+    public void bindImage(Context context, ImageView imageView, RequestOptions requestOptions, String path, String name, String url) throws IOException, InterruptedException {
         BaseActivityFileManager baseActivityFileManager = BaseActivityFileManager.getInstance();
-        String file = path + name;
-        if(baseActivityFileManager.isExists(file)){
-            Glide.with(context).load(new File(file)).apply(new RequestOptions().centerCrop()).into(imageView);
-        }else{
-            baseActivityFileManager.makeDirectory(path);
-            Glide.with(context).load(Net.BASE_URL+url).apply(new RequestOptions().centerCrop()).into(imageView);
-            baseActivityFileManager.saveDrawable(imageView.getDrawable(), path+name);
+        RequestBuilder requestBuilder;
+        if (baseActivityFileManager.isExistsAndSaveFile(path, name, url)) {
+            requestBuilder = Glide.with(context).load(baseActivityFileManager.getFile(path + name));
+        } else {
+            requestBuilder = Glide.with(context).load(url);
         }
-
+        if (requestOptions != null)
+            requestBuilder.apply(requestOptions);
+        requestBuilder.into(imageView);
     }
+
 }
 
 

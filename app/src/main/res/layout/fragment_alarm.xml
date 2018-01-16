@@ -5,14 +5,53 @@
 
     <data>
 
+        <variable
+            name="activity"
+            type="com.graction.developer.lumi.Fragment.AlarmFragment" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/layer_4"
+        android:weightSum="@string/DEVICE_STANDARD_WIDTH">
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="26" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="308"
+            android:orientation="vertical">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_alarm_RV"
+                app:layoutManager="LinearLayoutManager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="312.7" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="217.3">
+
+                <ImageView
+                    android:layout_width="@dimen/fragment_alarm_bottom_add_button_width"
+                    android:layout_height="@dimen/fragment_alarm_bottom_add_button_height"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{activity::addAlarm}"
+                    app:srcCompat="@drawable/bottom_plus" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="26" />
     </LinearLayout>
 </layout>

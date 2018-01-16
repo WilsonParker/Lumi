@@ -19,7 +19,7 @@
             android:text="Alarm" />
 
         <TimePicker
-            android:id="@+id/activity_alarm_TimePicker"
+            android:id="@+id/activity_add_alarm_TimePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner" />

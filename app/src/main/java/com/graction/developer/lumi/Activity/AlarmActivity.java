@@ -4,32 +4,33 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
+import android.widget.TimePicker;
 
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Util.Log.HLogger;
+import com.graction.developer.lumi.databinding.ActivityAlarmBinding;
 
-public class AlarmActivity extends AppCompatActivity {
-    private HLogger logger;
+public class AlarmActivity extends BaseActivity {
+    private ActivityAlarmBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm);
+//        setContentView(R.layout.activity_alarm);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        init();
     }
 
-    private void init() {
-        logger = new HLogger(getClass());
-        logger.log(HLogger.LogType.INFO, "AlarmReceiver","AlarmActivity init"); // com.graction.developer.lumi.ALARM_START
+    protected void init() {
+        logger.log(HLogger.LogType.INFO, "AlarmReceiver", "AlarmActivity init"); // com.graction.developer.lumi.ALARM_START
         MediaPlayer mediaPlayer = new MediaPlayer();
         try {
 //            mediaPlayer = MediaPlayer.create(this, R.raw.kt);
@@ -45,11 +46,17 @@ public class AlarmActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        binding.activityAlarmTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                logger.log(HLogger.LogType.INFO, "AlarmReceiver", "%d :%d", hourOfDay, minute);
+            }
+        });
         noti();
     }
 
-    private void noti(){
-        logger.log(HLogger.LogType.INFO, "AlarmReceiver","AlarmActivity noti");
+    private void noti() {
+        logger.log(HLogger.LogType.INFO, "AlarmReceiver", "AlarmActivity noti");
 
        /* Notification notification = new Notification.Builder(getBaseContext())
                 // Show controls on lock screen even when user hides sensitive content.
@@ -67,13 +74,12 @@ public class AlarmActivity extends AppCompatActivity {
                         .build();*/
 
 
-
         Notification notification =
                 new NotificationCompat.Builder(this, "Alarm ID")
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setContentTitle("Alarm Title")
-                    .setContentText("text")
-                    .build();
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setContentTitle("Alarm Title")
+                        .setContentText("text")
+                        .build();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);

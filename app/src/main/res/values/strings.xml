@@ -8,4 +8,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Receive-->
+
+    <!-- Value-->
+    <string name="DEVICE_STANDARD_WIDTH">360</string>
+    <string name="DEVICE_STANDARD_HEIGHT">640</string>
+    <string name="FRAGMENT_STANDARD_HEIGHT">530</string>
+
 </resources>

@@ -1,7 +1,6 @@
 package com.graction.developer.lumi.Util.File;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +9,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
-import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Thread.ThreadManager;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,20 +23,23 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.graction.developer.lumi.Util.Log.HLogger.LogType.INFO;
-
 /**
  * Created by graction03 on 2017-09-29.
  */
 
 public class BaseActivityFileManager {
     private static final BaseActivityFileManager ourInstance = new BaseActivityFileManager();
+    public enum FileType{
+        File, Image
+    }
     private Activity activity;
     private AssetManager assetManager;
-    private final boolean OverrideDeault = false;
+    private final boolean OverrideDefault = false;
 
-    private ThreadManager threadManager;
+    private ThreadManager<byte[]> threadManager;
     private byte[] buf;
+    private BufferedInputStream bufferedInputStream;
+    private ByteArrayOutputStream byteArrayOutputStream;
 
     public static BaseActivityFileManager getInstance() {
         return ourInstance;
@@ -60,29 +62,20 @@ public class BaseActivityFileManager {
         return bytes.toByteArray();
     }
 
-
-    private HLogger logger = new HLogger(BaseActivityFileManager.class);
-
     public byte[] getByteFromURL(String url) throws InterruptedException {
-        threadManager = new ThreadManager(
+        threadManager = new ThreadManager<byte[]>(
                 () -> {
                     try {
-                       /* URL u = new URL(url);
-                        HttpURLConnection httpURLConnection = (HttpURLConnection) u.openConnection();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        buf = new byte[inputStream.available()];
-                        logger.log(HLogger.LogType.INFO, "byte[] getByteFromURL(String)", "buf is null 1?" + (buf == null));
-                        logger.log(HLogger.LogType.INFO, "byte[] getByteFromURL(String)", "buf is length 1?" + (buf.length));
-                        inputStream.read(buf);
-                        inputStream.close();*/
-
                         URL u = new URL(url);
-                        InputStream inputStream = u.openStream();
-                        buf = new byte[u.openConnection().getContentLength()];
-                        inputStream.read(buf);
-                        inputStream.close();
-                        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is null 1?" + (buf == null));
-                        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is length 1?" + (buf.length));
+                        bufferedInputStream = new BufferedInputStream(u.openStream());
+                        byteArrayOutputStream = new ByteArrayOutputStream();
+//                        buf = new byte[u.openConnection().getContentLength()];
+                        buf = new byte[1024];
+                        int current;
+                        while ((current = bufferedInputStream.read(buf, 0, buf.length)) != -1)
+                            byteArrayOutputStream.write(buf, 0, current);
+                        // buf = byteArrayOutputStream.toByteArray();
+                        threadManager.saveData(byteArrayOutputStream.toByteArray());
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -91,16 +84,14 @@ public class BaseActivityFileManager {
                 },
                 new ThreadManager.ThreadComplete() {
                     @Override
-                    public byte[] complete() {
-                        return buf;
+                    public void complete() {
+
                     }
                 }
         );
-        buf = threadManager.run();
-        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is null 2?" + (buf == null));
-        logger.log(INFO, "byte[] getByteFromURL(String)", "buf is length 2?" + (buf.length));
-
-        return buf;
+        /*buf = threadManager.run();
+        return buf;*/
+        return threadManager.run();
     }
 
     private byte[] getByteFromURL2(String url) throws IOException {
@@ -224,42 +215,77 @@ public class BaseActivityFileManager {
         return getAssetFileToByte(assetManager, path);
     }
 
-    public void saveFile(String path, String url) throws IOException, InterruptedException {
-        saveFile(path, getByteFromURL(url), OverrideDeault);
+    public void saveFile(String path, String name, String url) throws IOException, InterruptedException {
+        saveFile(path, name, getByteFromURL(url), OverrideDefault);
     }
 
-    public void saveFile(String path, String url, boolean override) throws IOException, InterruptedException {
-        saveFile(path, getByteFromURL(url), override);
+    public void saveFile(String path, String name, String url, boolean override) throws IOException, InterruptedException {
+        makeDirectory(path);
+        saveFile(path, name, getByteFromURL(url), override);
     }
 
     // is work?
     public void saveFile(String path, File file) throws IOException {
-        saveFile(path, file, OverrideDeault);
+        saveFile(path, file, OverrideDefault);
     }
 
     public void saveFile(String path, File file, boolean override) throws IOException {
+        makeDirectory(path);
         FileOutputStream out = new FileOutputStream(file);
         out.flush();
         out.close();
     }
 
-    public void saveFile(String path, byte[] data) throws IOException {
-        saveFile(path, data, OverrideDeault);
+    public void saveImage(String path, String name, String url) throws IOException, InterruptedException {
+        saveImage(path, name, getByteFromURL(url), OverrideDefault);
     }
 
-    public void saveFile(String path, byte[] data, boolean override) throws IOException {
-        logger.log(INFO, "saveFile(String path, byte[] data, boolean override) ", "path : " + getPath() + path);
-        FileOutputStream out = activity.openFileOutput("sunny.png", Context.MODE_PRIVATE);
+    public void saveImage(String path, String name, String url, boolean override) throws IOException, InterruptedException {
+        makeDirectory(path);
+        saveImage(path, name, getByteFromURL(url), override);
+    }
+
+    public void saveFile(String path, String name, byte[] data) throws IOException {
+        saveFile(path, name, data, OverrideDefault);
+    }
+
+    public void saveFile(String path, String name, byte[] data, boolean override) throws IOException {
+        makeDirectory(path);
+        File file = new File(getPath() + path + name);
+        FileOutputStream out = new FileOutputStream(file);
         out.write(data);
         out.close();
     }
 
-    public void saveDrawable(Drawable drawable, String file) throws FileNotFoundException {
-        File save = new File(file);
+    public void saveImage(String path, String name, byte[] data) throws IOException {
+        saveImage(path, name, data, OverrideDefault);
+    }
+
+    public void saveImage(String path, String name, byte[] data, boolean override) throws IOException {
+        makeDirectory(path);
+        File file = new File(getPath() + path + name);
+        FileOutputStream out = new FileOutputStream(file);
+        Bitmap img = BitmapFactory.decodeByteArray(data, 0, data.length);
+        img.compress(Bitmap.CompressFormat.PNG, 90, out);
+        out.write(data);
+        out.close();
+    }
+
+   /*
+    Not work
+
+    public void saveFile(Drawable drawable, String path, String name) throws IOException {
+        saveFile(drawable, path, name, OverrideDefault);
+    }
+
+    public void saveFile(Drawable drawable, String path, String name, boolean override) throws IOException {
+        makeDirectory(path);
+        File save = new File(getPath() + path + name);
         FileOutputStream fos = new FileOutputStream(save);
         Bitmap bitmap = convertDrawableToBitmap(drawable);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-    }
+        fos.close();
+    }*/
 
     public boolean assetExists(String path) {
         boolean result = true;
@@ -271,15 +297,6 @@ public class BaseActivityFileManager {
         }
         return result;
     }
-
-    public String getPath() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? activity.getExternalFilesDir(null).getAbsolutePath() : activity.getFilesDir().getAbsolutePath();
-    }
-
-    public String getFilePath() {
-        return activity.getFilesDir().getAbsolutePath() + File.separator;
-    }
-
     private String[] separatePathAndName(String file) {
         String[] result = new String[2];
         result[0] = file.substring(0, file.lastIndexOf("/") + 1);
@@ -294,8 +311,33 @@ public class BaseActivityFileManager {
         else return false;
     }
 
+
+    public String getPath() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? activity.getExternalFilesDir(null).getAbsolutePath() : activity.getFilesDir().getAbsolutePath();
+    }
+
+    public String getPath(String file) {
+        return getPath() + file;
+    }
+    public String getFilePath() {
+        return activity.getFilesDir().getAbsolutePath() + File.separator;
+    }
+
+    public File getFile(String file){
+        return new File(getPath() + file);
+    }
+
     public boolean isExists(String file) {
         return new File(getPath() + file).exists();
+    }
+
+    public boolean isExistsAndSaveFile(String path, String name, String url) throws IOException, InterruptedException {
+        if(isExists(path + name)){
+            return true;
+        }else{
+            saveFile(path, name, url);
+        }
+        return false;
     }
 }
 

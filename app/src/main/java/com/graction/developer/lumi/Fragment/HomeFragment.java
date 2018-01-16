@@ -21,15 +21,17 @@ import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.GPS.GoogleLocationManager;
 import com.graction.developer.lumi.Util.GPS.GpsManager;
+import com.graction.developer.lumi.Util.Image.GifManager;
 import com.graction.developer.lumi.Util.Image.GlideImageManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Weather.WeatherManager;
 import com.graction.developer.lumi.databinding.FragmentHomeBinding;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,8 +50,6 @@ public class HomeFragment extends BaseFragment {
     private Call call;
 
     private String background_img_url = "", character_img_url = "", effect_img_url = "";
-    private byte[] background_bytes, character_bytes;
-    private Bitmap background_bitmap;
 
     public static Fragment getInstance() {
         return instance;
@@ -77,7 +77,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        initUI();
+//        initUI();
         currentWeather();
     }
 
@@ -137,71 +137,21 @@ public class HomeFragment extends BaseFragment {
 //            googleLocationManager.getAddress(gpsManager.getLocation());
             if (weatherModel != null) {
                 binding.setWeatherModel(weatherModel);
+                ImageModel imageModel = weatherModel.getImageModel();
                 try {
-                    if (background_bitmap == null || !background_img_url.equals(weatherModel.getBackground_img_url())) {
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url() + " / origin : " + background_img_url);
-                        background_img_url = weatherModel.getBackground_img_url();
-//                      Glide.with(this).load(background_img_url).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
-//                      Drawable d = BaseActivityFileManager.getInstance().getDrawableFromAssets(getActivity().getAssets(), "images/background/sunny.jpg");
+                    // Background Image
+                    GlideImageManager.getInstance().bindImage(getActivity(), binding.fragmentHomeIVBackground, new RequestOptions().centerCrop(), imageModel.getBackground_img_path(), imageModel.getBackground_img_name(), weatherModel.getBackground_img_url());
 
-                        ImageModel imageModel = weatherModel.getImageModel();
-                        logger.log(HLogger.LogType.INFO, "reloadWeatherInfo()", "%s, %s, %s", imageModel.getBackground_img_path(), imageModel.getBackground_img_name(), imageModel.getBackground_img_url());
-                        logger.log(HLogger.LogType.INFO, "reloadWeatherInfo()", "all path : "+baseActivityFileManager.getPath()+imageModel.getBackground_img_path()+ imageModel.getBackground_img_name());
-                        GlideImageManager.getInstance().bindImage(getActivity(), binding.fragmentHomeIVBackground, new RequestOptions().centerCrop(), imageModel.getBackground_img_path(), imageModel.getBackground_img_name(), imageModel.getBackground_img_url());
-
-
-                       /* String fName = "/images/background/sunny.jpg"
-                                , url = "http://192.168.0.8:8101/lumiAssets/assets/images/background/sunny.jpg";
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "path : " + baseActivityFileManager.getPath()+fName);
-                        File save = new File(baseActivityFileManager.getPath()+fName);
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "is exist : " + save.exists());
-                        byte[] bytes = baseActivityFileManager.getByteFromURL(url);
-                        FileOutputStream fos = new FileOutputStream(save);
-                        Bitmap bitmap2 = baseActivityFileManager.convertDrawableToBitmap(d);
-                        bitmap2.compress(Bitmap.CompressFormat.PNG, 100 ,fos);
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "is exist : " + save.exists());
-*/
-
-
-//                        FileInputStream fis = getActivity().openFileInput(fName);
-//                        Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fis.getFD());
-//                        Glide.with(this).load(bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
-
-//                      background_bytes = BaseActivityFileManager.getInstance().getByteFromURL(background_img_url);
-//                        background_bitmap = BaseActivityFileManager.getInstance().getBitmapFromURL(background_img_url);
-                    } else if (background_bitmap != null) {
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes != null");
-                        Glide.with(this).load(background_bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
-                    } else {
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes == null");
-                        Glide.with(this).load(background_bitmap).apply(new RequestOptions().centerCrop()).into(binding.fragmentHomeIVBackground);
-                    }
-                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background_bytes is null?" + (background_bitmap == null));
-
-                    if ((!character_img_url.equals(weatherModel.getCharacter_img_url())) || character_img_url != null) {
-                        logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "character img url : " + weatherModel.getCharacter_img_url());
-                        character_img_url = weatherModel.getCharacter_img_url();
-
-                        try {
-                            GifDrawable gifDrawable = new GifDrawable(getResources().getAssets(), "images/background/test2.gif");
-
-                            gifDrawable.addAnimationListener(new AnimationListener() {
-                                @Override
-                                public void onAnimationCompleted(int loopNumber) {
-                                    gifDrawable.stop();
-                                }
-                            });
-
-                            binding.fragmentHomeIVCharacter.setImageDrawable(gifDrawable);
-                            binding.fragmentHomeIVCharacter.setOnClickListener((v) -> {
-                                gifDrawable.start();
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "background img url : " + weatherModel.getBackground_img_url());
-                    logger.log(HLogger.LogType.INFO, "void reloadWeatherInfo()", "weatherModel : " + weatherModel);
+                    // Character Image
+                    String character_path = "/assets/images/character/", character_img = "test2.gif";
+//                        baseActivityFileManager.saveImage(imageModel.getCharacter_img_path(), imageModel.getCharacter_img_name(), weatherModel.getCharacter_img_url());
+                    baseActivityFileManager.isExistsAndSaveFile(character_path, character_img, "http://192.168.0.8:8101/lumiAssets/" + character_path + character_img);
+                    GifDrawable gifDrawable = new GifDrawable(new BufferedInputStream(new FileInputStream(baseActivityFileManager.getFile(character_path + character_img))));
+                    GifManager.getInstance().bindGif(gifDrawable
+                            , binding.fragmentHomeIVCharacter
+                            , loopNumber -> gifDrawable.stop()
+                            , (view) -> gifDrawable.start()
+                    );
                 } catch (Exception e) {
                     logger.log(HLogger.LogType.ERROR, "reloadWeatherInfo()", "reloadWeatherInfo Error", e);
                 }
@@ -209,8 +159,6 @@ public class HomeFragment extends BaseFragment {
         } else {
             gpsManager.showSettingsAlert();
         }
-
-        // callIntegratedAirQuality();
     }
 
     private void callIntegratedAirQuality() {

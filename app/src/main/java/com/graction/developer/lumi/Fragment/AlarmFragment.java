@@ -1,34 +1,26 @@
 package com.graction.developer.lumi.Fragment;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlacePicker;
-import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.Activity.AddAlarmActivity;
+import com.graction.developer.lumi.Adapter.AlarmListAdapter;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.FragmentAlarmBinding;
 
-import static com.graction.developer.lumi.Data.DataStorage.Request.GOOGLE_PLACE_OK;
-import static com.graction.developer.lumi.Data.DataStorage.Request.PLACE_PICKER_REQUEST;
+import java.util.ArrayList;
 
-public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnConnectionFailedListener {
+public class AlarmFragment extends BaseFragment {
+    public static ArrayList<AlarmItem> alarmItems;
     private static final AlarmFragment instance = new AlarmFragment();
-    private GoogleApiClient mGoogleApiClient;
     private FragmentAlarmBinding binding;
-
-    private PlacePicker.IntentBuilder builder;
 
     public static Fragment getInstance() {
         return instance;
@@ -37,46 +29,31 @@ public class AlarmFragment extends BaseFragment implements GoogleApiClient.OnCon
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alarm, null, false);
+        binding = FragmentAlarmBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     protected void init(View view) {
-        builder = new PlacePicker.IntentBuilder();
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(getActivity())
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .build();
-        try {
-             startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-        } catch (Exception e) {
-            e.printStackTrace();
+        binding.setActivity(this);
+
+        testData();
+        binding.fragmentAlarmRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.fragmentAlarmRV.setAdapter(new AlarmListAdapter(alarmItems));
+    }
+
+    private void testData() {
+        alarmItems = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            int[] days = new int[7];
+            days[i>6?i-(i/7*6):i] = 1;
+            alarmItems.add(new AlarmItem("Address " + i, "Memo " + i, days, i, i));
+            logger.log(HLogger.LogType.INFO,"testData()","add "+i);
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PLACE_PICKER_REQUEST){
-            logger.log(HLogger.LogType.INFO, "onActivityResult %d %d", requestCode, resultCode);
-            if(resultCode == GOOGLE_PLACE_OK){
-                Place place = PlacePicker.getPlace(data, getActivity());
-                String toastMsg = String.format("Place : %s",place.getName());
-                Toast.makeText(getContext(), toastMsg, Toast.LENGTH_LONG).show();
-                logger.log(HLogger.LogType.INFO, "msg : "+toastMsg);
-                logger.log(HLogger.LogType.INFO, "msg : "+place.getAddress());
-            }
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+    public void addAlarm(View view) {
+        logger.log(HLogger.LogType.INFO, "addAlarm()", "addAlarm");
+        startActivity(new Intent(getContext(), AddAlarmActivity.class));
     }
 }

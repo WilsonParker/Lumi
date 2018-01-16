@@ -78,7 +78,7 @@ public class PlannerRecSubjectListAdapter extends RecyclerView.Adapter {
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, contents, likeCount, date, poiCount;
+        TextView title, contents, likeCount, days, poiCount;
         RecyclerView horizontal_recycler_view;
         RelativeLayout item_linear;
         ImageView like_btn, arrow_right, arrow_left;
@@ -91,7 +91,7 @@ public class PlannerRecSubjectListAdapter extends RecyclerView.Adapter {
             contents = binding.textContents;
             likeCount = binding.likeCount;
             item_linear = binding.itemLayout;
-            date = binding.textDate;
+            days = binding.textDate;
             like_btn = binding.likeBtn;
             poiCount = binding.poiCount;
             arrow_right = binding.imageRight;
@@ -113,7 +113,7 @@ public class PlannerRecSubjectListAdapter extends RecyclerView.Adapter {
             likeCount.setText(item.getLikeCount() + "");          // 담기(좋아요) 개수
             onlyDate = item.getRegDate().substring(0, 10);
             mDate = onlyDate.replaceAll("-", ".");
-            date.setText(mDate);                 // 업로드 일자 (yyyy.mm.dd)
+            days.setText(mDate);                 // 업로드 일자 (yyyy.mm.dd)
             poiCount.setText(item.getPoiSimpleList().size() + "");   // poi 개수
 
             if (contents == null || contents.getText().toString() == "") {

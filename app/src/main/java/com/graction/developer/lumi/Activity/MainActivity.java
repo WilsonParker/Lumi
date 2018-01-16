@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.graction.developer.lumi.Fragment.AlarmFragment;
@@ -13,14 +12,10 @@ import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.Fragment.HomeFragment;
 import com.graction.developer.lumi.Fragment.TestFragment;
 import com.graction.developer.lumi.R;
-import com.graction.developer.lumi.UI.UIFactory;
-import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
-    private HLogger logger;
+public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
-    private UIFactory uiFactory;
     private Fragment fragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -35,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_daily:
                     fragment = Forecast5DayFragment.getInstance();
                     break;
-                case R.id.navigation_notifications:
+                case R.id.navigation_alarm:
                     fragment = AlarmFragment.getInstance();
                     break;
                 case R.id.navigation_alarmtest:
@@ -56,13 +51,9 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
-    private void init() {
-        logger = new HLogger(getClass());
-        uiFactory = UIFactory.getInstance(this);
-
-        BottomNavigationView navigation = uiFactory.createView(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_current);
+    protected void init() {
+        binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        binding.navigation.setSelectedItemId(R.id.navigation_current);
     }
 
     private void replaceContent(){
