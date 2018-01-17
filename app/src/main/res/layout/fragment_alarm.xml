@@ -29,15 +29,15 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_alarm_RV"
-                app:layoutManager="LinearLayoutManager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="312.7" />
+                android:layout_weight="335.7"
+                app:layoutManager="LinearLayoutManager" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="217.3">
+                android:layout_weight="183.3">
 
                 <ImageView
                     android:layout_width="@dimen/fragment_alarm_bottom_add_button_width"

@@ -7,21 +7,20 @@
 
         <variable
             name="item"
-            type="com.graction.developer.lumi.Model.Item.AlarmItem" />
+            type="com.graction.developer.lumi.Model.Item.AlarmData.AlarmItem" />
     </data>
 
     <!--
         android:layout_width="@dimen/item_alarm_root_width"
     -->
     <LinearLayout
+        android:id="@+id/item_alarm_root"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_alarm_root_height"
-        android:orientation="vertical"
-        android:weightSum="172.6">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            style="@style/Style_MarginView"
             android:layout_weight="33.3" />
 
         <LinearLayout
@@ -33,8 +32,7 @@
             android:weightSum="139.3">
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                style="@style/Style_MarginView"
                 android:layout_weight="42" />
 
             <LinearLayout
@@ -43,8 +41,7 @@
                 android:layout_weight="12">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    style="@style/Style_MarginView"
                     android:layout_weight="286" />
 
                 <ImageView
@@ -54,71 +51,212 @@
                     app:srcCompat="@drawable/x_btn" />
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    style="@style/Style_MarginView"
                     android:layout_weight="10" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="85.3"
                 android:weightSum="308">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    style="@style/Style_MarginView"
                     android:layout_weight="68" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{item.address}' />
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="23.3" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="240"
+                    android:orientation="vertical"
+                    android:weightSum="52.9">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{item.timeInfo}' />
+                    <View
+                        style="@style/Style_MarginView"
+                        android:layout_weight="1.3" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="6.7" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:weightSum="240">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{item.hour + " : " + item.minute}' />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/item_alarm_TV_address"
+                            style="@style/Style_TextView_es"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_weight="110"
+                            android:gravity="bottom"
+                            android:text='@{item.address}'
+                            android:textSize='@dimen/item_alarm_address_font_size'
+                            tools:text="영등포구 당산동" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="308">
+                        <ImageView
+                            style="@style/Style_MarginView"
+                            android:layout_weight="10" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="68" />
+                        <TextView
+                            style="@style/Style_TextView_es"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_weight="20"
+                            android:gravity="bottom|right"
+                            android:text='@{item.timeInfo}'
+                            android:textSize="@dimen/item_alarm_timeinfo_font_size"
+                            tools:text="오전" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{item.stringDays}' />
+                        <ImageView
+                            style="@style/Style_MarginView"
+                            android:layout_weight="6" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="9.7" />
+                        <TextView
+                            style="@style/Style_TextView_es"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="60"
+                            android:includeFontPadding="false"
+                            android:lineSpacingExtra="0dp"
+                            android:text='@{item.hour + " : " + item.minute}'
+                            android:textColor="#333333"
+                            android:textSize="25sp"
+                            tools:text="09:00" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{item.memo}' />
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="34" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/Style_MarginView"
+                        android:layout_weight="10" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:weightSum="240">
+
+                        <TextView
+                            style="@style/Style_TextView_es"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:text='@{item.stringDays}'
+                            android:textSize="@dimen/item_alarm_days_font_size"
+                            tools:text="월 화 수 목 금 토 일" />
+
+                        <ImageView
+                            style="@style/Style_MarginView"
+                            android:layout_weight="9.7" />
+
+                        <TextView
+                            style="@style/Style_TextView_es"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{item.memo}'
+                            android:textSize="@dimen/item_alarm_memo_font_size"
+                            tools:text="체육시간" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/Style_MarginView"
+                        android:layout_weight="13.3" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="0"
+                        android:weightSum="240">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="202.7"
+                            android:background="#eeeeee" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/Style_MarginView"
+                        android:layout_weight="6" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="12.3"
+                        android:weightSum="240">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="13.3"
+                            ImageResource="@{item.speaker ? @drawable/phone_icon_off : @drawable/phone_icon_on}"
+                            />
+
+                        <ImageView
+                            style="@style/Style_MarginView"
+                            android:layout_weight="6.7" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="13"
+                            ImageResource="@{item.speaker ? @drawable/sound_icon_on : @drawable/sound_icon_off}"
+                            />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="3.7" />
+
+                        <!-- <SeekBar
+                             android:layout_width="0dp"
+                             android:layout_height="match_parent"
+                             android:layout_weight="83"
+                             android:max="10"
+                             android:progress="8"
+                             android:layout_gravity="left"
+                             android:progressDrawable="@drawable/seekbar_on"
+                             android:thumb="@null" />-->
+
+                        <!--android:progressTint="@color/Seek_On"-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="83"
+                            android:orientation="vertical"
+                            android:weightSum="13.3">
+
+                            <View
+                                style="@style/Style_MarginView"
+                                android:layout_weight="4.5" />
+
+                            <SeekBar
+                                android:id="@+id/item_alarm_SB_volume"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_gravity="left"
+                                android:layout_weight="4.3"
+                                android:max="10"
+                                android:progress="8"
+                                android:progressDrawable='@{item.speaker ? @drawable/seekbar_on : @drawable/seekbar_off}'
+                                android:thumb="@null" />
+
+                            <View
+                                style="@style/Style_MarginView"
+                                android:layout_weight="4.5" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        style="@style/Style_MarginView"
+                        android:layout_weight="10" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

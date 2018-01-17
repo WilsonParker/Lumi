@@ -10,18 +10,43 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-   <!-- <declare-styleable name="DonutProgress">
-        <attr name="donut_progress" format="integer"/>
-        <attr name="donut_max" format="integer"/>
-        <attr name="donut_unfinished_color" format="color"/>
-        <attr name="donut_finished_color" format="color"/>
-        <attr name="donut_finished_stroke_width" format="dimension"/>
-        <attr name="donut_unfinished_stroke_width" format="dimension"/>
-        <attr name="donut_text_size" format="dimension"/>
-        <attr name="donut_text_color" format="color"/>
-        <attr name="donut_text" format="string"/>
-        <attr name="donut_prefix_text" format="string"/>
-        <attr name="donut_suffix_text" format="string"/>
-        <attr name="donut_background_color" format="color"/>
-    </declare-styleable>-->
+    <!-- <declare-styleable name="DonutProgress">
+         <attr name="donut_progress" format="integer"/>
+         <attr name="donut_max" format="integer"/>
+         <attr name="donut_unfinished_color" format="color"/>
+         <attr name="donut_finished_color" format="color"/>
+         <attr name="donut_finished_stroke_width" format="dimension"/>
+         <attr name="donut_unfinished_stroke_width" format="dimension"/>
+         <attr name="donut_text_size" format="dimension"/>
+         <attr name="donut_text_color" format="color"/>
+         <attr name="donut_text" format="string"/>
+         <attr name="donut_prefix_text" format="string"/>
+         <attr name="donut_suffix_text" format="string"/>
+         <attr name="donut_background_color" format="color"/>
+     </declare-styleable>-->
+
+    <!--
+        Style
+    -->
+
+    <style name="Style_TextView_wh" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Style_TextView_es" parent="@android:style/Widget.TextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Style_TextView_wh_es" parent="Style_TextView_wh">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Style_MarginView" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
 </resources>

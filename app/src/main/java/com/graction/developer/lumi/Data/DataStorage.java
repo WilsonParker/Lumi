@@ -55,8 +55,14 @@ public class DataStorage {
     }
 
     public class Action{
-        public static final String RECIEVE_ACTION_ALARM = "com.graction.developer.lumi.ALARM_START"
+        public static final String RECEIVE_ACTION_ALARM = "com.graction.developer.lumi.ALARM_START"
 
                             ;
+    }
+
+    public class Preference{
+        public static final String PREFERENCE_ALARM_DATA= "alarm_dataT"
+
+                ;
     }
 }

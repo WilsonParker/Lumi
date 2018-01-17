@@ -1,23 +1,25 @@
 package com.graction.developer.lumi.Adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.graction.developer.lumi.Model.Item.AlarmItem;
+import com.graction.developer.lumi.Model.Item.AlarmData;
+import com.graction.developer.lumi.UI.UIFactory;
 import com.graction.developer.lumi.databinding.ItemAlarmBinding;
 
 import java.util.ArrayList;
+
+import static com.graction.developer.lumi.UI.UIFactory.TYPE_BASIC;
 
 /**
  * Created by Graction06 on 2018-01-16.
  */
 
 public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.ViewHolder> {
-    private ArrayList<AlarmItem> items;
+    private ArrayList<AlarmData.AlarmItem> items;
 
-    public AlarmListAdapter(ArrayList<AlarmItem> items) {
+    public AlarmListAdapter(ArrayList<AlarmData.AlarmItem> items) {
         this.items = items;
     }
 
@@ -30,7 +32,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.onBind(items.get(position));
-        Log.i("TAG", "binding : " + items.get(position));
     }
 
     @Override
@@ -46,11 +47,14 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
             super(binding.getRoot());
 //            binding = DataBindingUtil.bind(itemView);
             this.binding = binding;
+            UIFactory.setViewWithRateParams(binding.itemAlarmRoot, TYPE_BASIC);
         }
 
-        public void onBind(AlarmItem item){
+        public void onBind(AlarmData.AlarmItem item){
             binding.setItem(item);
             binding.executePendingBindings();
+            if(!item.isSpeaker())
+                binding.itemAlarmSBVolume.setOnTouchListener((v, e)->true);
         }
     }
 }

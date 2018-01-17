@@ -3,6 +3,8 @@ package com.graction.developer.lumi.Util.File;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -12,8 +14,13 @@ import static android.content.Context.MODE_PRIVATE;
 public class PreferenceManager {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private Context context;
-    public static final String PREFERENCE_ALARM = "pref_alarmm";
+    private Gson gson = new Gson();
+    private static Context context;
+    public static final String PREFERENCE_ALARM = "pref_alarm";
+
+    public static void setContext(Context context) {
+        PreferenceManager.context = context;
+    }
 
     public PreferenceManager(String pref) {
         sharedPreferences = context.getSharedPreferences(pref, MODE_PRIVATE);
@@ -21,8 +28,8 @@ public class PreferenceManager {
     }
 
     public Object getValue(String key, Object def){
-        String[] cls = def.getClass().getName().split(".");
-        Object result = null;
+        String[] cls = def.getClass().getName().split("\\.");
+        Object result;
         switch(cls[cls.length-1].toUpperCase()){
             case "BOOLEAN":
                 result = sharedPreferences.getBoolean(key, (boolean) def);
@@ -39,12 +46,16 @@ public class PreferenceManager {
             case "STRING":
                 result = sharedPreferences.getString(key, (String) def);
                 break;
+            default :
+                result = sharedPreferences.getString(key, "");
+//                result = gson.fromJson(sharedPreferences.getString(key, ""), def.getClass());
+                break;
         }
         return result;
     }
 
     public boolean setValue(String key, Object value){
-        String[] cls = value.getClass().getName().split(".");
+        String[] cls = value.getClass().getName().split("\\.");
         switch(cls[cls.length-1].toUpperCase()){
             case "BOOLEAN":
                 editor.putBoolean(key, (boolean) value);
@@ -60,6 +71,9 @@ public class PreferenceManager {
                 break;
             case "STRING":
                 editor.putString(key, (String) value);
+                break;
+            default :
+                editor.putString(key, gson.toJson(value));
                 break;
         }
         return editor.commit();

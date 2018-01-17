@@ -4,25 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context="com.graction.developer.lumi.Activity.MainActivity">
 
+        <View
+            style="@style/Style_MarginView"
+            android:layout_weight="37.3" />
+
+        <com.graction.developer.lumi.UI.Layout.CustomNavigationView
+            android:id="@+id/activity_main_CNV"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="45.7"
+            android:background="#3a5bca" />
+
         <FrameLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></FrameLayout>
+            android:layout_weight="529"></FrameLayout>
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/navigation" />
+        <!-- <android.support.design.widget.BottomNavigationView
+             android:id="@+id/navigation"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom"
+             android:background="?android:attr/windowBackground"
+             app:menu="@menu/navigation" />-->
 
     </LinearLayout>
 </layout>

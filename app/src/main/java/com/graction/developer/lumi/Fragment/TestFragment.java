@@ -75,7 +75,7 @@ public class TestFragment extends BaseFragment {
 
     // onClick
     public void alarmTest(View view){
-//        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECIEVE_ACTION_ALARM));
+//        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECEIVE_ACTION_ALARM));
         logger.log(INFO, "alarmTest onClick");
         Calendar mCalendar = Calendar.getInstance();
         /*mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
@@ -85,7 +85,7 @@ public class TestFragment extends BaseFragment {
         mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
 //        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
 
-        Intent alarmIntent = new Intent(DataStorage.Action.RECIEVE_ACTION_ALARM);
+        Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_ALARM);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getContext(),
                 0,
