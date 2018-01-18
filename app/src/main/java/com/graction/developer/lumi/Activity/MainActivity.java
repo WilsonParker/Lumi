@@ -7,13 +7,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import com.bumptech.glide.Glide;
+import com.graction.developer.lumi.Adapter.FragmentAdapter;
 import com.graction.developer.lumi.Fragment.AlarmFragment;
 import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.Fragment.HomeFragment;
 import com.graction.developer.lumi.Fragment.TestFragment;
 import com.graction.developer.lumi.R;
-import com.graction.developer.lumi.UI.Layout.CustomNavigationView;
+import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -56,9 +56,44 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
-//        binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//        binding.navigation.setSelectedItemId(R.id.navigation_current);
-        ArrayList<CustomNavigationView.NavigationItem> items = new ArrayList<>();
+        initViewPager();
+    }
+
+    private void initViewPager() {
+        /*
+            binding.activityMainVP.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            ViewPagerTabAdapter viewPagerTabAdapter = new ViewPagerTabAdapter((index, item) -> {
+                binding.activityMainTab.getTabAt(index).setIcon(item.getResIcon());
+            });
+            viewPagerTabAdapter.addItem(viewPagerTabAdapter.new TabItem(HomeFragment.getInstance(), R.drawable.ic_home_black_24dp));
+            viewPagerTabAdapter.addItem(viewPagerTabAdapter.new TabItem(Forecast5DayFragment.getInstance(), R.drawable.ic_dashboard_black_24dp));
+            viewPagerTabAdapter.addItem(viewPagerTabAdapter.new TabItem(AlarmFragment.getInstance(), R.drawable.ic_notifications_black_24dp));
+            viewPagerTabAdapter.addItem(viewPagerTabAdapter.new TabItem(TestFragment.getInstance(), R.drawable.ic_dashboard_black_24dp));
+            TabLayoutSupport.setupWithViewPager(binding.activityMainTab, binding.activityMainVP, viewPagerTabAdapter);
+        */
+
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
+        ArrayList<FragmentAdapter.TabItem> items = new ArrayList<>();
+        items.add(fragmentAdapter.new TabItem(HomeFragment.getInstance(), R.drawable.tab_home));
+        items.add(fragmentAdapter.new TabItem(Forecast5DayFragment.getInstance(), R.drawable.ic_dashboard_black_24dp));
+        items.add(fragmentAdapter.new TabItem(AlarmFragment.getInstance(), R.drawable.ic_notifications_black_24dp));
+        items.add(fragmentAdapter.new TabItem(TestFragment.getInstance(), R.drawable.dust_on));
+        fragmentAdapter.setItems(items);
+        fragmentAdapter.setOnTabSelected((index, item) -> {
+            logger.log(HLogger.LogType.INFO,"FragmentAdapter","TabItem : "+item.getResIcon());
+//            binding.activityMainTab.getTabAt(index).setIcon(item.getResIcon());
+        });
+        binding.activityMainTab.setupWithViewPager(binding.activityMainVP);
+        binding.activityMainVP.setAdapter(fragmentAdapter);
+        for(int i=0; i<items.size();i++){
+            binding.activityMainTab.getTabAt(i).setIcon(items.get(i).getResIcon());
+        }
+    }
+
+    private void initNavigation() {
+        //        binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //        binding.navigation.setSelectedItemId(R.id.navigation_current);
+        /*ArrayList<CustomNavigationView.NavigationItem> items = new ArrayList<>();
         items.add(binding.activityMainCNV.new NavigationItem(R.drawable.dust_on, R.drawable.alarm_off, () -> {
             replaceContent(HomeFragment.getInstance());
         }));
@@ -74,15 +109,15 @@ public class MainActivity extends BaseActivity {
         binding.activityMainCNV.bindItemView(this, items, (imageView, resId) -> {
             Glide.with(MainActivity.this).load(resId).into(imageView);
         });
-        binding.activityMainCNV.actionItem(0);
+        binding.activityMainCNV.actionItem(0);*/
     }
 
     private void replaceContent() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_FL, fragment).commit();
     }
 
     private void replaceContent(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_FL, fragment).commit();
     }
 
 }

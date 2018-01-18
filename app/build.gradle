@@ -67,7 +67,9 @@ dependencies {
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     // compile 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.google.android.gms:play-services-places:11.8.0'
-
+    // https://github.com/lsjwzh/RecyclerViewPager
+    compile 'com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar'
+    compile 'com.github.lsjwzh.RecyclerViewPager:tablayoutsupport:v1.1.2@aar'
     testCompile 'junit:junit:4.12'
     // Required for instrumented tests
     androidTestCompile 'com.android.support:support-annotations:24.0.0'

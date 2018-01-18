@@ -42,3 +42,7 @@
 
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+# com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar
+-keep class com.lsjwzh.widget.recyclerviewpager.**
+-dontwarn com.lsjwzh.widget.recyclerviewpager.**
