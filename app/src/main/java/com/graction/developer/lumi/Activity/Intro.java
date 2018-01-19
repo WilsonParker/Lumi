@@ -29,6 +29,7 @@ public class Intro extends BaseActivity {
             xmlPullParserManager.setContext(context);
 
             UIFactory.init(Intro.this);
+//            FontManager.getInstance().setAssetManager(getAssets());
             BaseActivityFileManager.getInstance().setActivity(Intro.this);;
             PreferenceManager.setContext(Intro.this);
             try {

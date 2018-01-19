@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.graction.developer.lumi.Data.SyncObject;
 import com.graction.developer.lumi.Listener.AddressHandleListener;
 import com.graction.developer.lumi.Model.ImageModel;
 import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
@@ -42,6 +43,7 @@ import static com.graction.developer.lumi.Data.DataStorage.weatherModel;
 
 public class HomeFragment extends BaseFragment {
     private static final HomeFragment instance = new HomeFragment();
+    private static final int SYNC_ID = 0x0001;
     private FragmentHomeBinding binding;
     private WeatherManager weatherManager;
     private GpsManager gpsManager;
@@ -106,29 +108,33 @@ public class HomeFragment extends BaseFragment {
             call.cancel();
     }
 
-    private void currentWeather() {
-        call = Net.getInstance().getFactoryIm().selectWeather(gpsManager.getLatitude(), gpsManager.getLongitude());
-        call.enqueue(new Callback<WeatherModel>() {
-            @Override
-            public void onResponse(Call<WeatherModel> call, Response<WeatherModel> response) {
-                if (response.isSuccessful()) {
-                    logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "isSuccessful");
-                    logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
-                    weatherModel = response.body();
-                    reloadWeatherInfo();
-                    callIntegratedAirQuality();
-                } else {
-                    logger.log(HLogger.LogType.WARN, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "is not Successful");
-                    logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<WeatherModel> call, Throwable t) {
-                logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "onFailure", t);
-                t.printStackTrace();
-            }
-        });
+    private void currentWeather() {
+        try {
+            SyncObject.getInstance().addAction(() -> Net.getInstance().getFactoryIm().selectWeather(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<WeatherModel>() {
+                @Override
+                public void onResponse(Call<WeatherModel> call, Response<WeatherModel> response) {
+                    if (response.isSuccessful()) {
+                        logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "isSuccessful");
+                        logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
+                        weatherModel = response.body();
+                        reloadWeatherInfo();
+                        callIntegratedAirQuality();
+                    } else {
+                        logger.log(HLogger.LogType.WARN, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "is not Successful");
+                        logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WeatherModel> call, Throwable t) {
+                    logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "onFailure", t);
+                    t.printStackTrace();
+                }
+            }), SYNC_ID);
+        } catch (InterruptedException e) {
+            logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "InterruptedException", e);
+        }
     }
 
     private void reloadWeatherInfo() {

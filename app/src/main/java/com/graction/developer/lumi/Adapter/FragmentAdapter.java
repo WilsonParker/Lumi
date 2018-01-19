@@ -1,8 +1,16 @@
 package com.graction.developer.lumi.Adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.graction.developer.lumi.R;
 
 import java.util.ArrayList;
 
@@ -13,6 +21,7 @@ import java.util.ArrayList;
 public class FragmentAdapter extends FragmentPagerAdapter {
     private ArrayList<TabItem> items;
     private OnTabSelected onTabSelected;
+    private SetTabItem setTabItem;
 
     public FragmentAdapter(FragmentManager fm) {
         super(fm);
@@ -40,6 +49,10 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         this.onTabSelected = onTabSelected;
     }
 
+    public void setSetTabItem(SetTabItem setTabItem) {
+        this.setTabItem = setTabItem;
+    }
+
     public void setItems(ArrayList<TabItem> items) {
         this.items = items;
     }
@@ -59,6 +72,32 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return items == null ? 0 : items.size();
+    }
+
+    @Override
+    public void finishUpdate(ViewGroup container) {
+        super.finishUpdate(container);
+        for(int i=0; i<items.size(); i++)
+            setTabItem.setTabItem(i, items.get(i));
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+    }
+
+    public View getDefaultView(Context context, int resId){
+        ImageView view = new ImageView(context);
+        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        view.setImageResource(resId);
+        return view;
+    }
+
+    // ImageView id must be icon
+    public View getView(Context context, int layout, int resId){
+        View view = LayoutInflater.from(context).inflate(layout, null);
+        ((ImageView)view.findViewById(R.id.icon)).setImageResource(resId);
+        return view;
     }
 
     public class TabItem {
@@ -89,5 +128,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     public interface OnTabSelected {
         void onSelected(int index, TabItem item);
+    }
+
+    public interface SetTabItem {
+        void setTabItem(int index, TabItem item);
     }
 }

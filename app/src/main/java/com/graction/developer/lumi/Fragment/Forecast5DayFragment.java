@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.graction.developer.lumi.Data.SyncObject;
 import com.graction.developer.lumi.Listener.AddressHandleListener;
 import com.graction.developer.lumi.Model.Response.Forecast5DayModel;
 import com.graction.developer.lumi.Net.Net;
@@ -21,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Forecast5DayFragment extends BaseFragment {
+    private static final int SYNC_ID = 0x0010;
     private FragmentForecast5dayBinding binding;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
@@ -57,23 +59,27 @@ public class Forecast5DayFragment extends BaseFragment {
     }
 
     public void forecast5day() {
-        Net.getInstance().getFactoryIm().selectForecast5Day(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<Forecast5DayModel>() {
-            @Override
-            public void onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response) {
-                if (response.isSuccessful()) {
-                    logger.log(HLogger.LogType.INFO, "void forecast5day() - onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response)", "isSuccessful");
-                    model = response.body();
-                    reloadWeatherInfo();
-                } else {
-                    logger.log(HLogger.LogType.WARN, "void forecast5day() - onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response)", "is not Successful");
+        try {
+            SyncObject.getInstance().addAction(() -> Net.getInstance().getFactoryIm().selectForecast5Day(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<Forecast5DayModel>() {
+                @Override
+                public void onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response) {
+                    if (response.isSuccessful()) {
+                        logger.log(HLogger.LogType.INFO, "void forecast5day() - onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response)", "isSuccessful");
+                        model = response.body();
+                        reloadWeatherInfo();
+                    } else {
+                        logger.log(HLogger.LogType.WARN, "void forecast5day() - onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response)", "is not Successful");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Forecast5DayModel> call, Throwable t) {
-                logger.log(HLogger.LogType.ERROR, "void forecast5day() - onFailure(Call<Forecast5DayModel> call, Throwable t)", "onFailure", t);
-            }
-        });
+                @Override
+                public void onFailure(Call<Forecast5DayModel> call, Throwable t) {
+                    logger.log(HLogger.LogType.ERROR, "void forecast5day() - onFailure(Call<Forecast5DayModel> call, Throwable t)", "onFailure", t);
+                }
+            }), SYNC_ID);
+        } catch (InterruptedException e) {
+            logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "InterruptedException", e);
+        }
     }
 
     private void reloadWeatherInfo() {

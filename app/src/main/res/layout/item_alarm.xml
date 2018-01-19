@@ -91,6 +91,7 @@
                             android:layout_weight="110"
                             android:gravity="bottom"
                             android:text='@{item.address}'
+                            android:textColor="@color/item_alarm_address"
                             android:textSize='@dimen/item_alarm_address_font_size'
                             tools:text="영등포구 당산동" />
 
@@ -106,6 +107,7 @@
                             android:layout_weight="20"
                             android:gravity="bottom|right"
                             android:text='@{item.timeInfo}'
+                            android:textColor="@color/item_alarm_timeinfo"
                             android:textSize="@dimen/item_alarm_timeinfo_font_size"
                             tools:text="오전" />
 
@@ -121,7 +123,7 @@
                             android:includeFontPadding="false"
                             android:lineSpacingExtra="0dp"
                             android:text='@{item.hour + " : " + item.minute}'
-                            android:textColor="#333333"
+                            android:textColor="@color/item_alarm_time"
                             android:textSize="25sp"
                             tools:text="09:00" />
 
@@ -147,6 +149,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
                             android:text='@{item.stringDays}'
+                            android:textColor="@color/item_alarm_days"
                             android:textSize="@dimen/item_alarm_days_font_size"
                             tools:text="월 화 수 목 금 토 일" />
 
@@ -159,6 +162,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text='@{item.memo}'
+                            android:textColor="@color/item_alarm_memo"
                             android:textSize="@dimen/item_alarm_memo_font_size"
                             tools:text="체육시간" />
                     </LinearLayout>
@@ -191,22 +195,20 @@
                         android:weightSum="240">
 
                         <ImageView
+                            ImageResource="@{item.speaker ? @drawable/phone_icon_off : @drawable/phone_icon_on}"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="13.3"
-                            ImageResource="@{item.speaker ? @drawable/phone_icon_off : @drawable/phone_icon_on}"
-                            />
+                            android:layout_weight="13.3" />
 
                         <ImageView
                             style="@style/Style_MarginView"
                             android:layout_weight="6.7" />
 
                         <ImageView
+                            ImageResource="@{item.speaker ? @drawable/sound_icon_on : @drawable/sound_icon_off}"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="13"
-                            ImageResource="@{item.speaker ? @drawable/sound_icon_on : @drawable/sound_icon_off}"
-                            />
+                            android:layout_weight="13" />
 
                         <ImageView
                             android:layout_width="0dp"

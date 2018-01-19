@@ -13,7 +13,6 @@ import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.Fragment.HomeFragment;
 import com.graction.developer.lumi.Fragment.TestFragment;
 import com.graction.developer.lumi.R;
-import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -50,7 +49,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     }
 
@@ -75,19 +73,21 @@ public class MainActivity extends BaseActivity {
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
         ArrayList<FragmentAdapter.TabItem> items = new ArrayList<>();
         items.add(fragmentAdapter.new TabItem(HomeFragment.getInstance(), R.drawable.tab_home));
-        items.add(fragmentAdapter.new TabItem(Forecast5DayFragment.getInstance(), R.drawable.ic_dashboard_black_24dp));
-        items.add(fragmentAdapter.new TabItem(AlarmFragment.getInstance(), R.drawable.ic_notifications_black_24dp));
-        items.add(fragmentAdapter.new TabItem(TestFragment.getInstance(), R.drawable.dust_on));
+        items.add(fragmentAdapter.new TabItem(Forecast5DayFragment.getInstance(), R.drawable.tab_week));
+        items.add(fragmentAdapter.new TabItem(TestFragment.getInstance(), R.drawable.tab_dust));
+        items.add(fragmentAdapter.new TabItem(AlarmFragment.getInstance(), R.drawable.tab_alarm));
         fragmentAdapter.setItems(items);
-        fragmentAdapter.setOnTabSelected((index, item) -> {
-            logger.log(HLogger.LogType.INFO,"FragmentAdapter","TabItem : "+item.getResIcon());
-//            binding.activityMainTab.getTabAt(index).setIcon(item.getResIcon());
+        fragmentAdapter.setSetTabItem((index, item) -> {
+            binding.activityMainTab.getTabAt(index).setCustomView(fragmentAdapter.getView(MainActivity.this, R.layout.item_tab, item.getResIcon()));
+           /* ItemTabBinding itemTabBinding = ItemTabBinding.inflate(getLayoutInflater());
+            View tabItem = itemTabBinding.getRoot();
+            itemTabBinding.setItem(item);
+            itemTabBinding.executePendingBindings();
+            binding.activityMainTab.getTabAt(index).setCustomView(tabItem);*/
         });
         binding.activityMainTab.setupWithViewPager(binding.activityMainVP);
         binding.activityMainVP.setAdapter(fragmentAdapter);
-        for(int i=0; i<items.size();i++){
-            binding.activityMainTab.getTabAt(i).setIcon(items.get(i).getResIcon());
-        }
+        binding.activityMainVP.setOffscreenPageLimit(items.size()-1);
     }
 
     private void initNavigation() {
