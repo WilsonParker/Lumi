@@ -22,11 +22,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Forecast5DayFragment extends BaseFragment {
-    private static final int SYNC_ID = 0x0010;
+    private static final int SYNC_ID = 0B0010;
     private FragmentForecast5dayBinding binding;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
     private Forecast5DayModel model;
+    private SyncObject syncObject = SyncObject.getInstance();
 
     public static Fragment getInstance() {
         Fragment fragment = new Forecast5DayFragment();
@@ -60,7 +61,7 @@ public class Forecast5DayFragment extends BaseFragment {
 
     public void forecast5day() {
         try {
-            SyncObject.getInstance().addAction(() -> Net.getInstance().getFactoryIm().selectForecast5Day(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<Forecast5DayModel>() {
+            syncObject.addAction(() -> Net.getInstance().getFactoryIm().selectForecast5Day(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<Forecast5DayModel>() {
                 @Override
                 public void onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response) {
                     if (response.isSuccessful()) {
@@ -70,13 +71,17 @@ public class Forecast5DayFragment extends BaseFragment {
                     } else {
                         logger.log(HLogger.LogType.WARN, "void forecast5day() - onResponse(Call<Forecast5DayModel> call, Response<Forecast5DayModel> response)", "is not Successful");
                     }
+                    endThread();
                 }
 
                 @Override
                 public void onFailure(Call<Forecast5DayModel> call, Throwable t) {
                     logger.log(HLogger.LogType.ERROR, "void forecast5day() - onFailure(Call<Forecast5DayModel> call, Throwable t)", "onFailure", t);
+                    endThread();
                 }
             }), SYNC_ID);
+
+            syncObject.start();
         } catch (InterruptedException e) {
             logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "InterruptedException", e);
         }
@@ -87,6 +92,14 @@ public class Forecast5DayFragment extends BaseFragment {
 
         } else {
             gpsManager.showSettingsAlert();
+        }
+    }
+
+    private void endThread() {
+        try {
+            syncObject.end(SYNC_ID);
+        } catch (InterruptedException e) {
+            logger.log(HLogger.LogType.ERROR, "endThread()", "endThread InterruptedException", e);
         }
     }
 }

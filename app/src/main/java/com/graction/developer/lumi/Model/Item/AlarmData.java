@@ -10,6 +10,7 @@ import java.util.Arrays;
  */
 public class AlarmData {
     private ArrayList<AlarmItem> items = new ArrayList<>();
+    private ArrayList<Integer> indexList = new ArrayList<>();
 
     public ArrayList<AlarmItem> getItems() {
         return items;
@@ -19,12 +20,38 @@ public class AlarmData {
         this.items = items;
     }
 
+    public void addIndex() {
+        for (AlarmItem item : items)
+            indexList.add(item.getIndex());
+    }
+
+    public void addIndex(int index) {
+        indexList.add(index);
+    }
+
+    public boolean containsIndex(int index) {
+        return indexList.contains(index);
+    }
+
+    public void addItem(AlarmItem item) {
+        items.add(item);
+    }
+
+    public void deleteItem(int index) {
+        for (AlarmItem item : items) {
+            if (item.getIndex() == index) {
+                items.remove(item);
+                break;
+            }
+        }
+    }
+
     public class AlarmItem {
         private final String[] DayOfTheWeek = {"일", "월", "화", "수", "목", "금", "토"};
         private String address, memo;
         private int[] days;
         private boolean isMorning = true, isSpeaker;
-        private int hour, minute, volume, img_phone, img_speaker;
+        private int index, hour, minute, volume, img_phone, img_speaker;
 
 /*
     *   Scalable
@@ -42,6 +69,16 @@ public class AlarmData {
                 , text_memo_size = mathematicsManager.rounds(13, RAT_HEIGHT, DIGIT)
                 ;
 */
+
+        public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute) {
+            this(address, memo, days, hour, minute);
+            this.index = index;
+        }
+
+        public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int volume) {
+            this(address, memo, days, hour, minute, volume);
+            this.index = index;
+        }
 
         public AlarmItem(String address, String memo, int[] days, int hour, int minute) {
             this.address = address;
@@ -85,6 +122,14 @@ public class AlarmData {
                     sDay += DayOfTheWeek[i] + " ";
             }
             return sDay;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+
+        public void setIndex(int index) {
+            this.index = index;
         }
 
         public int getImg_phone() {
@@ -153,16 +198,19 @@ public class AlarmData {
 
         @Override
         public String toString() {
-            return "AlarmData{" +
+            return "AlarmItem{" +
                     "DayOfTheWeek=" + Arrays.toString(DayOfTheWeek) +
                     ", address='" + address + '\'' +
                     ", memo='" + memo + '\'' +
                     ", days=" + Arrays.toString(days) +
                     ", isMorning=" + isMorning +
                     ", isSpeaker=" + isSpeaker +
+                    ", index=" + index +
                     ", hour=" + hour +
                     ", minute=" + minute +
                     ", volume=" + volume +
+                    ", img_phone=" + img_phone +
+                    ", img_speaker=" + img_speaker +
                     '}';
         }
     }

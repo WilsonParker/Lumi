@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.graction.developer.lumi.Model.Item.AlarmData;
 import com.graction.developer.lumi.UI.UIFactory;
+import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.databinding.ItemAlarmBinding;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ItemAlarmBinding binding;
 
         public ViewHolder(ItemAlarmBinding binding) {
@@ -52,9 +53,16 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
 
         public void onBind(AlarmData.AlarmItem item){
             binding.setItem(item);
+            binding.setViewHolder(this);
             binding.executePendingBindings();
             if(!item.isSpeaker())
                 binding.itemAlarmSBVolume.setOnTouchListener((v, e)->true);
+        }
+
+        public void deleteItem(AlarmData.AlarmItem item){
+            AlarmManager.getInstance().deleteAlarm(item.getIndex());
+            items.remove(item);
+            notifyDataSetChanged();
         }
     }
 }

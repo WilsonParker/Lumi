@@ -1,10 +1,9 @@
 package com.graction.developer.lumi.Data;
 
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.LinkedList;
-
-import retrofit2.Call;
 
 /**
  * Created by Graction06 on 2018-01-19.
@@ -12,55 +11,69 @@ import retrofit2.Call;
 
 public class SyncObject {
     private static final SyncObject instance = new SyncObject();
+    private static final int THREAD_SLEEP = 200;
+    private boolean isRunning;
     private LinkedList<SyncItem> list = new LinkedList<>();
-    private SyncItem now;
+    private SyncItem nowSync;
+    private Thread nowThread;
 
     public static SyncObject getInstance() {
         return instance;
     }
 
     public void addAction(OnSyncAction action, int id) throws InterruptedException {
-        list.offer(new SyncItem(new Thread(() -> action.onStart()), id));
-        start();
+        list.offer(new SyncItem(action, id));
     }
 
-    public void addAction(Thread thread, int id) throws InterruptedException {
-        list.offer(new SyncItem(thread, id));
-        start();
+    public void start() throws InterruptedException {
+        if (!isRunning && list.size() > 0) {
+            nowSync = list.poll();
+            Handler handler = new Handler();
+            nowThread = new Thread(() -> {
+                handler.getLooper().prepare();
+                handler.post(() -> nowSync.getOnSyncAction().onStart());
+                try {
+                    while (isRunning) {
+                        Thread.sleep(THREAD_SLEEP);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            isRunning = true;
+            nowThread.start();
+        }
     }
 
-    public void addAction(Call call, int id) throws InterruptedException {
-        list.offer(new SyncItem(call, id));
-        start();
-    }
-
-    private void start() throws InterruptedException {
-        now = list.poll();
-        if (now != null) {
-            Log.i(getClass().getName(), "#################### id : " + now.getId());
-            if (now.isThread()) {
-                Thread thread = now.getThread();
+    /*public void start() throws InterruptedException {
+        nowSync = list.poll();
+        if (nowSync != null) {
+            Log.i(getClass().getName(), "#################### id : " + nowSync.getId());
+            if (nowSync.isThread()) {
+                Thread thread = nowSync.getThread();
                 thread.start();
-                thread.join();
                 while (thread.isAlive()) {
                     Thread.sleep(200);
-                    Log.i(getClass().getName(), "#################### loading id : " + now.getId() + " : " + thread.isAlive());
+                    Log.i(getClass().getName(), "#################### loading id : " + nowSync.getId() + " : " + thread.isAlive());
                     Log.i(getClass().getName(), "#################### loading getState : "  + (thread.getState() == Thread.State.TERMINATED));
                 }
+                thread.join();
             } else {
-                Call call = now.getCall();
-                Log.i(getClass().getName(), "#################### loading id : " + now.getId());
+                Call call = nowSync.getCall();
+                Log.i(getClass().getName(), "#################### loading id : " + nowSync.getId());
                 Log.i(getClass().getName(), "#################### loading isExecuted : " + call.isExecuted());
                 Log.i(getClass().getName(), "#################### loading isCanceled : " + call.isCanceled());
             }
 
             start();
         }
-    }
+    }*/
 
     public void end(int id) throws InterruptedException {
-        if (now.getId() == id)
+        if (nowSync.getId() == id) {
+            isRunning = false;
             start();
+        }
     }
 
     public interface OnSyncAction {
@@ -68,28 +81,20 @@ public class SyncObject {
     }
 
     public class SyncItem {
-        private Thread thread;
-        private Call call;
+        private OnSyncAction onSyncAction;
         private int id;
-        private boolean isThread = false;
 
-        public SyncItem(Thread thread, int id) {
-            this.thread = thread;
-            this.id = id;
-            this.isThread = true;
-        }
-
-        public SyncItem(Call call, int id) {
-            this.call = call;
+        public SyncItem(OnSyncAction onSyncAction, int id) {
+            this.onSyncAction = onSyncAction;
             this.id = id;
         }
 
-        public Thread getThread() {
-            return thread;
+        public OnSyncAction getOnSyncAction() {
+            return onSyncAction;
         }
 
-        public void setThread(Thread thread) {
-            this.thread = thread;
+        public void setOnSyncAction(OnSyncAction onSyncAction) {
+            this.onSyncAction = onSyncAction;
         }
 
         public int getId() {
@@ -100,16 +105,5 @@ public class SyncObject {
             this.id = id;
         }
 
-        public Call getCall() {
-            return call;
-        }
-
-        public void setCall(Call call) {
-            this.call = call;
-        }
-
-        public boolean isThread() {
-            return isThread;
-        }
     }
 }

@@ -43,13 +43,15 @@ import static com.graction.developer.lumi.Data.DataStorage.weatherModel;
 
 public class HomeFragment extends BaseFragment {
     private static final HomeFragment instance = new HomeFragment();
-    private static final int SYNC_ID = 0x0001;
+    private static final int SYNC_ID = 0B0001;
     private FragmentHomeBinding binding;
     private WeatherManager weatherManager;
     private GpsManager gpsManager;
     private GoogleLocationManager googleLocationManager;
     private BaseActivityFileManager baseActivityFileManager = BaseActivityFileManager.getInstance();
     private Call call;
+    private SyncObject syncObject = SyncObject.getInstance();
+
 
     private String background_img_url = "", character_img_url = "", effect_img_url = "";
 
@@ -110,8 +112,9 @@ public class HomeFragment extends BaseFragment {
 
 
     private void currentWeather() {
+        call = Net.getInstance().getFactoryIm().selectWeather(gpsManager.getLatitude(), gpsManager.getLongitude());
         try {
-            SyncObject.getInstance().addAction(() -> Net.getInstance().getFactoryIm().selectWeather(gpsManager.getLatitude(), gpsManager.getLongitude()).enqueue(new Callback<WeatherModel>() {
+            syncObject.addAction(() -> call.enqueue(new Callback<WeatherModel>() {
                 @Override
                 public void onResponse(Call<WeatherModel> call, Response<WeatherModel> response) {
                     if (response.isSuccessful()) {
@@ -123,15 +126,18 @@ public class HomeFragment extends BaseFragment {
                     } else {
                         logger.log(HLogger.LogType.WARN, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "is not Successful");
                         logger.log(HLogger.LogType.INFO, "onResponse(Call<WeatherModel> call, Response<WeatherModel> response)", "response : " + response.body());
+                        endThread();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<WeatherModel> call, Throwable t) {
                     logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "onFailure", t);
-                    t.printStackTrace();
+                    endThread();
                 }
             }), SYNC_ID);
+
+            syncObject.start();
         } catch (InterruptedException e) {
             logger.log(HLogger.LogType.ERROR, "onFailure(Call<WeatherModel> call, Throwable t)", "InterruptedException", e);
         }
@@ -178,6 +184,7 @@ public class HomeFragment extends BaseFragment {
                         binding.setIntegratedAirQualityModel(integratedAirQualityModel);
                         binding.setIntegratedAirQualityModelItem(integratedAirQualityModel.getFirstItem());
                         logger.log(HLogger.LogType.INFO, "void callIntegratedAirQuality()", "response body: " + integratedAirQualityModel);
+                        endThread();
                     }
                 }
             }
@@ -185,8 +192,16 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFailure(Call<IntegratedAirQualityModel> call, Throwable t) {
                 logger.log(HLogger.LogType.ERROR, "callIntegratedAirQuality()", "callIntegratedAirQuality onFailure", t);
+                endThread();
             }
         });
     }
 
+    private void endThread(){
+        try {
+            syncObject.end(SYNC_ID);
+        } catch (InterruptedException e) {
+            logger.log(HLogger.LogType.ERROR, "endThread()", "endThread InterruptedException", e);
+        }
+    }
 }

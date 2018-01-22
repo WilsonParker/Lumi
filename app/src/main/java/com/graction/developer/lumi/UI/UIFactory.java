@@ -16,7 +16,7 @@ import com.graction.developer.lumi.Util.Parser.SizeManager;
  */
 
 public class UIFactory {
-    public static final int TYPE_BASIC = 0x00000001, TYPE_MARGIN = 0x00000010, TYPE_BASIC_MARGIN = 0x00000100, TYPE_RADIUS = 0x00001000, TYPE_TEXT_SIZE = 0x00010000;
+    public static final int TYPE_BASIC = 0B00000001, TYPE_MARGIN = 0B00000010, TYPE_BASIC_MARGIN = 0B00000100, TYPE_RADIUS = 0B00001000, TYPE_TEXT_SIZE = 0B00010000;
 
     private static UIFactory uiFactory = new UIFactory();
     private static boolean isActivity = false;

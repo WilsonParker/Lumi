@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
+    private boolean isFirst;
     private Fragment fragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -54,7 +55,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        initViewPager();
+        if (!isFirst){
+            initViewPager();
+            isFirst = !isFirst;
+        }
     }
 
     private void initViewPager() {
@@ -87,7 +91,8 @@ public class MainActivity extends BaseActivity {
         });
         binding.activityMainTab.setupWithViewPager(binding.activityMainVP);
         binding.activityMainVP.setAdapter(fragmentAdapter);
-        binding.activityMainVP.setOffscreenPageLimit(items.size()-1);
+        binding.activityMainVP.setOffscreenPageLimit(items.size() - 1);
+
     }
 
     private void initNavigation() {

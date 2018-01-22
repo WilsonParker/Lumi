@@ -14,6 +14,7 @@ import com.graction.developer.lumi.Activity.AddAlarmActivity;
 import com.graction.developer.lumi.Adapter.AlarmListAdapter;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.Model.Item.AlarmData;
+import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.File.PreferenceManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.FragmentAlarmBinding;
@@ -40,9 +41,7 @@ public class AlarmFragment extends BaseFragment {
         binding.setActivity(this);
 
 //        testData();
-        initData();
         binding.fragmentAlarmRV.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.fragmentAlarmRV.setAdapter(new AlarmListAdapter(alarmData.getItems()));
     }
 
     private void initData() {
@@ -55,9 +54,9 @@ public class AlarmFragment extends BaseFragment {
             int[] days = new int[7];
             days[i>6?i-(i/7*6):i] = 1;
             if(i%2 == 0)
-                alarmData.getItems().add(alarmData.new AlarmItem("Address " + i, "Memo " + i, days, i, i));
+                alarmData.getItems().add(alarmData.new AlarmItem(0,"Address " + i, "Memo " + i, days, i, i));
             else
-                alarmData.getItems().add(alarmData.new AlarmItem("Address " + i, "Memo " + i, days, i, i, 7/i));
+                alarmData.getItems().add(alarmData.new AlarmItem(0,"Address " + i, "Memo " + i, days, i, i, 7/i));
         }
         preferenceManager.setValue(DataStorage.Preference.PREFERENCE_ALARM_DATA, new Gson().toJson(alarmData));
     }
@@ -65,5 +64,19 @@ public class AlarmFragment extends BaseFragment {
     public void addAlarm(View view) {
         logger.log(HLogger.LogType.INFO, "addAlarm()", "addAlarm");
         startActivity(new Intent(getContext(), AddAlarmActivity.class));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+        binding.fragmentAlarmRV.setAdapter(new AlarmListAdapter(alarmData.getItems()));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AlarmManager.getInstance().saveAlarm();
+        logger.log(HLogger.LogType.INFO, "onPause()", "onPause");
     }
 }

@@ -11,13 +11,13 @@ import java.util.Calendar;
 public class AlarmModel {
     private DateManager dateManager = DateManager.getInstance();
 
-    public static final int DAY_OF_WEEK_MONDAY = 0X00000001
-                            , DAY_OF_WEEK_TUESDAY = 0X00000010
-                            , DAY_OF_WEEK_WEDNESDAY = 0X00000100
-                            , DAY_OF_WEEK_THURSDAY = 0X00001000
-                            , DAY_OF_WEEK_FRIDAY = 0X00010000
-                            , DAY_OF_WEEK_SATURDAY = 0X00100000
-                            , DAY_OF_WEEK_SUNDAY = 0X01000000
+    public static final int DAY_OF_WEEK_MONDAY = 0B00000001
+                            , DAY_OF_WEEK_TUESDAY = 0B00000010
+                            , DAY_OF_WEEK_WEDNESDAY = 0B00000100
+                            , DAY_OF_WEEK_THURSDAY = 0B00001000
+                            , DAY_OF_WEEK_FRIDAY = 0B00010000
+                            , DAY_OF_WEEK_SATURDAY = 0B00100000
+                            , DAY_OF_WEEK_SUNDAY = 0B01000000
                             ;
     private int day_of_week, hour_of_day, minute;
     private Calendar calendar;

@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="activity"
+            type="com.graction.developer.lumi.Activity.AddAlarmActivity" />
     </data>
 
     <LinearLayout
@@ -23,5 +26,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick='@{activity::addAlarm}'
+            android:text="Add Alarm" />
     </LinearLayout>
 </layout>

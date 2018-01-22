@@ -11,6 +11,7 @@ import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.Model.Xml.Weather;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
+import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.File.PreferenceManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -32,6 +33,7 @@ public class Intro extends BaseActivity {
 //            FontManager.getInstance().setAssetManager(getAssets());
             BaseActivityFileManager.getInstance().setActivity(Intro.this);;
             PreferenceManager.setContext(Intro.this);
+            AlarmManager.getInstance().init();
             try {
                 DataStorage.weathers = new HashMap<>();
                 for (Weather weather : xmlPullParserManager.<Weather>xmlParser(Weather.class, R.xml.weathers))

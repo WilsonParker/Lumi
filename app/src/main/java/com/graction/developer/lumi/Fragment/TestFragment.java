@@ -78,11 +78,11 @@ public class TestFragment extends BaseFragment {
 //        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECEIVE_ACTION_ALARM));
         logger.log(INFO, "alarmTest onClick");
         Calendar mCalendar = Calendar.getInstance();
-        /*mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
+        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
         mCalendar.set(Calendar.MINUTE, Integer.parseInt(binding.fragmentTestETMinute.getText()+""));
-        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText()+""));*/
-        mCalendar.set(Calendar.SECOND, mCalendar.get(Calendar.SECOND)+3);
-        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText()+""));
+//        mCalendar.set(Calendar.SECOND, mCalendar.get(Calendar.SECOND)+3);
+//        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
 //        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
 
         Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_ALARM);
@@ -99,7 +99,6 @@ public class TestFragment extends BaseFragment {
                 mCalendar.getTimeInMillis(),
                 pendingIntent
         );
-
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logger.log(INFO, simpleDateFormat.format(mCalendar.getTimeInMillis()));

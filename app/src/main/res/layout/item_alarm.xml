@@ -6,8 +6,13 @@
     <data>
 
         <variable
+            name="viewHolder"
+            type="com.graction.developer.lumi.Adapter.AlarmListAdapter.ViewHolder" />
+
+        <variable
             name="item"
             type="com.graction.developer.lumi.Model.Item.AlarmData.AlarmItem" />
+
     </data>
 
     <!--
@@ -45,9 +50,10 @@
                     android:layout_weight="286" />
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="12"
+                    android:onClick='@{(view) -> viewHolder.deleteItem(item)}'
                     app:srcCompat="@drawable/x_btn" />
 
                 <ImageView

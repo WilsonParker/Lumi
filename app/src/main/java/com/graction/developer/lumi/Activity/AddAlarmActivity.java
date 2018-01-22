@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,6 +24,7 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
     private ActivityAddAlarmBinding binding;
 
     private PlacePicker.IntentBuilder builder;
+    private int hourOfDay, minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,12 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
 
         binding.activityAddAlarmTimePicker.setOnTimeChangedListener((view, hourOfDay, minute) -> {
             logger.log(HLogger.LogType.INFO, "AlarmReceiver", "%d :%d", hourOfDay, minute);
+            this.hourOfDay = hourOfDay;
+            this.minute = minute;
             // 8: 15, 17 : 15
         });
+
+        binding.setActivity(this);
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
         } catch (Exception e) {
@@ -72,6 +78,12 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    // OnClick
+    public void addAlarm(View view){
+        logger.log(HLogger.LogType.INFO, "addAlarm ");
 
     }
 }

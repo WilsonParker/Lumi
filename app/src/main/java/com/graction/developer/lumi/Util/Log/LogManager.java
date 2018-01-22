@@ -14,11 +14,11 @@ public class LogManager {
     private static final boolean isDebug = true;
     private static final boolean onError = true;
 
-    public static final int LOG_INFO = 0x0001;
-    public static final int LOG_DEBUG = 0x0010;
-    public static final int LOG_ERROR = 0x0011;
-    public static final int LOG_WARN = 0x0100;
-    public static final int LOG_VERBOSE = 0x0101;
+    public static final int LOG_INFO = 0B0001;
+    public static final int LOG_DEBUG = 0B0010;
+    public static final int LOG_ERROR = 0B0011;
+    public static final int LOG_WARN = 0B0100;
+    public static final int LOG_VERBOSE = 0B0101;
 
     public static void log(int type, String msg) {
         String m = setNotiMsg(msg);
