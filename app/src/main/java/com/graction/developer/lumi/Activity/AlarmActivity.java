@@ -65,7 +65,7 @@ public class AlarmActivity extends BaseActivity {
                 // Add media control buttons that invoke intents in your media service
                 .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent) // #0
                 // Apply the media style template
-                .setStyle(new Notification.MediaStyle()
+                .setstyle(new Notification.MediaStyle()
                         .setShowActionsInCompactView(1 *//* #1: pause button *//*)
                         .setMediaSession(mMediaSession.getSessionToken())
                         .setContentTitle("Wonderful music")

@@ -17,5 +17,7 @@
     <color name="item_alarm_address">#666666</color>
     <color name="item_alarm_days">#666666</color>
     <color name="item_alarm_memo">#666666</color>
+    <color name="item_array_view_text_first">#000000</color>
+    <color name="item_array_view_text_second">#a38585</color>
 
 </resources>

@@ -27,6 +27,15 @@
             android:layout_height="wrap_content"
             android:timePickerMode="spinner" />
 
+        <com.graction.developer.lumi.UI.Layout.CustomArrayView
+            android:id="@+id/activity_add_alarm_CustomArrayView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="#eeee"
+            app:isMultiSelected="true"
+            app:item_layout="@layout/item_array_view"
+            app:orientation="horizontal" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

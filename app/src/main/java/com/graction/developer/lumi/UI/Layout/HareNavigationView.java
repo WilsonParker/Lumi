@@ -16,25 +16,25 @@ import java.util.ArrayList;
  * Update by Hare on 2018-01-17.
  */
 
-public class CustomNavigationView extends LinearLayout {
+public class HareNavigationView extends LinearLayout {
     private ArrayList<NavigationItemView> children;
     private NavigationItemView clickedItemView;
     private NavigationItemViewBindImage navigationItemViewBindImage;
 
     private int[] Style_NavigationView = {};
 
-    public CustomNavigationView(Context context) {
+    public HareNavigationView(Context context) {
         super(context);
     }
 
-    public CustomNavigationView(Context context, @Nullable AttributeSet attrs) {
+    public HareNavigationView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         getAttrs(attrs);
     }
 
-    public CustomNavigationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        getAttrs(attrs, defStyleAttr);
+    public HareNavigationView(Context context, @Nullable AttributeSet attrs, int styleAttr) {
+        super(context, attrs, styleAttr);
+        getAttrs(attrs, styleAttr);
     }
 
     private void getAttrs(AttributeSet attrs) {
@@ -42,8 +42,8 @@ public class CustomNavigationView extends LinearLayout {
         setTypeArray(typedArray);
     }
 
-    private void getAttrs(AttributeSet attrs, int defStyle) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, Style_NavigationView, defStyle, 0);
+    private void getAttrs(AttributeSet attrs, int style) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, Style_NavigationView, style, 0);
         setTypeArray(typedArray);
     }
 

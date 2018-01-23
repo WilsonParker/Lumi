@@ -65,4 +65,9 @@ public class DataStorage {
 
                 ;
     }
+
+    public static class Date{
+        public static final String[] DayOfTheWeek = {"일", "월", "화", "수", "목", "금", "토"};
+
+    }
 }
