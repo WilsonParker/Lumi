@@ -16,6 +16,10 @@ public class DateManager {
     private DateFormat dateFormat;
     private SimpleDateFormat simpleDateFormat;
 
+    public enum DateType {
+        Hour, HourOfDay, Minute, Day, Month, Year
+    }
+
     public static DateManager getInstance() {
         return ourInstance;
     }
@@ -23,6 +27,31 @@ public class DateManager {
     public String getNow(int dateType) {
         dateFormat = DateFormat.getDateInstance(dateType);
         return dateFormat.format(date);
+    }
+
+    public String getNow(DateType type) {
+        String pattern = "";
+        switch (type) {
+            case Year:
+                pattern = "yy";
+                break;
+            case Month:
+                pattern = "MM";
+                break;
+            case Day:
+                pattern = "dd";
+                break;
+            case Hour:
+                pattern = "hh";
+                break;
+            case HourOfDay:
+                pattern = "HH";
+                break;
+            case Minute:
+                pattern = "mm";
+                break;
+        }
+        return getDate(pattern);
     }
 
     public String getDate(String pattern) {

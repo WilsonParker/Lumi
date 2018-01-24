@@ -116,28 +116,25 @@ public abstract class HareArrayView2<V extends HareArrayView2.ItemView, M extend
         ItemResId = itemResId;
     }
 
-    public HareArrayView2 getInstance(){
+    public HareArrayView2 getInstance() {
         return this;
     }
 
     public static abstract class ItemView {
         private View view;
         private ItemViewModel item;
-        private OnItemViewClickListener firstClick, secondClick;
 
         public ItemView(Context context, ViewGroup viewGroup, int resId) {
             view = createView(context, viewGroup, resId);
-            firstClick = setFirstClick();
-            secondClick= setSecondClick();
         }
 
         public abstract View setClickListener();
 
         public abstract View createView(Context context, ViewGroup viewGroup, int resId);
 
-        public abstract OnItemViewClickListener setFirstClick();
+        public abstract void onFirstClick(ItemViewModel model);
 
-        public abstract OnItemViewClickListener setSecondClick();
+        public abstract void onSecondClick(ItemViewModel model);
 
         public void setView(View view) {
             this.view = view;
@@ -160,9 +157,9 @@ public abstract class HareArrayView2<V extends HareArrayView2.ItemView, M extend
         private void setState(boolean clicked) {
             item.setClicked(!clicked);
             if (clicked)
-                secondClick.onClick(view, item);
+                onSecondClick(item);
             else
-                firstClick.onClick(view, item);
+                onFirstClick(item);
 
             if (!isMultiSelected) {
                 if (clickedItemView != null)
@@ -191,7 +188,4 @@ public abstract class HareArrayView2<V extends HareArrayView2.ItemView, M extend
         }
     }
 
-    public interface OnItemViewClickListener {
-        void onClick(View view, HareArrayView2.ItemViewModel model);
-    }
 }

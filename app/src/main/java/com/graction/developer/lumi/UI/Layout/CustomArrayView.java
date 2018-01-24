@@ -18,9 +18,19 @@ import com.graction.developer.lumi.databinding.ItemArrayViewBinding;
  */
 
 public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemView, CustomArrayView.CustomItemViewModel> {
+    private WeekClickListener weekClickListener;
 
     public CustomArrayView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public CustomArrayView(Context context, @Nullable AttributeSet attrs, WeekClickListener weekClickListener) {
+        super(context, attrs);
+        this.weekClickListener = weekClickListener;
+    }
+
+    public void setWeekClickListener(WeekClickListener weekClickListener) {
+        this.weekClickListener = weekClickListener;
     }
 
     @Override
@@ -54,18 +64,15 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
         }
 
         @Override
-        public OnItemViewClickListener setFirstClick() {
-
-            return (view, model) -> {
-                itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_second));
-            };
+        public void onFirstClick(ItemViewModel model) {
+            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_second));
+            weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), 1);
         }
 
         @Override
-        public OnItemViewClickListener setSecondClick() {
-            return (view, model) -> {
-                itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_first));
-            };
+        public void onSecondClick(ItemViewModel model) {
+            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_first));
+            weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), 0);
         }
 
         @Override
@@ -101,5 +108,9 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
         public void setIndex(int index) {
             this.index = index;
         }
+    }
+
+    public interface WeekClickListener{
+        void setWeekArray(int index, int value);
     }
 }
