@@ -30,7 +30,7 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         logger.log(HLogger.LogType.INFO, "AlarmService", "Service Ring Ring Ring");
 //        Toast.makeText(this, "Ring Ring Ring", Toast.LENGTH_LONG).show();
-        intent.setClass(getApplicationContext(), AlarmActivity.class);
+        intent.setClass(getBaseContext(), AlarmActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         wakeLock(this);

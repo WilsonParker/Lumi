@@ -53,7 +53,7 @@ public class XmlPullParserManager {
         String startTag;
         int eventType;
 
-        Map<String, Method> methods = objectParserManager.createMethodMap(cls, new ObjectParserManager.ParserCompareAction() {
+        Map<String, Method> methods = objectParserManager.getMethods(cls, new ObjectParserManager.ParserCompareActionMap() {
             @Override
             public boolean compare(String s) {
                 return s.contains(condition);

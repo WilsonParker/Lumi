@@ -10,19 +10,29 @@ import org.junit.Test;
 public class A1Test {
     @Test
     public void addition_isCorrect() throws Exception {
-        System.out.println(7%1);
-        System.out.println(7%3);
-        System.out.println(7%4);
+        test2();
+    }
 
-        System.out.println(1%7);
-        System.out.println(4%7);
-        System.out.println(7%7);
-        System.out.println(7%8);
-        System.out.println(7%10);
+    private void test1() {
+        System.out.println(7 % 1);
+        System.out.println(7 % 3);
+        System.out.println(7 % 4);
 
-        System.out.println(8/7);
-        System.out.println(8/10);
-        System.out.println(7/8);
-        System.out.println(7/10);
+        System.out.println(1 % 7);
+        System.out.println(4 % 7);
+        System.out.println(7 % 7);
+        System.out.println(7 % 8);
+        System.out.println(7 % 10);
+
+        System.out.println(8 / 7);
+        System.out.println(8 / 10);
+        System.out.println(7 / 8);
+        System.out.println(7 / 10);
+    }
+
+    private void test2() {
+        String s = "java.lang.String";
+        System.out.println(s.contains("\\."));
+        System.out.println(s.contains("."));
     }
 }

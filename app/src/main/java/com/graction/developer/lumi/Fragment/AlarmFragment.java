@@ -9,18 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.graction.developer.lumi.Activity.AddAlarmActivity;
 import com.graction.developer.lumi.Adapter.AlarmListAdapter;
-import com.graction.developer.lumi.Data.DataStorage;
+import com.graction.developer.lumi.DataBase.DataBaseHelper;
+import com.graction.developer.lumi.DataBase.DataBaseStorage;
+import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmData;
 import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.File.PreferenceManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.FragmentAlarmBinding;
 
+import java.util.List;
+
+import static com.graction.developer.lumi.DataBase.DataBaseStorage.alarmData;
+
 public class AlarmFragment extends BaseFragment {
-    private AlarmData alarmData;
     private PreferenceManager preferenceManager = new PreferenceManager(PreferenceManager.PREFERENCE_ALARM);
     private static final AlarmFragment instance = new AlarmFragment();
     private FragmentAlarmBinding binding;
@@ -45,20 +49,17 @@ public class AlarmFragment extends BaseFragment {
     }
 
     private void initData() {
-        alarmData = new Gson().fromJson(preferenceManager.getValue(DataStorage.Preference.PREFERENCE_ALARM_DATA, "").toString() , AlarmData.class);
+//        alarmData = new Gson().fromJson(preferenceManager.getValue(DataStorage.Preference.PREFERENCE_ALARM_DATA, "").toString(), AlarmData.class);
+        alarmData = new AlarmData();
+        testData();
     }
 
     private void testData() {
-        alarmData = new AlarmData();
-        for (int i = 0; i < 10; i++) {
-            int[] days = new int[7];
-            days[i>6?i-(i/7*6):i] = 1;
-            if(i%2 == 0)
-                alarmData.getItems().add(alarmData.new AlarmItem(0,"Address " + i, "Memo " + i, days, i, i));
-            else
-                alarmData.getItems().add(alarmData.new AlarmItem(0,"Address " + i, "Memo " + i, days, i, i, 7/i));
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext(), DataBaseStorage.DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
+        List<AlarmTable> tableList = dataBaseHelper.<AlarmTable>selectList("SELECT * FROM "+DataBaseStorage.Table.TABLE_ALARM,AlarmTable.class);
+        for(AlarmTable table : tableList){
+            DataBaseStorage.alarmData.addItem(new AlarmData.AlarmItem(table));
         }
-        preferenceManager.setValue(DataStorage.Preference.PREFERENCE_ALARM_DATA, new Gson().toJson(alarmData));
     }
 
     public void addAlarm(View view) {
