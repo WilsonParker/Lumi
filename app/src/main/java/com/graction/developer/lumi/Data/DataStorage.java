@@ -21,7 +21,6 @@ public class DataStorage {
     public static Map<Integer, Weather> weathers;
 
     public class OpenWeather {
-
         public static final String
                 PARAM_KEY_APPID = "appid",
                 PARAM_KEY_SEARCH = "q",
@@ -42,6 +41,12 @@ public class DataStorage {
                                 , PATH_IMAGES= "images/"
                                 , PATH_BACKGROUND= PATH_IMAGES+"background/"
                                 ;
+    }
+
+    public class Intent{
+        public static final String KEY_WEEK = "week"
+                                    , KEY_ALARM_ITEM= "alarm_item"
+                                    ;
     }
 
     public class Request{
@@ -67,7 +72,7 @@ public class DataStorage {
     }
 
     public static class Date{
-        public static final String[] DayOfTheWeek = {"일", "월", "화", "수", "목", "금", "토"};
+        public static final String[] DayOfTheWeek = {"","일", "월", "화", "수", "목", "금", "토"};
 
     }
 }

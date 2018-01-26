@@ -95,4 +95,10 @@ public class DateManager {
         Date endDate = parseDate(end, pattern);
         return startDate.getTime() < endDate.getTime();
     }
+
+    public boolean isDayInWeek(int[] week){
+        Calendar calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK);
+        return week[today] == 1 ? true : false;
+    }
 }

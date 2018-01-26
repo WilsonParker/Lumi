@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.graction.developer.lumi.Data.DataStorage;
+import com.graction.developer.lumi.DataBase.DataBaseHelper;
+import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Xml.Weather;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
@@ -19,33 +21,16 @@ import com.graction.developer.lumi.Util.Parser.XmlPullParserManager;
 
 import java.util.HashMap;
 
+import static com.graction.developer.lumi.DataBase.DataBaseStorage.DATABASE_NAME;
+
 public class Intro extends BaseActivity {
     private Context context;
     private Handler handler = new Handler();
     private int completeState = 1, runState, errorState;
-    private Thread iThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            XmlPullParserManager xmlPullParserManager = XmlPullParserManager.getInstance();
-            xmlPullParserManager.setContext(context);
-
-            UIFactory.init(Intro.this);
-//            FontManager.getInstance().setAssetManager(getAssets());
-            BaseActivityFileManager.getInstance().setActivity(Intro.this);;
-            PreferenceManager.setContext(Intro.this);
-            AlarmManager.getInstance().init();
-            try {
-                DataStorage.weathers = new HashMap<>();
-                for (Weather weather : xmlPullParserManager.<Weather>xmlParser(Weather.class, R.xml.weathers))
-                    DataStorage.weathers.put(weather.getId(), weather);
-            } catch (Exception e) {
-                logger.log(HLogger.LogType.ERROR, "iThread error", e);
-                errorState = 1;
-                return;
-            }
-            runState++;
-        }
-    }), cThread = new Thread(new Runnable() {
+    // initialize Thread
+    private Thread iThread = new Thread(() -> dataInitialize())
+    // Check Thread
+    , cThread = new Thread(new Runnable() {
         @Override
         public void run() {
             while (true) {
@@ -64,12 +49,9 @@ public class Intro extends BaseActivity {
                 }
             }
             Looper.prepare();
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (errorState == 1)
-                        Toast.makeText(Intro.this, "초기화에 문제가 발생하였습니다", Toast.LENGTH_SHORT).show();
-                }
+            handler.post(() -> {
+                if (errorState == 1)
+                    Toast.makeText(Intro.this, "초기화에 문제가 발생하였습니다", Toast.LENGTH_SHORT).show();
             });
         }
     });
@@ -90,5 +72,27 @@ public class Intro extends BaseActivity {
                 cThread.start();
             }
         }, 250);
+    }
+
+    private void dataInitialize(){
+        XmlPullParserManager xmlPullParserManager = XmlPullParserManager.getInstance();
+        xmlPullParserManager.setContext(context);
+
+        UIFactory.init(Intro.this);
+//            FontManager.getInstance().setAssetManager(getAssets());
+        BaseActivityFileManager.getInstance().setActivity(Intro.this);;
+        PreferenceManager.setContext(Intro.this);
+        AlarmManager.getInstance().init(getBaseContext());
+        DataBaseStorage.alarmDataBaseHelper = new DataBaseHelper(getBaseContext(), DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
+        try {
+            DataStorage.weathers = new HashMap<>();
+            for (Weather weather : xmlPullParserManager.<Weather>xmlParser(Weather.class, R.xml.weathers))
+                DataStorage.weathers.put(weather.getId(), weather);
+        } catch (Exception e) {
+            logger.log(HLogger.LogType.ERROR, "iThread error", e);
+            errorState = 1;
+            return;
+        }
+        runState++;
     }
 }

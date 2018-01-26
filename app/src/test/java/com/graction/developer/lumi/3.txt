@@ -1,0 +1,24 @@
+int x0 = pic_flir2.Left - pic_web2.Left;
+int y0 = pic_flir2.Top - pic_web2.Top;
+
+for (int x = 0; x < pic_flir2.Width; x++)
+for (int y = 0; y < pic_flir2.Height; y++)
+{
+
+    int yy = y0 + y;
+    int xx = x0 + x;
+    if (xx < img_pic_web2.Width && xx >= 0)
+        if (yy < img_pic_web2.Height && yy >= 0)
+        {
+            CvScalar cc_web = img_pic_web2.Get2D(yy, xx);
+            CvScalar cc_flir = img_pic_flir2.Get2D(y, x);
+
+            img_pic_flir2.Set2D(y, x, new CvScalar(cc_web.Val0, cc_flir.Val1, cc_flir.Val2));
+        }
+
+
+}
+
+
+if (xx < img_pic_web2.Width && xx >= 0)
+    if (yy < img_pic_web2.Height && yy >= 0)

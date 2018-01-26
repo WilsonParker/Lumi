@@ -11,23 +11,21 @@ import android.view.ViewGroup;
 
 import com.graction.developer.lumi.Activity.AddAlarmActivity;
 import com.graction.developer.lumi.Adapter.AlarmListAdapter;
-import com.graction.developer.lumi.DataBase.DataBaseHelper;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
-import com.graction.developer.lumi.Model.Item.AlarmData;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.Util.Alarm.AlarmManager;
-import com.graction.developer.lumi.Util.File.PreferenceManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.FragmentAlarmBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.graction.developer.lumi.DataBase.DataBaseStorage.alarmData;
-
 public class AlarmFragment extends BaseFragment {
-    private PreferenceManager preferenceManager = new PreferenceManager(PreferenceManager.PREFERENCE_ALARM);
     private static final AlarmFragment instance = new AlarmFragment();
+    private AlarmListAdapter alarmListAdapter;
     private FragmentAlarmBinding binding;
+
 
     public static Fragment getInstance() {
         return instance;
@@ -43,23 +41,19 @@ public class AlarmFragment extends BaseFragment {
     @Override
     protected void init(View view) {
         binding.setActivity(this);
-
-//        testData();
         binding.fragmentAlarmRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        initData();
     }
 
     private void initData() {
-//        alarmData = new Gson().fromJson(preferenceManager.getValue(DataStorage.Preference.PREFERENCE_ALARM_DATA, "").toString(), AlarmData.class);
-        alarmData = new AlarmData();
-        testData();
-    }
-
-    private void testData() {
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext(), DataBaseStorage.DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
-        List<AlarmTable> tableList = dataBaseHelper.<AlarmTable>selectList("SELECT * FROM "+DataBaseStorage.Table.TABLE_ALARM,AlarmTable.class);
-        for(AlarmTable table : tableList){
-            DataBaseStorage.alarmData.addItem(new AlarmData.AlarmItem(table));
+        List<AlarmTable> tableList = DataBaseStorage.alarmDataBaseHelper.selectList("SELECT * FROM " + DataBaseStorage.Table.TABLE_ALARM, AlarmTable.class);
+        ArrayList<AlarmItem> alarmList = new ArrayList<>();
+        for (AlarmTable table : tableList) {
+            alarmList.add(new AlarmItem(table));
         }
+        AlarmManager.getInstance().setAlarmList(alarmList);
+        DataBaseStorage.alarmList = alarmList;
+        alarmListAdapter =new AlarmListAdapter(alarmList);
     }
 
     public void addAlarm(View view) {
@@ -70,14 +64,7 @@ public class AlarmFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        initData();
-        binding.fragmentAlarmRV.setAdapter(new AlarmListAdapter(alarmData.getItems()));
+        binding.fragmentAlarmRV.setAdapter(alarmListAdapter);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        AlarmManager.getInstance().saveAlarm();
-        logger.log(HLogger.LogType.INFO, "onPause()", "onPause");
-    }
 }

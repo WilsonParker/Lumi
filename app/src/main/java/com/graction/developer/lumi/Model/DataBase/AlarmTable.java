@@ -11,11 +11,13 @@ public class AlarmTable {
     private int alarm_index;
     private int alarm_hourofday, alarm_minute, alarm_volume;
     private String alarm_place_name, alarm_place_address, alarm_memo, alarm_days;
+    private int alarm_running_state;
 
     public AlarmTable() {
     }
 
-    public AlarmTable(int alarm_hourofday, int alarm_minute, String alarm_place_name, String alarm_place_address, String alarm_memo, String alarm_days) {
+    public AlarmTable(int alarm_hourofday, int alarm_minute, String alarm_place_name, String alarm_place_address, String alarm_memo, String alarm_days, int alarm_running_state) {
+        this.alarm_running_state = alarm_running_state;
         this.alarm_hourofday = alarm_hourofday;
         this.alarm_minute = alarm_minute;
         this.alarm_place_name = alarm_place_name;
@@ -24,8 +26,8 @@ public class AlarmTable {
         this.alarm_days = alarm_days;
     }
 
-    public AlarmTable(int alarm_hourofday, int alarm_minute, int alarm_volume, String alarm_place_name, String alarm_place_address, String alarm_memo, String alarm_days) {
-        this(alarm_hourofday, alarm_minute, alarm_place_name, alarm_place_address, alarm_memo, alarm_days);
+    public AlarmTable(int alarm_hourofday, int alarm_minute, int alarm_volume, String alarm_place_name, String alarm_place_address, String alarm_memo, String alarm_days, int alarm_running_state) {
+        this(alarm_hourofday, alarm_minute, alarm_place_name, alarm_place_address, alarm_memo, alarm_days, alarm_running_state);
         this.alarm_volume = alarm_volume;
     }
 
@@ -93,6 +95,14 @@ public class AlarmTable {
         this.alarm_days = alarm_days;
     }
 
+    public int getAlarm_running_state() {
+        return alarm_running_state;
+    }
+
+    public void setAlarm_running_state(int alarm_running_state) {
+        this.alarm_running_state = alarm_running_state;
+    }
+
     @Override
     public String toString() {
         return "AlarmTable{" +
@@ -104,6 +114,7 @@ public class AlarmTable {
                 ", alarm_place_address='" + alarm_place_address + '\'' +
                 ", alarm_memo='" + alarm_memo + '\'' +
                 ", alarm_days='" + alarm_days + '\'' +
+                ", alarm_running_state=" + alarm_running_state +
                 '}';
     }
 }

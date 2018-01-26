@@ -1,13 +1,18 @@
 package com.graction.developer.lumi.DataBase;
 
-import com.graction.developer.lumi.Model.Item.AlarmData;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
+
+import java.util.ArrayList;
 
 /**
  * Created by Graction06 on 2018-01-25.
  */
 
 public class DataBaseStorage {
-    public static AlarmData alarmData;
+//    public static AlarmData alarmData;
+    public static DataBaseHelper alarmDataBaseHelper;
+
+    public static ArrayList<AlarmItem> alarmList;
 
     public static final String DATABASE_NAME = "caster.db";
 
@@ -27,11 +32,12 @@ public class DataBaseStorage {
                                     , COLUMN_ALARM_HOUROFDAY= COLUMN_ALARM+"HOUROFDAY"
                                     , COLUMN_ALARM_MINUTE= COLUMN_ALARM+"MINUTE"
                                     , COLUMN_ALARM_VOLUME= COLUMN_ALARM+"VOLUME"
+                                    , COLUMN_ALARM_RUNNING_STATE= COLUMN_ALARM+"RUNNING_STATE"
                                     ;
     }
 
     public class Version{
-        public static final int TABLE_ALARM_VERSION = 1
+        public static final int TABLE_ALARM_VERSION = 3
                                     ;
     }
 

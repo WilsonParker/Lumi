@@ -40,7 +40,7 @@ public class A2Test {
     }
 
     private void test3() {
-//        String[] s1 = {"1","2", "3"};
+//        String[] s1 = {"1","2", "3.txt"};
 //        System.out.println(Arrays.toString(s1));
 
         try {
@@ -48,7 +48,7 @@ public class A2Test {
             System.out.println(res[0]);
             System.out.println(res[1]);*/
 
-            /*int days[] = {1, 2, 3, 4};
+            /*int days[] = {1, 2, 3.txt, 4};
             AlarmData.AlarmItem item = new AlarmData().new AlarmItem("place_name", "place_address", "memo", days, 17, 38);
             String[] result = ObjectParserManager.getInstance().fieldValueToString(item, true);
             System.out.println(result[0]);

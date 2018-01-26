@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.graction.developer.lumi.Model.Item.AlarmData.AlarmItem" />
+            type="com.graction.developer.lumi.Model.Item.AlarmItem" />
 
     </data>
 

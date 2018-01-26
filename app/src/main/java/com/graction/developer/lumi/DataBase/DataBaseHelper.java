@@ -1,5 +1,6 @@
 package com.graction.developer.lumi.DataBase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final HLogger logger = new HLogger(DataBaseHelper.class);
+    private SQLiteDatabase db;
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -38,6 +40,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                                     "%s INTEGER UNSIGNED," +
                                     "%s INTEGER UNSIGNED," +
                                     "%s INTEGER UNSIGNED" +
+                                    "%s INTEGER UNSIGNED" +
                                     ");"
                             , DataBaseStorage.Table.TABLE_ALARM
                             , DataBaseStorage.Column.COLUMN_ALARM_INDEX
@@ -48,6 +51,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                             , DataBaseStorage.Column.COLUMN_ALARM_HOUROFDAY
                             , DataBaseStorage.Column.COLUMN_ALARM_MINUTE
                             , DataBaseStorage.Column.COLUMN_ALARM_VOLUME
+                            , DataBaseStorage.Column.COLUMN_ALARM_RUNNING_STATE
                     )
             );
         } catch (Exception e) {
@@ -58,12 +62,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // DB 업그레이드를 위해 Version 이 변경될 때 호출되는 함수
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        logger.log(HLogger.LogType.ERROR, "onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)", "Database Upgrade");
+        String sql = String.format("ALTER TABLE %s ADD %s", DataBaseStorage.Table.TABLE_ALARM, DataBaseStorage.Column.COLUMN_ALARM_RUNNING_STATE + " INTEGER UNSIGNED DEFAULT 0");
+        db.execSQL(sql);
     }
 
     public void insert(String query) {
         try {
-            SQLiteDatabase db = getWritableDatabase();
+            db = getWritableDatabase();
             db.execSQL(query);
             db.close();
         } catch (Exception e) {
@@ -77,26 +83,65 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String query = String.format("INSERT INTO %s(%s) values(%s)", table, val[0], val[1]);
             logger.log(HLogger.LogType.INFO, "insert(String, Object)", query);
             insert(query);
+            db.close();
         } catch (Exception e) {
             logger.log(HLogger.LogType.ERROR, "insert(String, Object)", e);
         }
     }
 
     public <T> T select(String query, Class cls) {
-        return null;
+        T t = null;
+        try {
+            db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(query, null);
+            t = DataBaseParserManager.getInstance().parseObject(cursor, cls);
+            db.close();
+        } catch (Exception e) {
+            logger.log(HLogger.LogType.ERROR, "selectList(String query, Class cls)", e);
+        }
+        return t;
     }
 
     public <T extends Object> List<T> selectList(String query, Class cls) {
         List<T> list = new ArrayList<>();
         try {
-            SQLiteDatabase db = getReadableDatabase();
+            db = getReadableDatabase();
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {
                 list.add(DataBaseParserManager.getInstance().parseObject(cursor, cls));
             }
+            db.close();
         } catch (Exception e) {
             logger.log(HLogger.LogType.ERROR, "selectList(String query, Class cls)", e);
         }
         return list;
+    }
+
+    public boolean update(String table, ContentValues contentValues, String whereClause, String[] whereArgs) {
+        boolean result = false;
+        try {
+//             contentValues.put("age", 11);
+            db = getWritableDatabase();
+            db.update(table, contentValues, whereClause, whereArgs);
+            db.close();
+            result = true;
+        } catch (Exception e) {
+            logger.log(HLogger.LogType.ERROR, "update(String table, ContentValues contentValues, String whereClause, String[] whereArgs)", e);
+        }
+        return result;
+    }
+
+    public boolean delete(String table, String whereClause, String[] whereArgs) {
+        boolean result = false;
+        try {
+            db = getWritableDatabase();
+            db.delete(table, whereClause, whereArgs);
+            db.close();
+            result = true;
+//        db.delete("tablename","id=? and name=?",new String[]{"1","jack"});
+        } catch (Exception e) {
+            logger.log(HLogger.LogType.ERROR, "delete(String table, String whereClause, String[] whereArgs)", e);
+        }
+        return result;
     }
 }
