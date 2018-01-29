@@ -16,7 +16,9 @@ import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.ActivityAlarmBinding;
 
 public class AlarmActivity extends BaseActivity {
+    private static boolean isRunning;
     private ActivityAlarmBinding binding;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,9 @@ public class AlarmActivity extends BaseActivity {
     }
 
     protected void init() {
+        isRunning = true;
         logger.log(HLogger.LogType.INFO, "AlarmReceiver", "AlarmActivity init"); // com.graction.developer.lumi.ALARM_START
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
         try {
 //            mediaPlayer = MediaPlayer.create(this, R.raw.kt);
 //            AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.kt);
@@ -84,6 +87,35 @@ public class AlarmActivity extends BaseActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);
 
+    }
+
+    private void cancelMediaPlayer(){
+        try {
+            if (mediaPlayer != null) {
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+        } catch (Exception e) {
+            logger.log(HLogger.LogType.ERROR, "cancelMediaPlayer()", e);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isRunning)
+            cancelMediaPlayer();
+        logger.log(HLogger.LogType.INFO, "onPause()", "onPause");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logger.log(HLogger.LogType.INFO, "onDestroy()", "onDestroy");
+        isRunning = false;
     }
 
 }

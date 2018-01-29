@@ -15,8 +15,10 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.Layout.CustomArrayView;
+import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.StringUtil;
 import com.graction.developer.lumi.databinding.ActivityAddAlarmBinding;
@@ -110,7 +112,10 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
         logger.log(HLogger.LogType.INFO, "addAlarm(view)");
         logger.log(HLogger.LogType.INFO, "addAlarm(view)", "selectedWeek : " + Arrays.toString(selectedWeek));
 //        AlarmData.AlarmItem item = alarmData.new AlarmItem(place_name, place_address, memo, selectedWeek, hourOfDay, minute);
-        DataBaseStorage.alarmDataBaseHelper.insert(DataBaseStorage.Table.TABLE_ALARM, new AlarmTable(hourOfDay, minute, place_name, place_address, memo, StringUtil.arrayToString(selectedWeek), 1));
-//        AlarmManager.getInstance().addAlarm(new AlarmData.AlarmItem());
+        AlarmTable alarmTable = new AlarmTable(hourOfDay, minute, place_name, place_address, memo, StringUtil.arrayToString(selectedWeek), 1);
+        AlarmItem item = new AlarmItem(alarmTable);
+        DataBaseStorage.alarmDataBaseHelper.insert(DataBaseStorage.Table.TABLE_ALARM, alarmTable);
+        AlarmManager.getInstance().setAlarmService(item);
+        DataBaseStorage.alarmList.add(item);
     }
 }

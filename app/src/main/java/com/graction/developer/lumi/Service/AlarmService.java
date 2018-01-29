@@ -1,14 +1,15 @@
 package com.graction.developer.lumi.Service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.support.annotation.Nullable;
 
-import com.graction.developer.lumi.Activity.AlarmActivity;
+import com.graction.developer.lumi.Data.DataStorage;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
+import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 
 /**
@@ -16,9 +17,40 @@ import com.graction.developer.lumi.Util.Log.HLogger;
  */
 
 public class AlarmService extends Service {
-    private HLogger logger = new HLogger(AlarmService.class);
     private final IBinder binder = new AlarmBinder();
-    private PowerManager.WakeLock sCpuWakeLock;
+    private static final long MILLIS_IN_FUTURE = 1000 * 1000, COUNT_DOUNW_INTERVAL = 1000;
+    private CountDownTimer timer;
+    private HLogger logger = new HLogger(AlarmService.class);
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+//        init();
+    }
+
+    private void init() {
+        timer = new CountDownTimer(MILLIS_IN_FUTURE, COUNT_DOUNW_INTERVAL) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                logger.log(HLogger.LogType.DEBUG, "onTick(long millisUntilFinished)","onTick");
+            }
+
+            @Override
+            public void onFinish() {
+                logger.log(HLogger.LogType.DEBUG, "onFinish()","onFinish");
+            }
+        };
+        timer.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        /*timer.cancel();
+        for(AlarmItem item : alarmList)
+            AlarmManager.getInstance().setAlarm(this, item);*/
+    }
 
     @Nullable
     @Override
@@ -28,31 +60,20 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        logger.log(HLogger.LogType.INFO, "AlarmService", "Service Ring Ring Ring");
-//        Toast.makeText(this, "Ring Ring Ring", Toast.LENGTH_LONG).show();
-        intent.setClass(getBaseContext(), AlarmActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        wakeLock(this);
+        /*startForeground(1, new Notification());
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification nt = new Notification.Builder(getApplicationContext())
+                .setSmallIcon(R.drawable.ic_dashboard_black_24dp)
+                .setContentTitle("")
+                .setContentText("")
+                .build();
+        nm.notify(1, nt);
+        nm.cancel(1);*/
+
+        AlarmItem item = (AlarmItem) intent.getBundleExtra(DataStorage.Intent.KEY_BUNDLE).getSerializable(DataStorage.Intent.KEY_ALARM_ITEM);
+        AlarmManager.getInstance().setAlarm(this, item);
+        logger.log(HLogger.LogType.INFO, "AlarmService", "Service set Alarm : "+item);
         return START_NOT_STICKY;
-    }
-
-    private void wakeLock(Context context) {
-        if (sCpuWakeLock == null) {
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            sCpuWakeLock = pm.newWakeLock(
-                    PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
-                            PowerManager.ACQUIRE_CAUSES_WAKEUP |
-                            PowerManager.ON_AFTER_RELEASE
-                    , "ALARM"
-            );
-        }
-        sCpuWakeLock.acquire();
-
-        if (sCpuWakeLock != null) {
-            sCpuWakeLock.release();
-            sCpuWakeLock = null;
-        }
     }
 
     public class AlarmBinder extends Binder {

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.graction.developer.lumi.Activity.AddAlarmActivity;
 import com.graction.developer.lumi.Adapter.AlarmListAdapter;
+import com.graction.developer.lumi.DataBase.DataBaseHelper;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
@@ -20,6 +21,8 @@ import com.graction.developer.lumi.databinding.FragmentAlarmBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.graction.developer.lumi.DataBase.DataBaseStorage.DATABASE_NAME;
 
 public class AlarmFragment extends BaseFragment {
     private static final AlarmFragment instance = new AlarmFragment();
@@ -46,14 +49,17 @@ public class AlarmFragment extends BaseFragment {
     }
 
     private void initData() {
+        if(DataBaseStorage.alarmDataBaseHelper == null)
+            DataBaseStorage.alarmDataBaseHelper = new DataBaseHelper(getContext(), DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
         List<AlarmTable> tableList = DataBaseStorage.alarmDataBaseHelper.selectList("SELECT * FROM " + DataBaseStorage.Table.TABLE_ALARM, AlarmTable.class);
         ArrayList<AlarmItem> alarmList = new ArrayList<>();
         for (AlarmTable table : tableList) {
-            alarmList.add(new AlarmItem(table));
+            AlarmItem item = new AlarmItem(table);
+            AlarmManager.getInstance().setAlarm(getContext(), item);
+            alarmList.add(item);
         }
-        AlarmManager.getInstance().setAlarmList(alarmList);
         DataBaseStorage.alarmList = alarmList;
-        alarmListAdapter =new AlarmListAdapter(alarmList);
+        alarmListAdapter = new AlarmListAdapter(alarmList);
     }
 
     public void addAlarm(View view) {
@@ -64,7 +70,9 @@ public class AlarmFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        logger.log(HLogger.LogType.INFO, "onResume()", "onResume");
         binding.fragmentAlarmRV.setAdapter(alarmListAdapter);
+        alarmListAdapter.notifyDataSetChanged();
     }
 
 }

@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.UI.UIFactory;
 import com.graction.developer.lumi.Util.Alarm.AlarmManager;
@@ -63,8 +62,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
         public void deleteItem(AlarmItem item){
             AlarmManager.getInstance().deleteAlarm(item);
             items.remove(item);
-            String[] whereArgs = {item.getIndex()+""};
-            DataBaseStorage.alarmDataBaseHelper.delete(DataBaseStorage.Table.TABLE_ALARM, DataBaseStorage.Column.COLUMN_ALARM_INDEX+"=?", whereArgs);
             notifyDataSetChanged();
         }
     }

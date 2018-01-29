@@ -125,7 +125,7 @@
                             style="@style/Style_TextView_es"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="60"
+                            android:layout_weight="75"
                             android:includeFontPadding="false"
                             android:lineSpacingExtra="0dp"
                             android:text='@{item.hour + " : " + item.minute}'
@@ -136,7 +136,7 @@
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="34" />
+                            android:layout_weight="19" />
                     </LinearLayout>
 
                     <View

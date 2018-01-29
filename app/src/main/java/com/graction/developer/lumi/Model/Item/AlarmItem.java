@@ -1,7 +1,5 @@
 package com.graction.developer.lumi.Model.Item;
 
-import android.app.PendingIntent;
-
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.R;
 
@@ -18,7 +16,6 @@ public class AlarmItem implements Serializable{
     private int[] days;
     private boolean isMorning = true, isSpeaker;
     private int index, hour, minute, volume, isRunning, img_phone = R.drawable.phone_icon_on, img_speaker = R.drawable.sound_icon_off;
-    private PendingIntent pendingIntent;
 
     public AlarmItem() {
     }
@@ -193,14 +190,6 @@ public class AlarmItem implements Serializable{
 
     public void setIsRunning(int isRunning) {
         this.isRunning = isRunning;
-    }
-
-    public PendingIntent getPendingIntent() {
-        return pendingIntent;
-    }
-
-    public void setPendingIntent(PendingIntent pendingIntent) {
-        this.pendingIntent = pendingIntent;
     }
 
     @Override

@@ -78,11 +78,11 @@ public class Intro extends BaseActivity {
         XmlPullParserManager xmlPullParserManager = XmlPullParserManager.getInstance();
         xmlPullParserManager.setContext(context);
 
-        UIFactory.init(Intro.this);
+        UIFactory.init(this);
 //            FontManager.getInstance().setAssetManager(getAssets());
-        BaseActivityFileManager.getInstance().setActivity(Intro.this);;
-        PreferenceManager.setContext(Intro.this);
-        AlarmManager.getInstance().init(getBaseContext());
+        BaseActivityFileManager.getInstance().setActivity(this);;
+        PreferenceManager.setContext(this);
+        AlarmManager.getInstance().init(getApplicationContext());
         DataBaseStorage.alarmDataBaseHelper = new DataBaseHelper(getBaseContext(), DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
         try {
             DataStorage.weathers = new HashMap<>();

@@ -44,8 +44,11 @@ public class DataStorage {
     }
 
     public class Intent{
-        public static final String KEY_WEEK = "week"
+        public static final String KEY_BUNDLE = "bundle"
+
+                                    , KEY_WEEK = "week"
                                     , KEY_ALARM_ITEM= "alarm_item"
+
                                     ;
     }
 
@@ -60,7 +63,9 @@ public class DataStorage {
     }
 
     public class Action{
-        public static final String RECEIVE_ACTION_ALARM = "com.graction.developer.lumi.ALARM_START"
+        public static final String RECEIVE_ACTION_SINGLE_ALARM = "com.graction.developer.lumi.SINGLE_ALARM"
+                                    , RECEIVE_ACTION_MULTI_ALARM = "com.graction.developer.lumi.MULTI_ALARM"
+                                    , RECEIVE_ACTION_ALARM_START = "com.graction.developer.lumi.ALARM_START"
 
                             ;
     }
