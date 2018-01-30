@@ -19,11 +19,12 @@ import java.io.IOException;
  * Updated by Hare on 2017-09-27.
  */
 public class GoogleLocationManager {
-    private HLogger logger;
+    private static final String APP_KEY = "AIzaSyDEp2qM4c-J2IjdDlBPobIEaig_x7lHuKw";
+    private static String LANGUAGE = "ko";
+    private final HLogger logger;
     private Thread thread;
     private HandlerManager handlerManager = HandlerManager.getInstance();
     private AddressHandleListener addressHandleListener;
-    private static String LANGUAGE = "ko";
 
     public GoogleLocationManager(AddressHandleListener addressHandleListener) {
         this.addressHandleListener = addressHandleListener;
@@ -64,6 +65,7 @@ public class GoogleLocationManager {
         thread.start();
     }
 }
+
 /*
 500	light rain
 501	moderate rain

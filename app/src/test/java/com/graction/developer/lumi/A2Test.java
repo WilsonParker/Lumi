@@ -1,15 +1,20 @@
 package com.graction.developer.lumi;
 
+import com.graction.developer.lumi.Model.Address.PostcodifyModel;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
+import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.Util.Parser.ObjectParserManager;
 import com.graction.developer.lumi.Util.StringUtil;
 
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Example local unit currentWeather, which will execute on the development machine (host).
@@ -19,7 +24,7 @@ import java.util.Calendar;
 public class A2Test {
     @Test
     public void addition_isCorrect() throws Exception {
-        test7();
+        test6();
     }
 
     private void test1() {
@@ -54,7 +59,7 @@ public class A2Test {
             System.out.println(result[0]);
             System.out.println(result[1]);*/
 
-            AlarmTable table = new AlarmTable(17, 52, "Deoksugung", "99 Sejong-daero, Jeong-dong, Jung-gu, Seoul, South Korea", "memo", "1,1,0,0,0,0,0");
+            AlarmTable table = null;
             String[] result = ObjectParserManager.getInstance().fieldValueToString(table, true);
             System.out.println(result[0]);
             System.out.println(result[1]);
@@ -88,30 +93,29 @@ public class A2Test {
         }
     }
 
-    private void test6() {
-        try {
-            AlarmTable table = new AlarmTable(17, 52, "Deoksugung", "99 Sejong-daero, Jeong-dong, Jung-gu, Seoul, South Korea", "memo", "1,1,0,0,0,0,0");
-            /*Field field = table.getClass().getDeclaredField("");
-            System.out.println(field.getName());*/
-            System.out.println(table.getClass().getDeclaredField("alarm_place_name").getName());
-            String[] result = ObjectParserManager.getInstance().fieldValueToString(table, true);
-            System.out.println(result[0]);
-            System.out.println(result[1]);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private boolean isRunning = true;
+    private void test6(){
+        Net.getInstance().getFactoryImPostcodifyFactoryIm().searchAddress(PostcodifyModel.getParameter("관양동")).enqueue(new Callback<PostcodifyModel>() {
+            @Override
+            public void onResponse(Call<PostcodifyModel> call, Response<PostcodifyModel> response) {
+                System.out.println(response.body());
+                isRunning = false;
+            }
+
+            @Override
+            public void onFailure(Call<PostcodifyModel> call, Throwable t) {
+                System.out.println("onFailure : "+t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+        while(isRunning){
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void test7() {
-        try {
-            AlarmTable table = new AlarmTable(17, 52, "Deoksugung", "99 Sejong-daero, Jeong-dong, Jung-gu, Seoul, South Korea", "memo", "1,1,0,0,0,0,0");
-            for(Method method : table.getClass().getDeclaredMethods()){
-                if(method.getName().contains("set")) {
-                    System.out.println(method.getParameterTypes()[0].getName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

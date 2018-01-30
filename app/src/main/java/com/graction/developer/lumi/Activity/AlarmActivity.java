@@ -9,7 +9,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
-import android.widget.TimePicker;
 
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -49,12 +48,6 @@ public class AlarmActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        binding.activityAlarmTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                logger.log(HLogger.LogType.INFO, "AlarmReceiver", "%d :%d", hourOfDay, minute);
-            }
-        });
         noti();
     }
 

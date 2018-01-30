@@ -24,7 +24,7 @@
         android:layout_height="@dimen/item_alarm_root_height"
         android:orientation="vertical">
 
-        <ImageView
+        <View
             style="@style/Style_MarginView"
             android:layout_weight="33.3" />
 
@@ -36,7 +36,7 @@
             android:orientation="vertical"
             android:weightSum="139.3">
 
-            <ImageView
+            <View
                 style="@style/Style_MarginView"
                 android:layout_weight="42" />
 
@@ -45,7 +45,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="12">
 
-                <ImageView
+                <View
                     style="@style/Style_MarginView"
                     android:layout_weight="286" />
 
@@ -56,7 +56,7 @@
                     android:onClick='@{(view) -> viewHolder.deleteItem(item)}'
                     app:srcCompat="@drawable/x_btn" />
 
-                <ImageView
+                <View
                     style="@style/Style_MarginView"
                     android:layout_weight="10" />
             </LinearLayout>
@@ -101,7 +101,7 @@
                             android:textSize='@dimen/item_alarm_address_font_size'
                             tools:text="영등포구 당산동" />
 
-                        <ImageView
+                        <View
                             style="@style/Style_MarginView"
                             android:layout_weight="10" />
 
@@ -117,7 +117,7 @@
                             android:textSize="@dimen/item_alarm_timeinfo_font_size"
                             tools:text="오전" />
 
-                        <ImageView
+                        <View
                             style="@style/Style_MarginView"
                             android:layout_weight="6" />
 
@@ -159,7 +159,7 @@
                             android:textSize="@dimen/item_alarm_days_font_size"
                             tools:text="월 화 수 목 금 토 일" />
 
-                        <ImageView
+                        <View
                             style="@style/Style_MarginView"
                             android:layout_weight="9.7" />
 
@@ -206,7 +206,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="13.3" />
 
-                        <ImageView
+                        <View
                             style="@style/Style_MarginView"
                             android:layout_weight="6.7" />
 

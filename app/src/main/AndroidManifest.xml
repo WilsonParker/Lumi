@@ -53,6 +53,7 @@
             android:launchMode="singleTask"
             />
         <activity android:name=".Activity.AddAlarmActivity" />
+        <activity android:name=".Activity.SearchAddressActivity" />
     </application>
 
 </manifest>

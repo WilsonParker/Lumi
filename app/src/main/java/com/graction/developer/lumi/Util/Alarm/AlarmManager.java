@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.graction.developer.lumi.Data.DataStorage;
-import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.Service.AlarmService;
 import com.graction.developer.lumi.Util.Date.DateManager;
@@ -119,12 +118,10 @@ public class AlarmManager {
         logger.log(INFO, "setAlarm(AlarmItem)", "AlarmItem : " + item);
     }*/
 
-    public void deleteAlarm(AlarmItem item) {
+    public void cancelAlarm(AlarmItem item) {
         Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_ALARM_START);
         PendingIntent pendingIntent = getPendingIntent(context, item.getIndex(), alarmIntent);
         alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
-        String[] whereArgs = {item.getIndex() + ""};
-        DataBaseStorage.alarmDataBaseHelper.delete(DataBaseStorage.Table.TABLE_ALARM, DataBaseStorage.Column.COLUMN_ALARM_INDEX + "=?", whereArgs);
     }
 }

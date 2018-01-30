@@ -60,6 +60,7 @@ public class AlarmFragment extends BaseFragment {
         }
         DataBaseStorage.alarmList = alarmList;
         alarmListAdapter = new AlarmListAdapter(alarmList);
+        binding.fragmentAlarmRV.setAdapter(alarmListAdapter);
     }
 
     public void addAlarm(View view) {
@@ -71,7 +72,6 @@ public class AlarmFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         logger.log(HLogger.LogType.INFO, "onResume()", "onResume");
-        binding.fragmentAlarmRV.setAdapter(alarmListAdapter);
         alarmListAdapter.notifyDataSetChanged();
     }
 

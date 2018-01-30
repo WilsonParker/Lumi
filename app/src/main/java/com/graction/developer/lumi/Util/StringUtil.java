@@ -105,9 +105,9 @@ public class StringUtil {
     }
 
     public static String arrayToString(int[] is) {
-        String result = is[0]+"";
+        String result = is[0] + "";
         for (int i = 1; i < is.length; i++)
-            result += "," + is[i]+"";
+            result += "," + is[i] + "";
         return result;
     }
 
@@ -116,5 +116,42 @@ public class StringUtil {
         for (int i = 1; i < list.size(); i++)
             result += "," + list.get(i).toString();
         return result;
+    }
+
+    public String decodeUnicode(String str) {
+        String text = "";
+        String strs[] = str.split(" ");
+        for (String a : strs) {
+            if (a.contains("\\u")) {
+                String arr[] = a.split("\\\\u");
+                for (int i = 1; i < arr.length; i++) {
+                    int hexVal = Integer.parseInt(arr[i], 16);
+                    text += (char) hexVal;
+                }
+            } else {
+                text += " " + a;
+            }
+        }
+        return text;
+    }
+
+    public String decodeUnicode2(String str) {
+        String text = "";
+        String arr[] = str.split(" ");
+        for (String s : arr) {
+            if (s.contains("\\u")) {
+                int index = s.indexOf("\\u");
+                while (index > -1) {
+                    if (index > (s.length() - 6)) break;
+                    int snum = index + 2, fnum = snum + 4;
+                    String subStr = s.substring(snum, fnum);
+                    text += (char) Integer.parseInt(subStr, 16);
+                    index = str.indexOf("\\u", index + 1);
+                }
+            } else {
+                text += " " + s;
+            }
+        }
+        return text;
     }
 }

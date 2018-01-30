@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,35 +11,97 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="779.3">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Alarm" />
-
-        <TimePicker
-            android:id="@+id/activity_add_alarm_TimePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:timePickerMode="spinner" />
-
-        <com.graction.developer.lumi.UI.Layout.CustomArrayView
-            android:id="@+id/activity_add_alarm_CustomArrayView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="#eeee"
-            app:isMultiSelected="true"
-            app:item_layout="@layout/item_array_view"
-            app:orientation="horizontal" />
+            android:layout_height="0dp"
+            android:layout_weight="60"
+            android:weightSum="@string/DEVICE_STANDARD_WIDTH">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick='@{activity::addAlarm}'
-            android:text="Add Alarm" />
+            <View
+                style="@style/Style_MarginView"
+                android:layout_weight="13" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="14.7"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="14.7">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="14.7"
+                    android:onClick="@{activity::backEvent}"
+                    app:srcCompat="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                style="@style/Style_MarginView"
+                android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/activity_add_alarm_TV_title"
+                android:textColor="@color/activity_add_alarm_TV_title"
+                android:textSize="@dimen/activity_add_alarm_TV_title_font_size"
+                tool:text="알람 설정" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="719.3"
+            android:background="@drawable/f_8_f_9_fa"
+            android:gravity="center_horizontal"
+            android:weightSum="719.3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="689.3"
+                android:orientation="vertical"
+                android:weightSum="719.3">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{activity::searchEvent}"
+                    app:srcCompat="@drawable/search_icon" />
+
+                <TimePicker
+                    android:id="@+id/activity_add_alarm_TimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="177.7"
+                    android:timePickerMode="spinner" />
+
+                <com.graction.developer.lumi.UI.Layout.CustomArrayView
+                    android:id="@+id/activity_add_alarm_CustomArrayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="91"
+                    android:background="#eeee"
+                    app:isMultiSelected="true"
+                    app:item_layout="@layout/item_array_view"
+                    app:orientation="horizontal" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick='@{activity::addAlarm}'
+                    android:text="Add Alarm" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>

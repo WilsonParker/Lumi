@@ -118,4 +118,14 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
         AlarmManager.getInstance().setAlarmService(item);
         DataBaseStorage.alarmList.add(item);
     }
+
+    // OnClick
+    public void searchEvent(View view){
+        startActivity(new Intent(this, SearchAddressActivity.class));
+    }
+
+    // OnClick
+    public void backEvent(View view){
+
+    }
 }

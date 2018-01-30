@@ -16,9 +16,8 @@
         android:background="@drawable/layer_4"
         android:weightSum="@string/DEVICE_STANDARD_WIDTH">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <View
+            style="@style/Style_MarginView"
             android:layout_weight="26" />
 
         <LinearLayout
@@ -49,9 +48,8 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <View
+            style="@style/Style_MarginView"
             android:layout_weight="26" />
     </LinearLayout>
 </layout>

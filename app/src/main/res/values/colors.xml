@@ -11,13 +11,26 @@
     <color name="Top_Tab_Background">#46657D</color>
     <color name="Top_Tab_indicator">#FFFFFF</color>
 
-    <!-- Font Color-->
+    <!-- Item Color-->
     <color name="item_alarm_time">#333333</color>
     <color name="item_alarm_timeinfo">#999999</color>
     <color name="item_alarm_address">#666666</color>
     <color name="item_alarm_days">#666666</color>
     <color name="item_alarm_memo">#666666</color>
+
     <color name="item_array_view_text_first">#000000</color>
     <color name="item_array_view_text_second">#a38585</color>
+
+    <color name="item_search_address_text">#333333</color>
+
+    <!-- Activity Color-->
+    <color name="activity_search_address_TV_title">#333333</color>
+    <color name="activity_search_address_ET_searchbar">#333333</color>
+    <color name="activity_search_address_ET_searchbar_hint">#dddddd</color>
+
+    <color name="activity_add_alarm_TV_title">#666666</color>
+
+    <!-- Line Color-->
+    <color name="item_search_address_line">#dddddd</color>
 
 </resources>

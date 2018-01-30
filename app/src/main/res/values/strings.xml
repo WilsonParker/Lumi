@@ -14,4 +14,9 @@
     <string name="DEVICE_STANDARD_HEIGHT">640</string>
     <string name="FRAGMENT_STANDARD_HEIGHT">530</string>
 
+    <!-- Text -->
+    <string name="activity_search_address_TV_title">지역설정</string>
+    <string name="activity_search_address_ET_searchbar_hint">도로명 또는 동 이름으로 검색해주세요</string>
+    <string name="activity_add_alarm_TV_title">알람설정</string>
+
 </resources>
