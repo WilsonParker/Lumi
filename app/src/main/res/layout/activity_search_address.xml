@@ -91,6 +91,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="270"
+                    android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="@string/activity_search_address_ET_searchbar_hint"
                     android:textColor="@color/activity_search_address_ET_searchbar"
@@ -137,6 +138,6 @@
             android:id="@+id/activity_search_address_RV"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="516" />
+            android:layout_weight="515" />
     </LinearLayout>
 </layout>

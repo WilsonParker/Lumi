@@ -3,15 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
-        <data>
-              <variable
-                  name="item"
-                  type="com.graction.developer.lumi.Model.Address.PostcodifyModel.ItemModel" />
+    <data>
 
-              <variable
-                  name="viewHolder"
-                  type="com.graction.developer.lumi.Adapter.AddressListAdapter.ViewHolder" />
-        </data>
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.graction.developer.lumi.Model.Address.PostcodifyModel.ItemModel" />
+
+        <variable
+            name="viewHolder"
+            type="com.graction.developer.lumi.Adapter.AddressListAdapter.ViewHolder" />
+
+        <variable
+            name="isLast"
+            type="java.lang.Boolean" />
+    </data>
 
     <LinearLayout
         android:id="@+id/item_search_address_root"
@@ -22,35 +29,37 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
+            android:layout_weight="1"
             android:background="@color/item_search_address_line" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="45.7">
+            android:layout_weight="45"
+            android:weightSum="@string/DEVICE_STANDARD_WIDTH">
 
             <View
                 style="@style/Style_MarginView"
                 android:layout_weight="16.7" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="153"
+                android:layout_weight="343.3"
+                android:gravity="center_vertical"
+                android:onClick='@{(view) -> viewHolder.onClick(item)}'
+                android:text='@{item.address}'
                 android:textColor="@color/item_search_address_text"
                 android:textSize="@dimen/item_search_address_text_font_size"
-                android:gravity="center_vertical"
-                android:text="@{item.ko_common+' '+item.ko_jibeon}"
-                android:onClick='@{(view) -> viewHolder.onClick(item)}'
                 tool:text="서울 관악구 신림동 관악산" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:background="@color/item_search_address_line" />
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/item_search_address_line"
+            android:visibility="@{isLast ? View.VISIBLE : View.GONE}" />
     </LinearLayout>
 </layout>

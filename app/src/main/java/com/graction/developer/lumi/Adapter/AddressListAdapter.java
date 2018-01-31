@@ -18,9 +18,11 @@ import static com.graction.developer.lumi.UI.UIFactory.TYPE_BASIC;
 
 public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.ViewHolder> {
     private ArrayList<PostcodifyModel.ItemModel> items;
+    private ItemOnClickListener itemOnClickListener;
 
-    public AddressListAdapter(ArrayList<PostcodifyModel.ItemModel> items) {
+    public AddressListAdapter(ArrayList<PostcodifyModel.ItemModel> items, ItemOnClickListener itemOnClickListener) {
         this.items = items;
+        this.itemOnClickListener = itemOnClickListener;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.onBind(items.get(position));
+        holder.onBind(items.get(position), items.size() == position+1);
     }
 
     @Override
@@ -48,14 +50,19 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
             UIFactory.setViewWithRateParams(binding.itemSearchAddressRoot, TYPE_BASIC);
         }
 
-        public void onBind(PostcodifyModel.ItemModel item){
+        public void onBind(PostcodifyModel.ItemModel item, boolean isLast){
             binding.setItem(item);
             binding.setViewHolder(this);
+            binding.setIsLast(isLast);
             binding.executePendingBindings();
         }
 
         public void onClick(PostcodifyModel.ItemModel item){
-
+            itemOnClickListener.onClick(item);
         }
+    }
+
+    public interface ItemOnClickListener{
+        void onClick(PostcodifyModel.ItemModel item);
     }
 }

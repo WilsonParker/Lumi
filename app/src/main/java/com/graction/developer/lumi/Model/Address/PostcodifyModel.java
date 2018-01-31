@@ -1,5 +1,6 @@
 package com.graction.developer.lumi.Model.Address;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class PostcodifyModel {
                 '}';
     }
 
-    public class ItemModel{
+    public class ItemModel implements Serializable{
         private String postcode5, postcode6, ko_common, ko_doro, ko_jibeon, en_common, en_doro, en_jibeon, building_id, building_name, building_nums, other_addresses, road_id, internal_id;
 
         public String getPostcode5() {
@@ -260,6 +261,10 @@ public class PostcodifyModel {
                     ", road_id='" + road_id + '\'' +
                     ", internal_id='" + internal_id + '\'' +
                     '}';
+        }
+
+        public String getAddress(){
+            return (ko_common+" "+ko_jibeon+" "+building_name+" ("+ko_doro+")");
         }
     }
 }

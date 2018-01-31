@@ -18,8 +18,8 @@
     <color name="item_alarm_days">#666666</color>
     <color name="item_alarm_memo">#666666</color>
 
-    <color name="item_array_view_text_first">#000000</color>
-    <color name="item_array_view_text_second">#a38585</color>
+    <color name="item_array_view_text_first">#ffffff</color>
+    <color name="item_array_view_text_second">#8273ae</color>
 
     <color name="item_search_address_text">#333333</color>
 
@@ -29,6 +29,10 @@
     <color name="activity_search_address_ET_searchbar_hint">#dddddd</color>
 
     <color name="activity_add_alarm_TV_title">#666666</color>
+    <color name="activity_add_alarm_TV_attr">#666666</color>
+    <color name="activity_add_alarm_TV_address_form_hint">#dddddd</color>
+    <color name="activity_add_alarm_TV_address_form">#333333</color>
+    <color name="activity_add_alarm_ET_alarm_name_hint">#999999</color>
 
     <!-- Line Color-->
     <color name="item_search_address_line">#dddddd</color>

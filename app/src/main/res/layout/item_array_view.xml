@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="itemModel"
             type="com.graction.developer.lumi.UI.Layout.CustomArrayView.CustomItemViewModel" />
@@ -10,14 +11,33 @@
     </data>
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="43.7">
 
-        <TextView
-            android:id="@+id/text"
-            android:text="@{itemModel.text}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="35">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ellipse_7" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{itemModel.text}"
+                android:gravity="center"
+                />
+        </FrameLayout>
+
+        <View
+            style="@style/Style_MarginView"
+            android:layout_weight="8.7" />
     </LinearLayout>
 </layout>

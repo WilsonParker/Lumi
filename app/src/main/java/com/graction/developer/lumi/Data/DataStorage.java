@@ -48,17 +48,22 @@ public class DataStorage {
 
                                     , KEY_WEEK = "week"
                                     , KEY_ALARM_ITEM= "alarm_item"
+                                    , KEY_ADDRESS_ITEM= "address_item"
 
                                     ;
     }
 
     public class Request{
-        public static final int PLACE_PICKER_REQUEST = 0x001
+        public static final int PLACE_PICKER_REQUEST = 0x0001
 
                                 , RESULT_OK = 200
 
+                                , GOOGLE_PLACE_REQUEST = 0x0002
                                 , GOOGLE_PLACE_OK = -1
                                 , GOOGLE_PLACE_NONE_SELECTED = 0
+                                , SEARCH_ADDRESS_REQUEST = 0x0003
+                                , SEARCH_ADDRESS_OK = 1
+                                , SEARCH_ADDRESS_NONE_SELECTED = 0
                                 ;
     }
 

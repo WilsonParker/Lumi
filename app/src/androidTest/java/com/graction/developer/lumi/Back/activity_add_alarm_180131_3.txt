@@ -65,25 +65,26 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="719.3dp"
                     android:background="#eeeeee"
                     android:gravity="center_horizontal"
                     android:weightSum="@string/DEVICE_STANDARD_WIDTH">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="330"
                         android:orientation="vertical"
                         android:weightSum="719.3">
 
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="6.7dp" />
+                            style="@style/Style_MarginView"
+                            android:layout_weight="6.7" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="96.7dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="96.7"
                             android:background="@drawable/location_setting_bg"
                             android:weightSum="330">
 
@@ -114,7 +115,7 @@
                                     android:layout_weight="40"
                                     android:weightSum="296">
 
-                                    <FrameLayout
+                                    <RelativeLayout
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
                                         android:layout_weight="40.3">
@@ -145,7 +146,7 @@
                                                     app:srcCompat="@drawable/current_location_icon" />
                                             </LinearLayout>
                                         </LinearLayout>
-                                    </FrameLayout>
+                                    </RelativeLayout>
 
                                     <View
                                         style="@style/Style_MarginView"
@@ -163,7 +164,6 @@
                                             android:layout_weight="15" />
 
                                         <TextView
-                                            android:id="@+id/activity_add_alarm_TV_address"
                                             style="@style/Style_TextView_es"
                                             android:layout_width="0dp"
                                             android:layout_height="match_parent"
@@ -171,8 +171,7 @@
                                             android:background="@null"
                                             android:gravity="center_vertical"
                                             android:hint="@string/activity_add_alarm_TV_address_form_hint"
-                                            android:textColor="@color/activity_add_alarm_TV_address_form"
-                                            android:textColorHint="@color/activity_add_alarm_TV_address_form_hint"
+                                            android:textColor="@color/activity_add_alarm_TV_address_form_hint"
                                             android:textSize="@dimen/activity_add_alarm_TV_address_form_hint_size" />
 
                                         <LinearLayout
@@ -204,27 +203,29 @@
                         </LinearLayout>
 
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="6.7dp" />
+                            style="@style/Style_MarginView"
+                            android:layout_weight="6.7" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="177.7"
                             android:background="@drawable/location_setting_bg"
                             android:gravity="center_horizontal"
-                            android:minHeight="177.7dp"
                             android:weightSum="330">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="296"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:weightSum="177.7">
 
                                 <TextView
                                     style="@style/Style_TextView_es"
                                     android:layout_width="match_parent"
-                                    android:layout_height="46dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="46"
                                     android:gravity="center_vertical"
                                     android:text="@string/activity_add_alarm_TV_time"
                                     android:textColor="@color/activity_add_alarm_TV_attr"
@@ -232,161 +233,30 @@
 
                                 <ImageView
                                     android:layout_width="match_parent"
-                                    android:layout_height="0.7dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="0.7"
                                     android:background="@drawable/line_b_5_b_5_b_5" />
 
                                 <TimePicker
                                     android:id="@+id/activity_add_alarm_TimePicker"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="131"
                                     android:onTimeChanged="@{activity::onTimeChanage}"
                                     android:timePickerMode="spinner" />
                             </LinearLayout>
 
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="6.7dp" />
-
-                        <LinearLayout
+                        <com.graction.developer.lumi.UI.Layout.CustomArrayView
+                            android:id="@+id/activity_add_alarm_CustomArrayView"
                             android:layout_width="match_parent"
-                            android:layout_height="91dp"
-                            android:background="@drawable/location_setting_bg"
-                            android:gravity="center_horizontal"
-                            android:weightSum="330">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="296"
-                                android:orientation="vertical"
-                                android:weightSum="91">
-
-                                <TextView
-                                    style="@style/Style_TextView_es"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="29.4"
-                                    android:gravity="bottom"
-                                    android:text="@string/activity_add_alarm_TV_time"
-                                    android:textColor="@color/activity_add_alarm_TV_attr"
-                                    android:textSize="@dimen/activity_add_alarm_TV_attr_font_size" />
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="10" />
-
-                                <com.graction.developer.lumi.UI.Layout.CustomArrayView
-                                    android:id="@+id/activity_add_alarm_CustomArrayView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="36"
-                                    app:isMultiSelected="true"
-                                    app:item_layout="@layout/item_array_view"
-                                    app:orientation="horizontal" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="6.7dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="175.3dp"
-                            android:background="@drawable/location_setting_bg"
-                            android:gravity="center_horizontal"
-                            android:weightSum="330">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="296"
-                                android:orientation="vertical"
-                                android:weightSum="175.3">
-
-                                <TextView
-                                    style="@style/Style_TextView_es"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="29.7"
-                                    android:gravity="bottom"
-                                    android:text="@string/activity_add_alarm_TV_alarm"
-                                    android:textColor="@color/activity_add_alarm_TV_attr"
-                                    android:textSize="@dimen/activity_add_alarm_TV_attr_font_size" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="35"
-                                    android:weightSum="330"
-                                    android:orientation="horizontal">
-
-                                    <FrameLayout
-                                        android:layout_width="0dp"
-                                        android:layout_weight="35"
-                                        android:layout_height="match_parent">
-
-                                    </FrameLayout>
-
-                                </LinearLayout>
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="0.3"
-                                    android:background="@drawable/line_b_5_b_5_b_5" />
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
-
-                                <TextView
-                                    style="@style/Style_TextView_es"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="29.5"
-                                    android:gravity="bottom"
-                                    android:text="@string/activity_add_alarm_TV_alarm_name"
-                                    android:textColor="@color/activity_add_alarm_TV_attr"
-                                    android:textSize="@dimen/activity_add_alarm_TV_attr_font_size" />
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="10" />
-
-                                <EditText
-                                    style="@style/Style_TextView_es"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="21"
-                                    android:background="@null"
-                                    android:gravity="bottom"
-                                    android:hint="@string/activity_add_alarm_ET_alarm_name_hint"
-                                    android:textColor="@color/activity_add_alarm_ET_alarm_name_hint"
-                                    android:textSize="@dimen/activity_add_alarm_ET_alarm_name_hint_size" />
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="0.3"
-                                    android:background="@drawable/line_b_5_b_5_b_5" />
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
-                            </LinearLayout>
-                        </LinearLayout>
+                            android:layout_height="0dp"
+                            android:layout_weight="91"
+                            android:background="#eeee"
+                            app:isMultiSelected="true"
+                            app:item_layout="@layout/item_array_view"
+                            app:orientation="horizontal" />
 
                         <Button
                             android:layout_width="wrap_content"

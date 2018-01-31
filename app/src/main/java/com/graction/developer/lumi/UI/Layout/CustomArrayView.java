@@ -65,13 +65,14 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
 
         @Override
         public void onFirstClick(ItemViewModel model) {
-            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_second));
+            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_first));
+            itemArrayBinding.icon.setImageResource(R.drawable.ellipse_1);
             weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), 1);
         }
 
         @Override
         public void onSecondClick(ItemViewModel model) {
-            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_first));
+            init();
             weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), 0);
         }
 
@@ -80,7 +81,13 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
             super.toBind(item);
             itemArrayBinding.setItemModel((CustomItemViewModel) item);
             itemArrayBinding.executePendingBindings();
+            init();
             return itemArrayBinding.getRoot();
+        }
+
+        private void init(){
+            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_second));
+            itemArrayBinding.icon.setImageResource(R.drawable.ellipse_7);
         }
     }
 

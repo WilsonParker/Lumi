@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.graction.developer.lumi.Util.Log.HLogger;
 
-abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     protected HLogger logger;
 
     @Override
