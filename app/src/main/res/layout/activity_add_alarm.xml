@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="14.7"
-                    android:onClick="@{activity::backEvent}"
+                    android:onClick="@{(view) -> activity.onBackPressed()}"
                     app:srcCompat="@drawable/arrow" />
             </LinearLayout>
 
@@ -239,7 +239,7 @@
                                     android:id="@+id/activity_add_alarm_TimePicker"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onTimeChanged="@{activity::onTimeChanage}"
+                                    android:onTimeChanged="@{activity::onTimeChange}"
                                     android:timePickerMode="spinner" />
                             </LinearLayout>
 
@@ -317,51 +317,81 @@
                                     android:textColor="@color/activity_add_alarm_TV_attr"
                                     android:textSize="@dimen/activity_add_alarm_TV_attr_font_size" />
 
+                                <View
+                                    style="@style/Style_MarginView"
+                                    android:layout_weight="10" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
                                     android:layout_weight="35"
-                                    android:weightSum="330"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:weightSum="330">
 
-                                    <FrameLayout
+                                    <ImageView
                                         android:layout_width="0dp"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="35"
-                                        android:layout_height="match_parent">
+                                        android:onClick="@{(view) -> activity.selectAlarmType(false)}"
+                                        app:srcCompat="@drawable/phon_on_654_fa_1" />
 
-                                    </FrameLayout>
+                                    <View
+                                        style="@style/Style_MarginView"
+                                        android:layout_weight="8.3" />
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="35"
+                                        android:onClick="@{(view) -> activity.selectAlarmType(true)}"
+                                        app:srcCompat="@drawable/sound_off" />
+
+                                    <View
+                                        style="@style/Style_MarginView"
+                                        android:layout_weight="6.7" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="211.3"
+                                        android:gravity="center_vertical"
+                                        android:orientation="vertical"
+                                        android:weightSum="35">
+
+                                        <SeekBar
+                                            android:id="@+id/activity_add_alarm_SB_volume"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:max="10"
+                                            android:progress="5"
+                                            android:progressDrawable="@drawable/seekbar_on2"
+                                            />
+                                    </LinearLayout>
 
                                 </LinearLayout>
 
                                 <View
                                     style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
+                                    android:layout_weight="16.3" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:layout_weight="0.3"
+                                    android:layout_weight="0.7"
                                     android:background="@drawable/line_b_5_b_5_b_5" />
-
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
 
                                 <TextView
                                     style="@style/Style_TextView_es"
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:layout_weight="29.5"
+                                    android:layout_weight="29.3"
                                     android:gravity="bottom"
                                     android:text="@string/activity_add_alarm_TV_alarm_name"
                                     android:textColor="@color/activity_add_alarm_TV_attr"
                                     android:textSize="@dimen/activity_add_alarm_TV_attr_font_size" />
 
-                                <View
-                                    style="@style/Style_MarginView"
-                                    android:layout_weight="10" />
-
                                 <EditText
+                                    android:id="@+id/activity_add_alarm_ET_memo"
                                     style="@style/Style_TextView_es"
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
@@ -374,26 +404,43 @@
 
                                 <View
                                     style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
+                                    android:layout_weight="16.3" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:layout_weight="0.3"
+                                    android:layout_weight="0.7"
                                     android:background="@drawable/line_b_5_b_5_b_5" />
 
                                 <View
                                     style="@style/Style_MarginView"
-                                    android:layout_weight="16.5" />
+                                    android:layout_weight="16.3" />
                             </LinearLayout>
                         </LinearLayout>
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick='@{activity::addAlarm}'
-                            android:text="Add Alarm" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="16.7dp" />
 
+                        <Button
+                            style="@style/AddActivityAlarm_BT_save"
+                            android:layout_width="match_parent"
+                            android:layout_height="46.7dp"
+                            android:onClick='@{activity::addAlarm}' />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="16.7dp" />
+
+                        <Button
+                            style="@style/AddActivityAlarm_BT_cancel"
+                            android:layout_width="match_parent"
+                            android:layout_height="46.7dp"
+                            android:onClick='@{(view) -> activity.onBackPressed()}' />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="33.3dp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

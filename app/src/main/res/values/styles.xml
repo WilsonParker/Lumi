@@ -28,7 +28,6 @@
     <!--
         Style
     -->
-
     <style name="Style_TextView_wh" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -45,9 +44,30 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="Style_MarginView" >
+    <style name="Style_MarginView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
     </style>
 
+    <style name="Style_AddActivityAlarm_SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:minHeight">10dp</item>
+        <item name="android:maxHeight">10dp</item>
+        <item name="android:max">10</item>
+        <item name="android:progress">5</item>
+    </style>
+
+    <!-- Activity -->
+    <style name="AddActivityAlarm_BT_save" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/save_btn_b_5_b_5_b_5</item>
+        <item name="android:text">저장</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="AddActivityAlarm_BT_cancel" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/cancel_btn</item>
+        <item name="android:text">취소</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#b5b5b5</item>
+    </style>
 </resources>

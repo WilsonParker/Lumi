@@ -32,7 +32,7 @@ import java.util.UUID;
 public class VoiceActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
     ////////////////////////////////////////////블루투스 변수 시작//////////////////////////////////////////
     String name;
-    String address; //MAC주소를 받기 위한 변수
+    String alarm_address; //MAC주소를 받기 위한 변수
 
     //GUI 요소 선언
     TextView slaveName;
@@ -98,13 +98,13 @@ public class VoiceActivity extends AppCompatActivity implements TextToSpeech.OnI
 
         //PairingActivity에서 보낸 address를 받는다.
         Intent intent = getIntent();
-        address = getIntent().getStringExtra(PairingActivity.EXTRA_ADDRESS);
+        alarm_address = getIntent().getStringExtra(PairingActivity.EXTRA_ADDRESS);
 
         //BluetoothAdapter 초기화 및 페어링 할 수 있는 디바이스 가져오기.//
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         //BluetoothDevice 초기화 및 name 받는다.
-        mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
+        mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(alarm_address);
         name = mBluetoothDevice.getName().toString();
 
         //Async클래스 객체화 및 클라이언트 시작.
@@ -183,7 +183,7 @@ public class VoiceActivity extends AppCompatActivity implements TextToSpeech.OnI
         protected Integer doInBackground(String... value) {
             Log.d("ASYNC2", "들어왔다2");
             slaveName.setText(name);
-            slaveMAC.setText(address);
+            slaveMAC.setText(alarm_address);
 
             try {
 

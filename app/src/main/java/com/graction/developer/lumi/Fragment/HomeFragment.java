@@ -146,7 +146,7 @@ public class HomeFragment extends BaseFragment {
     private void reloadWeatherInfo() {
 //        gifImageView.startAnimation();
         if (gpsManager.isGetLocation()) {
-//            googleLocationManager.getAddress(gpsManager.getLocation());
+//            googleLocationManager.getAlarm_address(gpsManager.getLocation());
             if (weatherModel != null) {
                 binding.setWeatherModel(weatherModel);
                 ImageModel imageModel = weatherModel.getImageModel();

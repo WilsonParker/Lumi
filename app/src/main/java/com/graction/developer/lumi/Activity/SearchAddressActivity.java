@@ -22,7 +22,7 @@ public class SearchAddressActivity extends BaseActivity {
     private ActivitySearchAddressBinding binding;
     private Intent intent = new Intent();
     private AddressListAdapter.ItemOnClickListener itemOnClickListener = item -> {
-        intent.putExtra(DataStorage.Intent.KEY_ADDRESS_ITEM, item);
+        intent.putExtra(DataStorage.Key.KEY_ADDRESS_ITEM, item);
         activityEnd(DataStorage.Request.SEARCH_ADDRESS_OK);
     };
 

@@ -3,13 +3,11 @@ package com.graction.developer.lumi.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TimePicker;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Address.PostcodifyModel;
@@ -25,13 +23,12 @@ import com.graction.developer.lumi.databinding.ActivityAddAlarmBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class AddAlarmActivity extends BaseActivity {
     private ActivityAddAlarmBinding binding;
-
-    private PlacePicker.IntentBuilder builder;
     private int hourOfDay, minute;
     private int[] selectedWeek = new int[8];
-    private String memo, place_name, place_address;
+    private boolean isSpeaker = true;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +38,28 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
 
     @Override
     protected void init() {
-        builder = new PlacePicker.IntentBuilder();
-
         createArray();
         binding.setActivity(this);
+        selectAlarmType(isSpeaker);
+        binding.activityAddAlarmSBVolume.setOnTouchListener((v, event) -> !isSpeaker);
+        binding.activityAddAlarmSBVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                                                                        @Override
+                                                                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                                                            progress = progress > 0 ? progress : 1;
+                                                                            seekBar.setProgress(progress);
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                                                                        }
+                                                                    }
+        );
     }
 
     private void createArray() {
@@ -60,13 +75,8 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
         super.onResume();
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
     // onTimeChange
-    public void onTimeChanage(TimePicker view, int hourOfDay, int minute){
+    public void onTimeChange(TimePicker view, int hourOfDay, int minute) {
         logger.log(HLogger.LogType.INFO, "AlarmReceiver", "%d : %d", hourOfDay, minute);
         this.hourOfDay = hourOfDay;
         this.minute = minute;
@@ -78,29 +88,34 @@ public class AddAlarmActivity extends BaseActivity implements GoogleApiClient.On
         logger.log(HLogger.LogType.INFO, "addAlarm(view)");
         logger.log(HLogger.LogType.INFO, "addAlarm(view)", "selectedWeek : " + Arrays.toString(selectedWeek));
 //        AlarmData.AlarmItem item = alarmData.new AlarmItem(place_name, place_address, memo, selectedWeek, hourOfDay, minute);
-        AlarmTable alarmTable = new AlarmTable(hourOfDay, minute, place_name, place_address, memo, StringUtil.arrayToString(selectedWeek), 1);
+        AlarmTable alarmTable = new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), 1, isSpeaker ? binding.activityAddAlarmSBVolume.getProgress() : 0);
         AlarmItem item = new AlarmItem(alarmTable);
         DataBaseStorage.alarmDataBaseHelper.insert(DataBaseStorage.Table.TABLE_ALARM, alarmTable);
         AlarmManager.getInstance().setAlarmService(item);
         DataBaseStorage.alarmList.add(item);
+        onBackPressed();
     }
 
     // OnClick
-    public void searchEvent(View view){
+    public void selectAlarmType(boolean enabled) {
+        isSpeaker = enabled;
+        if (enabled)
+            binding.activityAddAlarmSBVolume.setProgressDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.seekbar_on2, null));
+        else
+            binding.activityAddAlarmSBVolume.setProgressDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.seekbar_off2, null));
+    }
+
+    // OnClick
+    public void searchEvent(View view) {
         startActivityForResult(new Intent(this, SearchAddressActivity.class), DataStorage.Request.SEARCH_ADDRESS_REQUEST);
-    }
-
-    // OnClick
-    public void backEvent(View view){
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == DataStorage.Request.SEARCH_ADDRESS_REQUEST && resultCode == DataStorage.Request.SEARCH_ADDRESS_OK){
-            PostcodifyModel.ItemModel item = (PostcodifyModel.ItemModel) data.getSerializableExtra(DataStorage.Intent.KEY_ADDRESS_ITEM);
-            binding.activityAddAlarmTVAddress.setText(item.getAddress());
+        if (requestCode == DataStorage.Request.SEARCH_ADDRESS_REQUEST && resultCode == DataStorage.Request.SEARCH_ADDRESS_OK) {
+            PostcodifyModel.ItemModel item = (PostcodifyModel.ItemModel) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
+            binding.activityAddAlarmTVAddress.setText((address = item.getAddress()));
         }
 
     }

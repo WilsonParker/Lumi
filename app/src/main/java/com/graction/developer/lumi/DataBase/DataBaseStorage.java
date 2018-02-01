@@ -25,8 +25,9 @@ public class DataBaseStorage {
                                     , COLUMN_ALARM = Table.TABLE_ALARM+COLUMN_SEPARATE
                                     ;
         public static final String COLUMN_ALARM_INDEX = COLUMN_ALARM+"INDEX"
-                                    , COLUMN_ALARM_PLACE_NAME= COLUMN_ALARM+"PLACE_NAME"
-                                    , COLUMN_ALARM_PLACE_ADDRESS = COLUMN_ALARM+"PLACE_ADDRESS"
+                                    , COLUMN_ALARM_ADDRESS= COLUMN_ALARM+"ADDRESS"
+//                                    , COLUMN_ALARM_PLACE_NAME= COLUMN_ALARM+"PLACE_NAME"
+//                                    , COLUMN_ALARM_PLACE_ADDRESS = COLUMN_ALARM+"PLACE_ADDRESS"
                                     , COLUMN_ALARM_MEMO= COLUMN_ALARM+"MEMO"
                                     , COLUMN_ALARM_DAYS= COLUMN_ALARM+"DAYS"
                                     , COLUMN_ALARM_HOUROFDAY= COLUMN_ALARM+"HOUROFDAY"

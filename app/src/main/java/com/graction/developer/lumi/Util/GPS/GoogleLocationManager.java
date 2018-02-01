@@ -48,7 +48,7 @@ public class GoogleLocationManager {
                     geocoderResponse = geocoder.geocode(geocoderRequest);
                     geocoder.geocode(geocoderRequest);
                     final GeocoderResult geocoderResult = geocoderResponse.getResults().iterator().next();
-                    logger.log(HLogger.LogType.INFO, "getAddress(final String lat, final String lon)", geocoderResult.getFormattedAddress());
+                    logger.log(HLogger.LogType.INFO, "getAlarm_address(final String lat, final String lon)", geocoderResult.getFormattedAddress());
                     handlerManager.getHandler().post(new Runnable() {
                         @Override
                         public void run() {
@@ -57,7 +57,7 @@ public class GoogleLocationManager {
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
-                    logger.log(HLogger.LogType.ERROR, "getAddress(final String lat, final String lon)", e);
+                    logger.log(HLogger.LogType.ERROR, "getAlarm_address(final String lat, final String lon)", e);
                     addressHandleListener.setAddress("주소 결과가 없습니다");
                 }
             }

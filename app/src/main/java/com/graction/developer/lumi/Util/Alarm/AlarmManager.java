@@ -52,8 +52,8 @@ public class AlarmManager {
         Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_ALARM_START);
 //        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(DataStorage.Intent.KEY_ALARM_ITEM, item);
-        alarmIntent.putExtra(DataStorage.Intent.KEY_BUNDLE, bundle);
+        bundle.putSerializable(DataStorage.Key.KEY_ALARM_ITEM, item);
+        alarmIntent.putExtra(DataStorage.Key.KEY_BUNDLE, bundle);
         alarmIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = getPendingIntent(context, item.getIndex(), alarmIntent);
 
@@ -77,8 +77,8 @@ public class AlarmManager {
     public void setAlarmService(Context context, AlarmItem item) {
         Intent alarmIntent = new Intent(context, AlarmService.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(DataStorage.Intent.KEY_ALARM_ITEM, item);
-        alarmIntent.putExtra(DataStorage.Intent.KEY_BUNDLE, bundle);
+        bundle.putSerializable(DataStorage.Key.KEY_ALARM_ITEM, item);
+        alarmIntent.putExtra(DataStorage.Key.KEY_BUNDLE, bundle);
         context.startService(alarmIntent);
     }
 
@@ -100,8 +100,8 @@ public class AlarmManager {
         Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_SINGLE_ALARM);
 //        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(DataStorage.Intent.KEY_ALARM_ITEM, item);
-        alarmIntent.putExtra(DataStorage.Intent.KEY_BUNDLE,bundle);
+        bundle.putSerializable(DataStorage.Key.KEY_ALARM_ITEM, item);
+        alarmIntent.putExtra(DataStorage.Key.KEY_BUNDLE,bundle);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context,
                 item.getIndex(),

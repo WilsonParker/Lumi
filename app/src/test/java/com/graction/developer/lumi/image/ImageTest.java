@@ -60,7 +60,7 @@ public class ImageTest extends BaseFragment{
 
         googleLocationManager = new GoogleLocationManager(new AddressHandleListener() {
             @Override
-            public void setAddress(String address) {
+            public void setAlarm_address(String address) {
                 logger.log(HLogger.LogType.INFO, "address : " + address);
                 binding.fragmentHomeTVAddress.setText(address);
             }
@@ -84,7 +84,7 @@ public class ImageTest extends BaseFragment{
     private void reloadWeatherInfo() {
 //        gifImageView.startAnimation();
         if (gpsManager.isGetLocation()) {
-//            googleLocationManager.getAddress(gpsManager.getLocation());
+//            googleLocationManager.getAlarm_address(gpsManager.getLocation());
             if (weatherModel != null) {
                 binding.setWeatherModel(weatherModel);
                 try {

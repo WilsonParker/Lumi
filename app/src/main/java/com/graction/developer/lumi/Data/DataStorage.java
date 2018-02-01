@@ -43,14 +43,18 @@ public class DataStorage {
                                 ;
     }
 
-    public class Intent{
+    public class Key{
         public static final String KEY_BUNDLE = "bundle"
 
                                     , KEY_WEEK = "week"
-                                    , KEY_ALARM_ITEM= "alarm_item"
-                                    , KEY_ADDRESS_ITEM= "address_item"
+                                    , KEY_ALARM_ITEM = "alarm_item"
+                                    , KEY_ADDRESS_ITEM = "address_item"
 
                                     ;
+
+        public static final int KEY_SEEKBAR_ENABLED = 0x0001
+                                ;
+
     }
 
     public class Request{

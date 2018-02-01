@@ -264,7 +264,7 @@ public class PostcodifyModel {
         }
 
         public String getAddress(){
-            return (ko_common+" "+ko_jibeon+" "+building_name+" ("+ko_doro+")");
+            return (ko_common+" "+ko_jibeon+" "+building_name+" ("+ko_doro+") "+other_addresses);
         }
     }
 }

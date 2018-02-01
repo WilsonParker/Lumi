@@ -31,7 +31,7 @@ public class AlarmStartService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        AlarmItem item = (AlarmItem) intent.getBundleExtra(DataStorage.Intent.KEY_BUNDLE).getSerializable(DataStorage.Intent.KEY_ALARM_ITEM);
+        AlarmItem item = (AlarmItem) intent.getBundleExtra(DataStorage.Key.KEY_BUNDLE).getSerializable(DataStorage.Key.KEY_ALARM_ITEM);
         logger.log(HLogger.LogType.INFO, "AlarmStartService", "Service Ring Ring Ring");
         logger.log(HLogger.LogType.INFO, "AlarmStartService", "item : "+item);
         int[] week = item.getDays();

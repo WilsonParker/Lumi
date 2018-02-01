@@ -10,24 +10,19 @@ public class AlarmTable {
     @AutoIncreament
     private int alarm_index;
     private int alarm_hourofday, alarm_minute, alarm_volume;
-    private String alarm_place_name, alarm_place_address, alarm_memo, alarm_days;
+    private String alarm_address, alarm_memo, alarm_days;
     private int alarm_running_state;
 
     public AlarmTable() {
     }
 
-    public AlarmTable(int alarm_hourofday, int alarm_minute, String alarm_place_name, String alarm_place_address, String alarm_memo, String alarm_days, int alarm_running_state) {
+    public AlarmTable(int alarm_hourofday, int alarm_minute, String alarm_address, String alarm_memo, String alarm_days, int alarm_running_state, int alarm_volume) {
         this.alarm_running_state = alarm_running_state;
         this.alarm_hourofday = alarm_hourofday;
         this.alarm_minute = alarm_minute;
-        this.alarm_place_name = alarm_place_name;
-        this.alarm_place_address = alarm_place_address;
+        this.alarm_address = alarm_address;
         this.alarm_memo = alarm_memo;
         this.alarm_days = alarm_days;
-    }
-
-    public AlarmTable(int alarm_hourofday, int alarm_minute, int alarm_volume, String alarm_place_name, String alarm_place_address, String alarm_memo, String alarm_days, int alarm_running_state) {
-        this(alarm_hourofday, alarm_minute, alarm_place_name, alarm_place_address, alarm_memo, alarm_days, alarm_running_state);
         this.alarm_volume = alarm_volume;
     }
 
@@ -63,22 +58,6 @@ public class AlarmTable {
         this.alarm_volume = alarm_volume;
     }
 
-    public String getAlarm_place_name() {
-        return alarm_place_name;
-    }
-
-    public void setAlarm_place_name(String alarm_place_name) {
-        this.alarm_place_name = alarm_place_name;
-    }
-
-    public String getAlarm_place_address() {
-        return alarm_place_address;
-    }
-
-    public void setAlarm_place_address(String alarm_place_address) {
-        this.alarm_place_address = alarm_place_address;
-    }
-
     public String getAlarm_memo() {
         return alarm_memo;
     }
@@ -103,6 +82,14 @@ public class AlarmTable {
         this.alarm_running_state = alarm_running_state;
     }
 
+    public String getAlarm_address() {
+        return alarm_address;
+    }
+
+    public void setAlarm_address(String alarm_address) {
+        this.alarm_address = alarm_address;
+    }
+
     @Override
     public String toString() {
         return "AlarmTable{" +
@@ -110,8 +97,7 @@ public class AlarmTable {
                 ", alarm_hourofday=" + alarm_hourofday +
                 ", alarm_minute=" + alarm_minute +
                 ", alarm_volume=" + alarm_volume +
-                ", alarm_place_name='" + alarm_place_name + '\'' +
-                ", alarm_place_address='" + alarm_place_address + '\'' +
+                ", alarm_address='" + alarm_address + '\'' +
                 ", alarm_memo='" + alarm_memo + '\'' +
                 ", alarm_days='" + alarm_days + '\'' +
                 ", alarm_running_state=" + alarm_running_state +

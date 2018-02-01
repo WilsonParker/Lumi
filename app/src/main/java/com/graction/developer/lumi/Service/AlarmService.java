@@ -70,7 +70,7 @@ public class AlarmService extends Service {
         nm.notify(1, nt);
         nm.cancel(1);*/
 
-        AlarmItem item = (AlarmItem) intent.getBundleExtra(DataStorage.Intent.KEY_BUNDLE).getSerializable(DataStorage.Intent.KEY_ALARM_ITEM);
+        AlarmItem item = (AlarmItem) intent.getBundleExtra(DataStorage.Key.KEY_BUNDLE).getSerializable(DataStorage.Key.KEY_ALARM_ITEM);
         AlarmManager.getInstance().setAlarm(this, item);
         logger.log(HLogger.LogType.INFO, "AlarmService", "Service set Alarm : "+item);
         return START_NOT_STICKY;

@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class AlarmItem implements Serializable{
     private static final String[] DayOfTheWeek = {"", "일", "월", "화", "수", "목", "금", "토"};
-    private String memo, place_name, place_address;
+    private String memo, address;
     private int[] days;
     private boolean isMorning = true, isSpeaker;
     private int index, hour, minute, volume, isRunning, img_phone = R.drawable.phone_icon_on, img_speaker = R.drawable.sound_icon_off;
@@ -23,8 +23,7 @@ public class AlarmItem implements Serializable{
     public AlarmItem(AlarmTable table) {
         this.isRunning = table.getAlarm_running_state();
         this.index = table.getAlarm_index();
-        this.place_name = table.getAlarm_place_name();
-        this.place_address = table.getAlarm_place_address();
+        this.address = table.getAlarm_address();
         this.memo = table.getAlarm_memo();
 //            this.days = Arrays.stream(table.getAlarm_days().split(",")).mapToInt(Integer::parseInt).toArray();
         String[] sDays = table.getAlarm_days().split(",");
@@ -37,27 +36,27 @@ public class AlarmItem implements Serializable{
         setVolume(table.getAlarm_volume());
     }
 
-    public AlarmItem(int index, String place_name, String place_address, String memo, int[] days, int hour, int minute, int isRunning) {
-        this(place_name, place_address, memo, days, hour, minute, isRunning);
+    public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int isRunning) {
+        this(address, memo, days, hour, minute, isRunning);
         this.index = index;
     }
 
-    public AlarmItem(int index, String place_name, String place_address, String memo, int[] days, int hour, int minute, int volume, int isRunning) {
-        this(place_name, place_address, memo, days, hour, minute, volume, isRunning);
+    public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int volume, int isRunning) {
+        this(address, memo, days, hour, minute, volume, isRunning);
         this.index = index;
     }
 
-    public AlarmItem(String place_name, String place_address, String memo, int[] days, int hour, int minute, int isRunning) {
-        this.place_name = place_name;
-        this.place_address = place_address;
+    public AlarmItem(String address, String memo, int[] days, int hour, int minute, int isRunning) {
+        this.address = address;
         this.memo = memo;
         this.days = days;
         this.minute = minute;
+        this.isRunning = isRunning;
         setHour(hour);
     }
 
-    public AlarmItem(String place_name, String place_address, String memo, int[] days, int hour, int minute, int volume, int isRunning) {
-        this(place_name, place_address, memo, days, hour, minute, isRunning);
+    public AlarmItem(String address, String memo, int[] days, int hour, int minute, int volume, int isRunning) {
+        this(address, memo, days, hour, minute, isRunning);
         setVolume(volume);
     }
 
@@ -168,20 +167,12 @@ public class AlarmItem implements Serializable{
         this.img_speaker = img_speaker;
     }
 
-    public String getPlace_name() {
-        return place_name;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPlace_name(String place_name) {
-        this.place_name = place_name;
-    }
-
-    public String getPlace_address() {
-        return place_address;
-    }
-
-    public void setPlace_address(String place_address) {
-        this.place_address = place_address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public boolean getIsRunning() {
@@ -196,8 +187,7 @@ public class AlarmItem implements Serializable{
     public String toString() {
         return "AlarmItem{" +
                 "memo='" + memo + '\'' +
-                ", place_name='" + place_name + '\'' +
-                ", place_address='" + place_address + '\'' +
+                ", address ='" + address + '\'' +
                 ", days=" + Arrays.toString(days) +
                 ", isMorning=" + isMorning +
                 ", isSpeaker=" + isSpeaker +

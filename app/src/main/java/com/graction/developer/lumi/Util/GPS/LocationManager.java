@@ -33,26 +33,26 @@ public class LocationManager {
             return;
         double lat = location.getLatitude();
         double lon = location.getLongitude();
-        logger.log(HLogger.LogType.INFO, "getAddress(final Location location)", String.format("lat lon : %s, %s", lat, lon));
+        logger.log(HLogger.LogType.INFO, "getAlarm_address(final Location location)", String.format("lat lon : %s, %s", lat, lon));
         if (location == null) return;
         Geocoder geocoder = new Geocoder(context, Locale.KOREA);
-        logger.log(HLogger.LogType.INFO, "getAddress(final Location location)", "geocoder is not Null? " + (geocoder != null));
+        logger.log(HLogger.LogType.INFO, "getAlarm_address(final Location location)", "geocoder is not Null? " + (geocoder != null));
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
             if (addresses != null && addresses.size() > 0) {
                 for (Address address : addresses) {
-                    logger.log(HLogger.LogType.INFO, "getAddress(final Location location)", "Address toString : " + address.toString());
-                    logger.log(HLogger.LogType.INFO, "getAddress(final Location location)", "Address getThoroughfare: " + address.getThoroughfare());
-                    logger.log(HLogger.LogType.INFO, "getAddress(final Location location)", "Address line : " + address.getAddressLine(0));
+                    logger.log(HLogger.LogType.INFO, "getAlarm_address(final Location location)", "Address toString : " + address.toString());
+                    logger.log(HLogger.LogType.INFO, "getAlarm_address(final Location location)", "Address getThoroughfare: " + address.getThoroughfare());
+                    logger.log(HLogger.LogType.INFO, "getAlarm_address(final Location location)", "Address line : " + address.getAddressLine(0));
                 }
-//                addressHandleListener.setAddress(AddressManager.getInstance().getTransferAddr(addresses.get(0)));
+//                addressHandleListener.setAlarm_address(AddressManager.getInstance().getTransferAddr(addresses.get(0)));
                 addressHandleListener.setAddress(addresses.get(0).getAddressLine(0));
             } else {
-                logger.log(HLogger.LogType.INFO, "getAddress(final Location location)", "Address is empty");
+                logger.log(HLogger.LogType.INFO, "getAlarm_address(final Location location)", "Address is empty");
                 addressHandleListener.setAddress("주소 결과가 없습니다");
             }
         } catch (IOException e) {
-            logger.log(HLogger.LogType.ERROR, "getAddress(final Location location)", "getAddress Error", e);
+            logger.log(HLogger.LogType.ERROR, "getAlarm_address(final Location location)", "getAlarm_address Error", e);
             addressHandleListener.setAddress("주소 변환 실패");
         }
 

@@ -36,16 +36,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                                     "%s TEXT," +
                                     "%s TEXT," +
                                     "%s TEXT," +
-                                    "%s TEXT," +
                                     "%s INTEGER UNSIGNED," +
                                     "%s INTEGER UNSIGNED," +
-                                    "%s INTEGER UNSIGNED" +
+                                    "%s INTEGER UNSIGNED," +
                                     "%s INTEGER UNSIGNED" +
                                     ");"
                             , DataBaseStorage.Table.TABLE_ALARM
                             , DataBaseStorage.Column.COLUMN_ALARM_INDEX
-                            , DataBaseStorage.Column.COLUMN_ALARM_PLACE_NAME
-                            , DataBaseStorage.Column.COLUMN_ALARM_PLACE_ADDRESS
+                            , DataBaseStorage.Column.COLUMN_ALARM_ADDRESS
                             , DataBaseStorage.Column.COLUMN_ALARM_MEMO
                             , DataBaseStorage.Column.COLUMN_ALARM_DAYS
                             , DataBaseStorage.Column.COLUMN_ALARM_HOUROFDAY
@@ -59,12 +57,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void init(){
+        db = getWritableDatabase();
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", DataBaseStorage.Table.TABLE_ALARM));
+        onCreate(getWritableDatabase());
+    }
+
     // DB 업그레이드를 위해 Version 이 변경될 때 호출되는 함수
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        logger.log(HLogger.LogType.ERROR, "onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)", "Database Upgrade");
+        /*logger.log(HLogger.LogType.ERROR, "onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)", "Database Upgrade");
         String sql = String.format("ALTER TABLE %s ADD %s", DataBaseStorage.Table.TABLE_ALARM, DataBaseStorage.Column.COLUMN_ALARM_RUNNING_STATE + " INTEGER UNSIGNED DEFAULT 0");
-        db.execSQL(sql);
+        db.execSQL(sql);*/
     }
 
     public void insert(String query) {
@@ -74,6 +78,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.close();
         } catch (Exception e) {
             logger.log(HLogger.LogType.ERROR, "insert(String)", e);
+            init();
         }
     }
 
