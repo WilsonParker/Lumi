@@ -20,13 +20,14 @@ import com.graction.developer.lumi.Util.Date.DateManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.NullChecker;
 import com.graction.developer.lumi.Util.StringUtil;
-import com.graction.developer.lumi.databinding.ActivityAddAlarmBinding;
+import com.graction.developer.lumi.databinding.ActivityModifyAlarmBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddAlarmActivity extends BaseActivity {
-    private ActivityAddAlarmBinding binding;
+public class ModifyAlarmActivity extends BaseActivity {
+    private ActivityModifyAlarmBinding binding;
+    private AlarmItem item;
     private int hourOfDay, minute;
     private int[] selectedWeek = new int[8];
     private boolean isSpeaker = true;
@@ -35,7 +36,8 @@ public class AddAlarmActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_alarm);
+        item = (AlarmItem) getIntent().getSerializableExtra(DataStorage.Key.KEY_ALARM_ITEM);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_modify_alarm);
     }
 
     @Override
@@ -62,6 +64,14 @@ public class AddAlarmActivity extends BaseActivity {
                                                                         }
                                                                     }
         );
+        
+        initView();
+    }
+
+    private void initView() {
+        binding.activityAddAlarmETMemo.setText(item.getMemo());
+        binding.activityAddAlarmSBVolume.setProgress(item.getVolume());
+        binding.activityAddAlarmTVAddress.setText(item.getAddress());
     }
 
     private void createArray() {

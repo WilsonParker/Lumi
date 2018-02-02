@@ -70,4 +70,11 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#b5b5b5</item>
     </style>
+
+    <style name="AddActivityAlarm_BT_modify" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/save_btn_b_5_b_5_b_5</item>
+        <item name="android:text">수정</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 </resources>

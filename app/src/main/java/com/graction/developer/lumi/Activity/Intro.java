@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.graction.developer.lumi.Data.DataStorage;
@@ -16,21 +17,28 @@ import com.graction.developer.lumi.UI.UIFactory;
 import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.File.PreferenceManager;
+import com.graction.developer.lumi.Util.GPS.GpsManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Parser.XmlPullParserManager;
 
 import java.util.HashMap;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.graction.developer.lumi.DataBase.DataBaseStorage.DATABASE_NAME;
 
 public class Intro extends BaseActivity {
     private Context context;
     private Handler handler = new Handler();
-    private int completeState = 1, runState, errorState;
+    private int completeState = 2, runState, errorState;
     // initialize Thread
     private Thread iThread = new Thread(() -> dataInitialize())
-    // Check Thread
-    , cThread = new Thread(new Runnable() {
+            // Check Permission
+            , pThread = new Thread(() -> permissionInitialize())
+            // Check Thread
+            , cThread = new Thread(new Runnable() {
         @Override
         public void run() {
             while (true) {
@@ -65,22 +73,21 @@ public class Intro extends BaseActivity {
     @Override
     protected void init() {
         context = this;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                iThread.start();
-                cThread.start();
-            }
+        handler.postDelayed(() -> {
+            pThread.start();
+            iThread.start();
+            cThread.start();
         }, 250);
     }
 
-    private void dataInitialize(){
+    private void dataInitialize() {
         XmlPullParserManager xmlPullParserManager = XmlPullParserManager.getInstance();
         xmlPullParserManager.setContext(context);
 
         UIFactory.init(this);
 //            FontManager.getInstance().setAssetManager(getAssets());
-        BaseActivityFileManager.getInstance().setActivity(this);;
+        BaseActivityFileManager.getInstance().setActivity(this);
+        ;
         PreferenceManager.setContext(this);
         AlarmManager.getInstance().init(getApplicationContext());
         DataBaseStorage.alarmDataBaseHelper = new DataBaseHelper(getBaseContext(), DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
@@ -93,6 +100,21 @@ public class Intro extends BaseActivity {
             errorState = 1;
             return;
         }
+        runState++;
+    }
+
+    private void permissionInitialize() {
+        GpsManager gpsManager = new GpsManager(this);
+        String[] permissions = new String[]{ACCESS_FINE_LOCATION, INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE};
+        gpsManager.requestPermissions(permissions, DataStorage.Request.PERMISSION_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for(int grant : grantResults)
+            if(grant == -1)
+                return;
         runState++;
     }
 }

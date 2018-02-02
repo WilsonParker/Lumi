@@ -68,6 +68,8 @@ public class DataStorage {
                                 , SEARCH_ADDRESS_REQUEST = 0x0003
                                 , SEARCH_ADDRESS_OK = 1
                                 , SEARCH_ADDRESS_NONE_SELECTED = 0
+                                , PERMISSION_REQUEST = 0x0004
+
                                 ;
     }
 

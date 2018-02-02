@@ -1,9 +1,14 @@
 package com.graction.developer.lumi.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.graction.developer.lumi.Activity.ModifyAlarmActivity;
+import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.UI.UIFactory;
@@ -66,6 +71,13 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
             DataBaseStorage.alarmDataBaseHelper.delete(DataBaseStorage.Table.TABLE_ALARM, DataBaseStorage.Column.COLUMN_ALARM_INDEX + "=?", whereArgs);
             items.remove(item);
             notifyDataSetChanged();
+        }
+
+        public void onItemClick(View view, AlarmItem item){
+            Context context = view.getContext();
+            Intent intent = new Intent(context, ModifyAlarmActivity.class);
+            intent.putExtra(DataStorage.Key.KEY_ALARM_ITEM,item);
+            context.startActivity(intent);
         }
     }
 }

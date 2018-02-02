@@ -29,8 +29,8 @@ import static com.graction.developer.lumi.Data.DataStorage.Request.RESULT_OK;
 public class GpsManager {
     private HLogger logger;
     private Activity activity;
-    //              현재 GPS 사용 유무,       네트워크 사용 유무        GPS 상태값
-    private boolean isGPSEnabled = false, isNetworkEnabled = false, isGetLocation = false;
+    //              현재 GPS 사용 유무,       네트워크 사용 유무        GPS 상태값               설정창 사용 유무
+    private boolean isGPSEnabled = false, isNetworkEnabled = false, isGetLocation = false, showSettingAlert = false;
 
     private Location location;
     private LocationManager locationManager;
@@ -176,6 +176,9 @@ public class GpsManager {
 
     //  GPS 정보르르 가져오지 못했을 때 "설정" 으로 가는 창을 띄움
     public void showSettingsAlert() {
+        if(!showSettingAlert)
+            return;
+
         if (DataStorage.GpsPermissionOn)
             return;
 
@@ -208,7 +211,19 @@ public class GpsManager {
             }
         });
         alertDialog.show();
+    }
 
+    public void requestPermissions(String[] permissions, int requestCode){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            logger.log(HLogger.LogType.INFO,"SDK is upper than M");
+            ActivityCompat.requestPermissions(activity, permissions, requestCode);
+//            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, DataStorage.Request.GPS_REQUEST);
+        }
+    }
+
+    public int checkPermissions(String permission){
+        int permissionCheck = ContextCompat.checkSelfPermission(activity, permission);
+        return permissionCheck;
     }
 
 

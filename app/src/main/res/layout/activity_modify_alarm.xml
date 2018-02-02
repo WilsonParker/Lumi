@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.graction.developer.lumi.Activity.AddAlarmActivity" />
+            type="com.graction.developer.lumi.Activity.ModifyAlarmActivity" />
     </data>
 
     <RelativeLayout
@@ -422,7 +422,7 @@
                             android:layout_height="16.7dp" />
 
                         <Button
-                            style="@style/AddActivityAlarm_BT_save"
+                            style="@style/AddActivityAlarm_BT_modify"
                             android:layout_width="match_parent"
                             android:layout_height="46.7dp"
                             android:onClick='@{activity::addAlarm}' />

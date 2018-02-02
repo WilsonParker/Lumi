@@ -34,6 +34,7 @@
             android:layout_weight="139.3"
             android:background="@drawable/white_board"
             android:orientation="vertical"
+            android:onClick="@{(view)->viewHolder.onItemClick(view, item)}"
             android:weightSum="139.3">
 
             <View

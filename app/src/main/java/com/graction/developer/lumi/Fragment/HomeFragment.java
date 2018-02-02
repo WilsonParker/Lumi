@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.graction.developer.lumi.Data.SyncObject;
-import com.graction.developer.lumi.Listener.AddressHandleListener;
 import com.graction.developer.lumi.Model.ImageModel;
 import com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel;
 import com.graction.developer.lumi.Model.Response.WeatherModel;
@@ -72,13 +71,10 @@ public class HomeFragment extends BaseFragment {
         weatherManager = WeatherManager.getInstance();
         gpsManager = new GpsManager(getActivity());
 
-        googleLocationManager = new GoogleLocationManager(new AddressHandleListener() {
-            @Override
-            public void setAddress(String address) {
-                logger.log(HLogger.LogType.INFO, "address : " + address);
+        googleLocationManager = new GoogleLocationManager(address -> {
+            logger.log(HLogger.LogType.INFO, "address : " + address);
 //                TV_address.setText(address);
-                binding.fragmentHomeTVAddress.setText(address);
-            }
+            binding.fragmentHomeTVAddress.setText(address);
         });
 
 //        initUI();
