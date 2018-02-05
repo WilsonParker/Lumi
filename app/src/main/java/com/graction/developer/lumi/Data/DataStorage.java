@@ -48,6 +48,7 @@ public class DataStorage {
 
                                     , KEY_WEEK = "week"
                                     , KEY_ALARM_ITEM = "alarm_item"
+                                    , KEY_ALARM_INDEX = "alarm_index"
                                     , KEY_ADDRESS_ITEM = "address_item"
 
                                     ;

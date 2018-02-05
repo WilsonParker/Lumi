@@ -1,29 +1,30 @@
 package com.graction.developer.lumi.Model.DataBase;
 
-import com.graction.developer.lumi.DataBase.AutoIncreament;
+import com.graction.developer.lumi.DataBase.SqlIgnore;
 
 /**
  * Created by Graction06 on 2018-01-25.
  */
 
 public class AlarmTable {
-    @AutoIncreament
+    public static final int ENABLED = 1, DISABLED = 0;
+    @SqlIgnore
     private int alarm_index;
-    private int alarm_hourofday, alarm_minute, alarm_volume;
+    private int alarm_hourofday, alarm_minute, alarm_volume, alarm_running_state, alarm_isSpeaker;
     private String alarm_address, alarm_memo, alarm_days;
-    private int alarm_running_state;
 
     public AlarmTable() {
     }
 
-    public AlarmTable(int alarm_hourofday, int alarm_minute, String alarm_address, String alarm_memo, String alarm_days, int alarm_running_state, int alarm_volume) {
+    public AlarmTable(int alarm_hourOfDay, int alarm_minute, String alarm_address, String alarm_memo, String alarm_days, int alarm_running_state, int alarm_volume, int isSpeaker) {
         this.alarm_running_state = alarm_running_state;
-        this.alarm_hourofday = alarm_hourofday;
+        this.alarm_hourofday = alarm_hourOfDay;
         this.alarm_minute = alarm_minute;
         this.alarm_address = alarm_address;
         this.alarm_memo = alarm_memo;
         this.alarm_days = alarm_days;
         this.alarm_volume = alarm_volume;
+        this.alarm_isSpeaker = isSpeaker;
     }
 
     public int getAlarm_index() {
@@ -90,6 +91,14 @@ public class AlarmTable {
         this.alarm_address = alarm_address;
     }
 
+    public int getAlarm_isSpeaker() {
+        return alarm_isSpeaker;
+    }
+
+    public void setAlarm_isSpeaker(int alarm_isSpeaker) {
+        this.alarm_isSpeaker = alarm_isSpeaker;
+    }
+
     @Override
     public String toString() {
         return "AlarmTable{" +
@@ -97,10 +106,11 @@ public class AlarmTable {
                 ", alarm_hourofday=" + alarm_hourofday +
                 ", alarm_minute=" + alarm_minute +
                 ", alarm_volume=" + alarm_volume +
+                ", alarm_running_state=" + alarm_running_state +
+                ", alarm_isSpeaker=" + alarm_isSpeaker +
                 ", alarm_address='" + alarm_address + '\'' +
                 ", alarm_memo='" + alarm_memo + '\'' +
                 ", alarm_days='" + alarm_days + '\'' +
-                ", alarm_running_state=" + alarm_running_state +
                 '}';
     }
 }

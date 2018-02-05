@@ -11,6 +11,10 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface AutoIncreament {
+public @interface SqlType {
+    enum Type{
+        String, Double, Long, Integer, Boolean
+    }
 
+     Type getType() default Type.String;
 }

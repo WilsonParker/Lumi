@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.graction.developer.lumi.Util.Log.HLogger;
-import com.graction.developer.lumi.Util.Parser.DataBaseParserManager;
-import com.graction.developer.lumi.Util.Parser.ObjectParserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                                     "%s INTEGER UNSIGNED," +
                                     "%s INTEGER UNSIGNED," +
                                     "%s INTEGER UNSIGNED," +
-                                    "%s INTEGER UNSIGNED" +
+                                    "%s TINYINT UNSIGNED," +
+                                    "%s TINYINT UNSIGNED" +
                                     ");"
                             , DataBaseStorage.Table.TABLE_ALARM
                             , DataBaseStorage.Column.COLUMN_ALARM_INDEX
@@ -50,6 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                             , DataBaseStorage.Column.COLUMN_ALARM_MINUTE
                             , DataBaseStorage.Column.COLUMN_ALARM_VOLUME
                             , DataBaseStorage.Column.COLUMN_ALARM_RUNNING_STATE
+                            , DataBaseStorage.Column.COLUMN_ALARM_IS_SPEAKER
                     )
             );
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void insert(String table, Object obj) {
         try {
-            String[] val = ObjectParserManager.getInstance().fieldValueToString(obj, true);
+            String[] val = DataBaseParserManager.getInstance().fieldValueToString(obj, true);
             String query = String.format("INSERT INTO %s(%s) values(%s)", table, val[0], val[1]);
             logger.log(HLogger.LogType.INFO, "insert(String, Object)", query);
             insert(query);

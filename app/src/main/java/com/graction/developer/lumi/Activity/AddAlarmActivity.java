@@ -92,7 +92,7 @@ public class AddAlarmActivity extends BaseActivity {
 //        AlarmData.AlarmItem item = alarmData.new AlarmItem(place_name, place_address, memo, selectedWeek, hourOfDay, minute);
         if(!validCheck())
             return;
-        AlarmTable alarmTable = new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), 1, isSpeaker ? binding.activityAddAlarmSBVolume.getProgress() : 0);
+        AlarmTable alarmTable = new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), AlarmTable.ENABLED, binding.activityAddAlarmSBVolume.getProgress(), isSpeaker ? AlarmTable.ENABLED : AlarmTable.DISABLED);
         AlarmItem item = new AlarmItem(alarmTable);
         DataBaseStorage.alarmDataBaseHelper.insert(DataBaseStorage.Table.TABLE_ALARM, alarmTable);
         AlarmManager.getInstance().setAlarmService(item);

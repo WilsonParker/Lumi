@@ -425,7 +425,7 @@
                             style="@style/AddActivityAlarm_BT_modify"
                             android:layout_width="match_parent"
                             android:layout_height="46.7dp"
-                            android:onClick='@{activity::addAlarm}' />
+                            android:onClick='@{activity::modifyAlarm}' />
 
                         <View
                             android:layout_width="0dp"

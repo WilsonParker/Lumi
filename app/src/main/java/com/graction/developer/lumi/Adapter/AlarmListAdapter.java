@@ -38,7 +38,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.onBind(items.get(position));
+        holder.onBind(items.get(position), position);
     }
 
     @Override
@@ -49,6 +49,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ItemAlarmBinding binding;
+        private int index;
 
         public ViewHolder(ItemAlarmBinding binding) {
             super(binding.getRoot());
@@ -57,11 +58,12 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
             UIFactory.setViewWithRateParams(binding.itemAlarmRoot, TYPE_BASIC);
         }
 
-        public void onBind(AlarmItem item){
+        public void onBind(AlarmItem item, int index){
+            this.index = index;
             binding.setItem(item);
             binding.setViewHolder(this);
             binding.executePendingBindings();
-            if(!item.isSpeaker())
+            if(!item.getIsSpeaker())
                 binding.itemAlarmSBVolume.setOnTouchListener((v, e)->true);
         }
 
@@ -77,6 +79,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
             Context context = view.getContext();
             Intent intent = new Intent(context, ModifyAlarmActivity.class);
             intent.putExtra(DataStorage.Key.KEY_ALARM_ITEM,item);
+            intent.putExtra(DataStorage.Key.KEY_ALARM_INDEX,index);
             context.startActivity(intent);
         }
     }

@@ -1,9 +1,7 @@
 package com.graction.developer.lumi.Util.Parser;
 
-import com.graction.developer.lumi.DataBase.AutoIncreament;
 import com.graction.developer.lumi.Util.StringUtil;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,7 +33,7 @@ public class ObjectParserManager {
     /**
      * boolean containField : contain fields in String[]
      */
-    public String[] fieldValueToString(Object obj, boolean containField) throws InvocationTargetException, IllegalAccessException {
+    /*public String[] fieldValueToString(Object obj, boolean containField) throws InvocationTargetException, IllegalAccessException {
         Field[] fields = obj.getClass().getDeclaredFields();
         LinkedList<Field> fieldList = new LinkedList<>();
         for (Field field : fields)
@@ -63,7 +61,7 @@ public class ObjectParserManager {
         Loop1 : for (int i = 1; i < methods.size(); i++) {
             model = methods.get(i);
             for (Annotation annotation : model.getField().getDeclaredAnnotations())
-                if(annotation instanceof AutoIncreament)
+                if(annotation instanceof SqlIgnore)
                     continue Loop1;
             r1 += "," + model.getName();
             if (containField)
@@ -73,21 +71,11 @@ public class ObjectParserManager {
         result[0] = r1;
         result[1] = r2;
         return result;
-    }
+    }*/
 
 
-   /* public String[] fieldValueToString(Object obj, boolean containField, boolean containQuote) throws InvocationTargetException, IllegalAccessException {
-        List<MethodModel> methods = getMethods(obj.getClass(), new ParserCompareActionList() {
-            @Override
-            public void add(List<MethodModel> list, Method method) {
-                list.add(new MethodModel(StringUtil.convertFirstUpperOrLower(method.getName().replace("get", ""), false), method));
-            }
-
-            @Override
-            public boolean compare(String s) {
-                return s.toUpperCase().contains("GET");
-            }
-        });
+    public String[] fieldValueToString(Object obj, boolean containField) throws InvocationTargetException, IllegalAccessException {
+        List<MethodModel> methods = parserDefaultGetMethodModelList(obj);
         MethodModel model = methods.get(0);
         String r1 = model.getName(), r2 = containField ? (String) model.getMethod().invoke(obj, null) : "";
         for (int i = 1; i < methods.size(); i++) {
@@ -100,7 +88,33 @@ public class ObjectParserManager {
         result[0] = r1;
         result[1] = r2;
         return result;
-    }*/
+    }
+
+    public List<MethodModel> parserDefaultGetMethodModelList(Object obj){
+        Field[] fields = obj.getClass().getDeclaredFields();
+        LinkedList<Field> fieldList = new LinkedList<>();
+        for (Field field : fields)
+            fieldList.add(field);
+
+        List<MethodModel> methods = getMethods(obj.getClass(), new ParserCompareActionList() {
+            @Override
+            public void add(List<MethodModel> list, Method method) {
+                Field field = null;
+                for (int i = 0; i < fieldList.size(); i++) {
+                    field = fieldList.get(i);
+                    if (method.getName().toLowerCase().contains(field.getName().toLowerCase()))
+                        break;
+                }
+                list.add(new MethodModel(StringUtil.convertFirstUpperOrLower(method.getName().replace("get", ""), false), field, method));
+            }
+
+            @Override
+            public boolean compare(String s) {
+                return s.toUpperCase().contains("GET");
+            }
+        });
+        return methods;
+    }
 
     public Map<String, Method> getMethods(Class cls, ParserCompareActionMap parserCompareAction) {
         Map<String, Method> map = new HashMap<>();

@@ -1,5 +1,6 @@
 package com.graction.developer.lumi.Activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.TimePicker;
 
 import com.graction.developer.lumi.Data.DataStorage;
+import com.graction.developer.lumi.DataBase.DataBaseParserManager;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Address.PostcodifyModel;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
@@ -23,12 +25,11 @@ import com.graction.developer.lumi.Util.StringUtil;
 import com.graction.developer.lumi.databinding.ActivityModifyAlarmBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ModifyAlarmActivity extends BaseActivity {
     private ActivityModifyAlarmBinding binding;
     private AlarmItem item;
-    private int hourOfDay, minute;
+    private int hourOfDay, minute, index;
     private int[] selectedWeek = new int[8];
     private boolean isSpeaker = true;
     private String address;
@@ -37,6 +38,7 @@ public class ModifyAlarmActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = (AlarmItem) getIntent().getSerializableExtra(DataStorage.Key.KEY_ALARM_ITEM);
+        index = getIntent().getIntExtra(DataStorage.Key.KEY_ALARM_INDEX, -1);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_modify_alarm);
     }
 
@@ -64,20 +66,28 @@ public class ModifyAlarmActivity extends BaseActivity {
                                                                         }
                                                                     }
         );
-        
+
         initView();
+
+        logger.log(HLogger.LogType.INFO, "onCreate(Bundle savedInstanceState)", "index : " + index);
+
     }
 
     private void initView() {
         binding.activityAddAlarmETMemo.setText(item.getMemo());
         binding.activityAddAlarmSBVolume.setProgress(item.getVolume());
         binding.activityAddAlarmTVAddress.setText(item.getAddress());
+
+        binding.activityAddAlarmTimePicker.setCurrentHour(item.getHour());
+        binding.activityAddAlarmTimePicker.setCurrentMinute(item.getMinute());
+        selectAlarmType(item.getIsSpeaker());
     }
 
     private void createArray() {
         ArrayList<CustomArrayView.CustomItemViewModel> items = new ArrayList<>();
-        for (int i = 1; i < DataStorage.Date.DayOfTheWeek.length; i++)
-            items.add(binding.activityAddAlarmCustomArrayView.new CustomItemViewModel(DataStorage.Date.DayOfTheWeek[i], i));
+        int[] iArr = item.getDays();
+        for (int i = 1; i < iArr.length; i++)
+            items.add(binding.activityAddAlarmCustomArrayView.new CustomItemViewModel(DataStorage.Date.DayOfTheWeek[i], i, iArr[i] == CustomArrayView.WeekClickListener.click));
         binding.activityAddAlarmCustomArrayView.setWeekClickListener((idx, value) -> selectedWeek[idx] = value);
         binding.activityAddAlarmCustomArrayView.bindView(this, items);
     }
@@ -96,26 +106,33 @@ public class ModifyAlarmActivity extends BaseActivity {
     }
 
     // OnClick
-    public void addAlarm(View view) {
-        logger.log(HLogger.LogType.INFO, "addAlarm(view)");
-        logger.log(HLogger.LogType.INFO, "addAlarm(view)", "selectedWeek : " + Arrays.toString(selectedWeek));
+    public void modifyAlarm(View view) {
 //        AlarmData.AlarmItem item = alarmData.new AlarmItem(place_name, place_address, memo, selectedWeek, hourOfDay, minute);
-        if(!validCheck())
+        address = binding.activityAddAlarmTVAddress.getText() + "";
+        if (!validCheck())
             return;
-        AlarmTable alarmTable = new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), 1, isSpeaker ? binding.activityAddAlarmSBVolume.getProgress() : 0);
-        AlarmItem item = new AlarmItem(alarmTable);
-        DataBaseStorage.alarmDataBaseHelper.insert(DataBaseStorage.Table.TABLE_ALARM, alarmTable);
+        AlarmItem item = new AlarmItem(new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), AlarmTable.ENABLED, binding.activityAddAlarmSBVolume.getProgress(), isSpeaker ? AlarmTable.ENABLED : AlarmTable.DISABLED));
+        ContentValues values = null;
+        try {
+            values = DataBaseParserManager.getInstance().bindContentValues(item);
+        } catch (Exception e) {
+            logger.log(HLogger.LogType.ERROR, "modifyAlarm(View view)", "bindContentValues - Error", e);
+        }
+        String whereClause = DataBaseStorage.Column.COLUMN_ALARM_INDEX + " = ?";
+        String[] args = {item.getIndex() + ""};
+        DataBaseStorage.alarmDataBaseHelper.update(DataBaseStorage.Table.TABLE_ALARM, values, whereClause, args);
         AlarmManager.getInstance().setAlarmService(item);
-        DataBaseStorage.alarmList.add(item);
+        DataBaseStorage.alarmList.remove(item.getIndex());
+        DataBaseStorage.alarmList.add(item.getIndex(), item);
         onBackPressed();
     }
 
-    private boolean validCheck(){
-        if(NullChecker.getInstance().isNull(address))
+    private boolean validCheck() {
+        if (NullChecker.getInstance().isNull(address))
             return false;
-        if(hourOfDay == 0)
+        if (hourOfDay == 0)
             hourOfDay = Integer.parseInt(DateManager.getInstance().getNow(DateManager.DateType.HourOfDay));
-        if(minute == 0)
+        if (minute == 0)
             minute = Integer.parseInt(DateManager.getInstance().getNow(DateManager.DateType.Minute));
         return true;
     }

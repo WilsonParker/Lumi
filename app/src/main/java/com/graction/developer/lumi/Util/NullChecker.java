@@ -12,7 +12,7 @@ public class NullChecker {
     }
 
     public boolean isNull(String str) {
-        if (str == "" || str.equals("") || str == null)
+        if (str == null || str == "" || str.equals(""))
             return true;
         else
             return false;

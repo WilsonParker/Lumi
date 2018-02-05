@@ -202,7 +202,7 @@
                         android:weightSum="240">
 
                         <ImageView
-                            ImageResource="@{item.speaker ? @drawable/phone_icon_off : @drawable/phone_icon_on}"
+                            ImageResource="@{item.isSpeaker ? @drawable/phone_icon_off : @drawable/phone_icon_on}"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="13.3" />
@@ -212,7 +212,7 @@
                             android:layout_weight="6.7" />
 
                         <ImageView
-                            ImageResource="@{item.speaker ? @drawable/sound_icon_on : @drawable/sound_icon_off}"
+                            ImageResource="@{item.isSpeaker ? @drawable/sound_icon_on : @drawable/sound_icon_off}"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="13" />
@@ -241,7 +241,7 @@
                                 android:layout_weight="4.3"
                                 android:max="10"
                                 android:progress="8"
-                                android:progressDrawable='@{item.speaker ? @drawable/seekbar_on : @drawable/seekbar_off}'
+                                android:progressDrawable='@{item.isSpeaker ? @drawable/seekbar_on : @drawable/seekbar_off}'
                                 android:thumb="@null" />
 
                             <View

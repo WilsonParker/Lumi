@@ -67,13 +67,14 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
         public void onFirstClick(ItemViewModel model) {
             itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_first));
             itemArrayBinding.icon.setImageResource(R.drawable.ellipse_1);
-            weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), 1);
+            weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), WeekClickListener.click);
         }
 
         @Override
         public void onSecondClick(ItemViewModel model) {
-            init();
-            weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), 0);
+            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_second));
+            itemArrayBinding.icon.setImageResource(R.drawable.ellipse_7);
+            weekClickListener.setWeekArray(((CustomItemViewModel) model).getIndex(), WeekClickListener.reset);
         }
 
         @Override
@@ -81,13 +82,11 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
             super.toBind(item);
             itemArrayBinding.setItemModel((CustomItemViewModel) item);
             itemArrayBinding.executePendingBindings();
-            init();
+            if(item.isClicked())
+                onFirstClick(item);
+            else
+                onSecondClick(item);
             return itemArrayBinding.getRoot();
-        }
-
-        private void init(){
-            itemArrayBinding.text.setTextColor(ContextCompat.getColor(context, R.color.item_array_view_text_second));
-            itemArrayBinding.icon.setImageResource(R.drawable.ellipse_7);
         }
     }
 
@@ -98,6 +97,11 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
         public CustomItemViewModel(String text, int index) {
             this.text = text;
             this.index = index;
+        }
+
+        public CustomItemViewModel(String text, int index, boolean isClicked) {
+            this(text, index);
+            super.setClicked(isClicked);
         }
 
         public String getText() {
@@ -117,7 +121,9 @@ public class CustomArrayView extends HareArrayView2<CustomArrayView.CustomItemVi
         }
     }
 
-    public interface WeekClickListener{
+    public interface WeekClickListener {
+        int click = 1, reset = 0;
+
         void setWeekArray(int index, int value);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Arrays;
  * Created by Graction06 on 2018-01-26.
  */
 
-public class AlarmItem implements Serializable{
+public class AlarmItem implements Serializable {
     private static final String[] DayOfTheWeek = {"", "일", "월", "화", "수", "목", "금", "토"};
     private String memo, address;
     private int[] days;
@@ -106,12 +106,16 @@ public class AlarmItem implements Serializable{
         isMorning = morning;
     }
 
-    public boolean isSpeaker() {
+    public boolean getIsSpeaker() {
         return isSpeaker;
     }
 
-    public void setSpeaker(boolean speaker) {
+    public void setIsSpeaker(boolean speaker) {
         isSpeaker = speaker;
+        if(isSpeaker){
+            this.img_phone = R.drawable.phone_icon_off;
+            this.img_speaker = R.drawable.sound_icon_on;
+        }
     }
 
     public int getIndex() {
@@ -143,12 +147,7 @@ public class AlarmItem implements Serializable{
     }
 
     public void setVolume(int volume) {
-        if (volume > 0) {
-            this.isSpeaker = true;
-            this.volume = volume;
-            this.img_phone = R.drawable.phone_icon_off;
-            this.img_speaker = R.drawable.sound_icon_on;
-        }
+        this.volume = volume;
     }
 
     public int getImg_phone() {

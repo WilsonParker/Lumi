@@ -9,6 +9,7 @@ import com.graction.developer.lumi.Util.StringUtil;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -24,7 +25,7 @@ import retrofit2.Response;
 public class A2Test {
     @Test
     public void addition_isCorrect() throws Exception {
-        test6();
+        test7();
     }
 
     private void test1() {
@@ -94,7 +95,8 @@ public class A2Test {
     }
 
     private boolean isRunning = true;
-    private void test6(){
+
+    private void test6() {
         Net.getInstance().getFactoryImPostcodifyFactoryIm().searchAddress(PostcodifyModel.getParameter("관양동")).enqueue(new Callback<PostcodifyModel>() {
             @Override
             public void onResponse(Call<PostcodifyModel> call, Response<PostcodifyModel> response) {
@@ -104,12 +106,12 @@ public class A2Test {
 
             @Override
             public void onFailure(Call<PostcodifyModel> call, Throwable t) {
-                System.out.println("onFailure : "+t.getMessage());
+                System.out.println("onFailure : " + t.getMessage());
                 t.printStackTrace();
             }
         });
 
-        while(isRunning){
+        while (isRunning) {
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -118,4 +120,16 @@ public class A2Test {
         }
     }
 
+    private void test7() {
+        Object obj = new AlarmTable();
+        for (Method method : obj.getClass().getDeclaredMethods()) {
+            System.out.println("name : " + method.getName());
+            System.out.println("name : " + method.getReturnType());
+            System.out.println("name : " + method.getReturnType().getName());
+            System.out.println("name : " + method.getReturnType().getCanonicalName());
+            System.out.println("name : " + method.getReturnType().getTypeName());
+            System.out.println("name : " + method.getReturnType().getSimpleName());
+            System.out.println("name : " + (method.getReturnType() == Integer.class));
+        }
+    }
 }

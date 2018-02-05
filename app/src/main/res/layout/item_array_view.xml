@@ -24,16 +24,14 @@
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ellipse_7" />
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@{itemModel.text}"
                 android:gravity="center"
-                />
+                android:text="@{itemModel.text}" />
         </FrameLayout>
 
         <View

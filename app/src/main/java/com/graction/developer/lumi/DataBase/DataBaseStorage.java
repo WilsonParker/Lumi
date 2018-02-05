@@ -34,6 +34,7 @@ public class DataBaseStorage {
                                     , COLUMN_ALARM_MINUTE= COLUMN_ALARM+"MINUTE"
                                     , COLUMN_ALARM_VOLUME= COLUMN_ALARM+"VOLUME"
                                     , COLUMN_ALARM_RUNNING_STATE= COLUMN_ALARM+"RUNNING_STATE"
+                                    , COLUMN_ALARM_IS_SPEAKER= COLUMN_ALARM+"ISSPEAKER"
                                     ;
     }
 
