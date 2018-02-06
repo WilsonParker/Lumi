@@ -95,9 +95,13 @@
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="@string/activity_search_address_ET_searchbar_hint"
+                    android:inputType="text"
                     android:textColor="@color/activity_search_address_ET_searchbar"
                     android:textColorHint="@color/activity_search_address_ET_searchbar_hint"
-                    android:textSize="@dimen/activity_search_address_ET_searchbar_hint_size" />
+                    android:textSize="@dimen/activity_search_address_ET_searchbar_hint_size">
+
+                    <requestFocus />
+                </EditText>
 
                 <View
                     style="@style/Style_MarginView"
@@ -115,7 +119,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="16.3"
-                        android:onClick="@{activity::onSearch}"
+                        android:onClick="@{(view) -> activity.onSearch(1)}"
                         app:srcCompat="@drawable/search_icon" />
                 </LinearLayout>
 

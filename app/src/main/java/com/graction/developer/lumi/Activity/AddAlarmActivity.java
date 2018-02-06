@@ -2,7 +2,6 @@ package com.graction.developer.lumi.Activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.SeekBar;
@@ -10,7 +9,7 @@ import android.widget.TimePicker;
 
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
-import com.graction.developer.lumi.Model.Address.PostcodifyModel;
+import com.graction.developer.lumi.Model.Address.AddressModelResult;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.R;
@@ -33,15 +32,10 @@ public class AddAlarmActivity extends BaseActivity {
     private String address;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_alarm);
-    }
-
-    @Override
     protected void init() {
-        createArray();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_alarm);
         binding.setActivity(this);
+        createArray();
         selectAlarmType(isSpeaker);
         binding.activityAddAlarmSBVolume.setOnTouchListener((v, event) -> !isSpeaker);
         binding.activityAddAlarmSBVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -128,8 +122,8 @@ public class AddAlarmActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == DataStorage.Request.SEARCH_ADDRESS_REQUEST && resultCode == DataStorage.Request.SEARCH_ADDRESS_OK) {
-            PostcodifyModel.ItemModel item = (PostcodifyModel.ItemModel) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
-            binding.activityAddAlarmTVAddress.setText((address = item.getAddress()));
+            AddressModelResult.AddressModel.Juso item = (AddressModelResult.AddressModel.Juso) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
+            binding.activityAddAlarmTVAddress.setText((address = item.getRoadAddr()));
         }
     }
 }

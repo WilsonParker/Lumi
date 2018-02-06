@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class DataBaseParserManager extends ObjectParserManager {
     private static final DataBaseParserManager instance = new DataBaseParserManager();
+    private ContentValues values;
 
     public static DataBaseParserManager getInstance() {
         return instance;
@@ -116,7 +117,6 @@ public class DataBaseParserManager extends ObjectParserManager {
         return result;
     }
 
-    ContentValues values;
     public ContentValues bindContentValues(Object obj) throws Exception {
         values = new ContentValues();
         sqlBinding(parserDefaultGetMethodModelList(obj), (model -> {
@@ -135,7 +135,8 @@ public class DataBaseParserManager extends ObjectParserManager {
                 case "string":
                     System.out.println("name : "+model.getName());
                     System.out.println("type : "+method.getReturnType().getSimpleName().toLowerCase());
-                    values.put(model.getName(), (String) attachData(method.invoke(obj, null)));
+                    System.out.println("value : "+attachData(method.invoke(obj, null)));
+                    values.put(model.getName(), (String) method.invoke(obj, null));
                     break;
             }
         }));

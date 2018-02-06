@@ -111,7 +111,9 @@ public class StringUtil {
         return result;
     }
 
-    public static String arrayToString(List list) {
+    public static String arrayToString(List list) throws NullPointerException{
+        if(list == null)
+            throw new NullPointerException("List is null");
         String result = list.get(0).toString();
         for (int i = 1; i < list.size(); i++)
             result += "," + list.get(i).toString();

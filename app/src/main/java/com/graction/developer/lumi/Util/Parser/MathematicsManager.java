@@ -14,4 +14,8 @@ public class MathematicsManager {
     public int rounds(double d, double rat, double digit) {
         return (int) Math.round(Math.round((d * rat) * digit) / digit);
     }
+
+    public int rounds(String d, String rat, double digit) {
+        return (int) Math.round(Math.round((Double.parseDouble(d) * Double.parseDouble(rat)) * digit) / digit);
+    }
 }

@@ -49,14 +49,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCEJrAe1Go07xiXi5lykoOs74ewu-y-xEQ" />
 
-        <activity android:name=".Activity.AlarmActivity"
-            android:launchMode="singleTask"
-            />
+        <activity
+            android:name=".Activity.AlarmActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".Activity.AddAlarmActivity" />
         <activity android:name=".Activity.ModifyAlarmActivity" />
-        <activity android:name=".Activity.SearchAddressActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            />
+        <activity
+            android:name=".Activity.SearchAddressActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
     </application>
 
 </manifest>

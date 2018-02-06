@@ -35,7 +35,8 @@
     <dimen name="item_alarm_days_font_size">13sp</dimen>
     <dimen name="item_alarm_memo_font_size">13sp</dimen>
 
-    <dimen name="item_search_address_root_height">46px</dimen> <!-- Scalable -->
+    <!--<dimen name="item_search_address_root_height">46px</dimen> &lt;!&ndash; Scalable &ndash;&gt;-->
+    <dimen name="item_search_address_root_height">72px</dimen> <!-- Scalable -->
     <dimen name="item_search_address_text_font_size">14sp</dimen>
 
 

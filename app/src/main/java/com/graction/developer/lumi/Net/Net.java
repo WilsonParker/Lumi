@@ -7,10 +7,11 @@ public class Net {
 	private static final Net instance = new Net();
 //	private static final String BASE_URL = "http://10.0.2.2:8101/lumi/";
 	public static final String BASE_URL = "http://192.168.0.8:8101/lumi/"
-								, POSTCODIFY_URL = "https://api.poesis.kr/";
+//								, ADDRESS_URL = "https://api.poesis.kr/";
+								, ADDRESS_URL = "http://www.juso.go.kr/";
 	private NetFactoryIm netFactoryIm;
-	private PostcodifyFactoryIm postcodifyFactoryIm;
-	private Retrofit retrofit, postcodifyRetrofit;
+	private AddressFactoryIm addressFactoryIm;
+	private Retrofit retrofit, addressRetrofit;
 	
 	{
 		retrofit = new Retrofit.Builder()
@@ -18,8 +19,8 @@ public class Net {
 				.addConverterFactory(GsonConverterFactory.create())
 				.build();
 
-		postcodifyRetrofit = new Retrofit.Builder()
-				.baseUrl(POSTCODIFY_URL)
+		addressRetrofit = new Retrofit.Builder()
+				.baseUrl(ADDRESS_URL)
 				.addConverterFactory(GsonConverterFactory.create())
 				.build();
 	}
@@ -34,9 +35,9 @@ public class Net {
 		return netFactoryIm;
 	}
 
-	public PostcodifyFactoryIm getFactoryImPostcodifyFactoryIm() {
-		if (postcodifyFactoryIm== null)
-			postcodifyFactoryIm = postcodifyRetrofit.create(PostcodifyFactoryIm.class);
-		return postcodifyFactoryIm;
+	public AddressFactoryIm getAddressFactoryIm() {
+		if (addressFactoryIm == null)
+			addressFactoryIm = addressRetrofit.create(AddressFactoryIm.class);
+		return addressFactoryIm;
 	}
 }

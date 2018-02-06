@@ -3,7 +3,6 @@ package com.graction.developer.lumi.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.SeekBar;
@@ -12,13 +11,12 @@ import android.widget.TimePicker;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.DataBase.DataBaseParserManager;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
-import com.graction.developer.lumi.Model.Address.PostcodifyModel;
+import com.graction.developer.lumi.Model.Address.AddressModelResult;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.Layout.CustomArrayView;
 import com.graction.developer.lumi.Util.Alarm.AlarmManager;
-import com.graction.developer.lumi.Util.Date.DateManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.NullChecker;
 import com.graction.developer.lumi.Util.StringUtil;
@@ -29,21 +27,17 @@ import java.util.ArrayList;
 public class ModifyAlarmActivity extends BaseActivity {
     private ActivityModifyAlarmBinding binding;
     private AlarmItem item;
-    private int hourOfDay, minute, index;
+    private int hourOfDay = -1, minute = -1, index;
     private int[] selectedWeek = new int[8];
     private boolean isSpeaker = true;
     private String address;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void init() {
         item = (AlarmItem) getIntent().getSerializableExtra(DataStorage.Key.KEY_ALARM_ITEM);
         index = getIntent().getIntExtra(DataStorage.Key.KEY_ALARM_INDEX, -1);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_modify_alarm);
-    }
 
-    @Override
-    protected void init() {
         createArray();
         binding.setActivity(this);
         selectAlarmType(isSpeaker);
@@ -67,10 +61,8 @@ public class ModifyAlarmActivity extends BaseActivity {
                                                                     }
         );
 
-        initView();
-
         logger.log(HLogger.LogType.INFO, "onCreate(Bundle savedInstanceState)", "index : " + index);
-
+        initView();
     }
 
     private void initView() {
@@ -78,8 +70,9 @@ public class ModifyAlarmActivity extends BaseActivity {
         binding.activityAddAlarmSBVolume.setProgress(item.getVolume());
         binding.activityAddAlarmTVAddress.setText(item.getAddress());
 
-        binding.activityAddAlarmTimePicker.setCurrentHour(item.getHour());
+        binding.activityAddAlarmTimePicker.setCurrentHour(item.getRealHour());
         binding.activityAddAlarmTimePicker.setCurrentMinute(item.getMinute());
+
         selectAlarmType(item.getIsSpeaker());
     }
 
@@ -99,41 +92,40 @@ public class ModifyAlarmActivity extends BaseActivity {
 
     // onTimeChange
     public void onTimeChange(TimePicker view, int hourOfDay, int minute) {
-        logger.log(HLogger.LogType.INFO, "AlarmReceiver", "%d : %d", hourOfDay, minute);
-        this.hourOfDay = hourOfDay;
-        this.minute = minute;
-        // 8: 15, 17 : 15
     }
 
     // OnClick
     public void modifyAlarm(View view) {
 //        AlarmData.AlarmItem item = alarmData.new AlarmItem(place_name, place_address, memo, selectedWeek, hourOfDay, minute);
-        address = binding.activityAddAlarmTVAddress.getText() + "";
         if (!validCheck())
             return;
-        AlarmItem item = new AlarmItem(new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), AlarmTable.ENABLED, binding.activityAddAlarmSBVolume.getProgress(), isSpeaker ? AlarmTable.ENABLED : AlarmTable.DISABLED));
+        AlarmTable table = new AlarmTable(hourOfDay, minute, address, binding.activityAddAlarmETMemo.getText() + "", StringUtil.arrayToString(selectedWeek), AlarmTable.ENABLED, binding.activityAddAlarmSBVolume.getProgress(), isSpeaker ? AlarmTable.ENABLED : AlarmTable.DISABLED);
+        AlarmItem alarmItem = new AlarmItem(table, item.getIndex());
         ContentValues values = null;
         try {
-            values = DataBaseParserManager.getInstance().bindContentValues(item);
+            values = DataBaseParserManager.getInstance().bindContentValues(table);
         } catch (Exception e) {
             logger.log(HLogger.LogType.ERROR, "modifyAlarm(View view)", "bindContentValues - Error", e);
         }
+        logger.log(HLogger.LogType.INFO, "modifyAlarm(View view)", "AlarmTable : " + table);
+
         String whereClause = DataBaseStorage.Column.COLUMN_ALARM_INDEX + " = ?";
-        String[] args = {item.getIndex() + ""};
+        String[] args = {alarmItem.getIndex() + ""};
         DataBaseStorage.alarmDataBaseHelper.update(DataBaseStorage.Table.TABLE_ALARM, values, whereClause, args);
-        AlarmManager.getInstance().setAlarmService(item);
-        DataBaseStorage.alarmList.remove(item.getIndex());
-        DataBaseStorage.alarmList.add(item.getIndex(), item);
+        AlarmManager.getInstance().setAlarmService(alarmItem);
+        DataBaseStorage.alarmList.remove(index);
+        DataBaseStorage.alarmList.add(index, alarmItem);
         onBackPressed();
     }
 
     private boolean validCheck() {
+        address = binding.activityAddAlarmTVAddress.getText() + "";
         if (NullChecker.getInstance().isNull(address))
             return false;
-        if (hourOfDay == 0)
-            hourOfDay = Integer.parseInt(DateManager.getInstance().getNow(DateManager.DateType.HourOfDay));
-        if (minute == 0)
-            minute = Integer.parseInt(DateManager.getInstance().getNow(DateManager.DateType.Minute));
+//            hourOfDay = Integer.parseInt(DateManager.getInstance().getNow(DateManager.DateType.HourOfDay));
+//            minute = Integer.parseInt(DateManager.getInstance().getNow(DateManager.DateType.Minute));
+        hourOfDay = binding.activityAddAlarmTimePicker.getCurrentHour();
+        minute = binding.activityAddAlarmTimePicker.getCurrentMinute();
         return true;
     }
 
@@ -155,8 +147,8 @@ public class ModifyAlarmActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == DataStorage.Request.SEARCH_ADDRESS_REQUEST && resultCode == DataStorage.Request.SEARCH_ADDRESS_OK) {
-            PostcodifyModel.ItemModel item = (PostcodifyModel.ItemModel) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
-            binding.activityAddAlarmTVAddress.setText((address = item.getAddress()));
+            AddressModelResult.AddressModel.Juso item = (AddressModelResult.AddressModel.Juso) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
+            binding.activityAddAlarmTVAddress.setText((address = item.getRoadAddr()));
         }
     }
 }

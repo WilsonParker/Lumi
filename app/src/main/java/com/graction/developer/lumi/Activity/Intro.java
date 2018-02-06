@@ -65,8 +65,7 @@ public class Intro extends BaseActivity {
     });
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreateMojo(Bundle savedInstanceState) {
         setContentView(R.layout.activity_intro);
     }
 

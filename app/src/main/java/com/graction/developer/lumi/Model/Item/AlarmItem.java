@@ -25,15 +25,23 @@ public class AlarmItem implements Serializable {
         this.index = table.getAlarm_index();
         this.address = table.getAlarm_address();
         this.memo = table.getAlarm_memo();
+        this.isSpeaker = table.getAlarm_isSpeaker() == 1 ? true : false;
 //            this.days = Arrays.stream(table.getAlarm_days().split(",")).mapToInt(Integer::parseInt).toArray();
         String[] sDays = table.getAlarm_days().split(",");
         int[] days = new int[sDays.length];
-        for (int i = 0; i < sDays.length; i++)
-            days[i] = Integer.parseInt(sDays[i]);
+        System.out.println(Arrays.toString(sDays));
+        for (int i = 0; i < sDays.length; i++) {
+            days[i] = Integer.parseInt(sDays[i].replaceAll("\"", ""));
+        }
         this.days = days;
         setHour(table.getAlarm_hourofday());
         this.minute = table.getAlarm_minute();
         setVolume(table.getAlarm_volume());
+    }
+
+    public AlarmItem(AlarmTable table, int index) {
+        this(table);
+        this.index = index;
     }
 
     public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int isRunning) {
@@ -112,7 +120,7 @@ public class AlarmItem implements Serializable {
 
     public void setIsSpeaker(boolean speaker) {
         isSpeaker = speaker;
-        if(isSpeaker){
+        if (isSpeaker) {
             this.img_phone = R.drawable.phone_icon_off;
             this.img_speaker = R.drawable.sound_icon_on;
         }
@@ -128,6 +136,10 @@ public class AlarmItem implements Serializable {
 
     public int getHour() {
         return hour;
+    }
+
+    public int getRealHour() {
+        return isMorning ? hour : hour + 12;
     }
 
     public void setHour(int hour) {

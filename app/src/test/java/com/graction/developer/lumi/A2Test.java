@@ -1,8 +1,6 @@
 package com.graction.developer.lumi;
 
-import com.graction.developer.lumi.Model.Address.PostcodifyModel;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
-import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.Util.Parser.ObjectParserManager;
 import com.graction.developer.lumi.Util.StringUtil;
 
@@ -12,10 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Example local unit currentWeather, which will execute on the development machine (host).
@@ -50,7 +44,7 @@ public class A2Test {
 //        System.out.println(Arrays.toString(s1));
 
         try {
-            /*String[] res = ObjectParserManager.getInstance().fieldValueToString(new AddressModel("address", "do", "si","gu"), true);
+            /*String[] res = ObjectParserManager.getInstance().fieldValueToString(new AddressItem("address", "do", "si","gu"), true);
             System.out.println(res[0]);
             System.out.println(res[1]);*/
 
@@ -96,8 +90,8 @@ public class A2Test {
 
     private boolean isRunning = true;
 
-    private void test6() {
-        Net.getInstance().getFactoryImPostcodifyFactoryIm().searchAddress(PostcodifyModel.getParameter("관양동")).enqueue(new Callback<PostcodifyModel>() {
+    /*private void test6() {
+        Net.getInstance().getAddressFactoryIm().searchAddress(PostcodifyModel.getParameter("관양동")).enqueue(new Callback<PostcodifyModel>() {
             @Override
             public void onResponse(Call<PostcodifyModel> call, Response<PostcodifyModel> response) {
                 System.out.println(response.body());
@@ -118,7 +112,7 @@ public class A2Test {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     private void test7() {
         Object obj = new AlarmTable();

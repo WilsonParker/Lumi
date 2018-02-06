@@ -1,10 +1,10 @@
 package com.graction.developer.lumi.Model;
 
-public class AddressModel {
-    public AddressModel() {
+public class AddressItem {
+    public AddressItem() {
     }
 
-    public AddressModel(String address, String address_do, String address_si, String address_gu) {
+    public AddressItem(String address, String address_do, String address_si, String address_gu) {
         this.address = address;
         this.address_do = address_do;
         this.address_si = address_si;
@@ -44,7 +44,7 @@ public class AddressModel {
 
     @Override
     public String toString() {
-        return "AddressModel{" +
+        return "AddressItem{" +
                 "address='" + address + '\'' +
                 ", address_do='" + address_do + '\'' +
                 ", address_si='" + address_si + '\'' +

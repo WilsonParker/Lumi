@@ -1,5 +1,7 @@
 package com.graction.developer.lumi.Activity;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -8,9 +10,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected HLogger logger;
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    final protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         baseInit();
+        onCreateMojo(savedInstanceState);
         init();
     }
 
@@ -19,5 +22,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract void init();
+
+    protected void onCreateMojo(@Nullable Bundle savedInstanceState){
+        /*
+         * You need to override this method When you want to use onCreate Method
+         */
+    }
 
 }

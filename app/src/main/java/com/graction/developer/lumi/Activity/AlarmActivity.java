@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
 
@@ -19,18 +18,13 @@ public class AlarmActivity extends BaseActivity {
     private ActivityAlarmBinding binding;
     private MediaPlayer mediaPlayer;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_alarm);
+    protected void init() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-    }
 
-    protected void init() {
         isRunning = true;
         logger.log(HLogger.LogType.INFO, "AlarmReceiver", "AlarmActivity init"); // com.graction.developer.lumi.ALARM_START
         mediaPlayer = new MediaPlayer();

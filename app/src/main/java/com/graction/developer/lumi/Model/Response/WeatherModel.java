@@ -1,7 +1,7 @@
 package com.graction.developer.lumi.Model.Response;
 
 
-import com.graction.developer.lumi.Model.AddressModel;
+import com.graction.developer.lumi.Model.AddressItem;
 import com.graction.developer.lumi.Model.FineDustModel;
 import com.graction.developer.lumi.Model.ImageModel;
 import com.graction.developer.lumi.Model.Weather.Clouds;
@@ -33,7 +33,7 @@ public class WeatherModel {
 	private int cod;		// Internal parameter
 
 	private FineDustModel fineDustModel;
-	private AddressModel addressModel;
+	private AddressItem addressModel;
 	private ImageModel imageModel;
 
 	public Coord getCoord() {
@@ -148,11 +148,11 @@ public class WeatherModel {
 		this.fineDustModel = fineDustModel;
 	}
 
-	public AddressModel getAddressModel() {
+	public AddressItem getAddressModel() {
 		return addressModel;
 	}
 
-	public void setAddressModel(AddressModel addressModel) {
+	public void setAddressModel(AddressItem addressModel) {
 		this.addressModel = addressModel;
 	}
 
