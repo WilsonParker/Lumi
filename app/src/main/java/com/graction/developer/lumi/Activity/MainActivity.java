@@ -12,6 +12,7 @@ import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.Fragment.HomeFragment;
 import com.graction.developer.lumi.Fragment.TestFragment;
 import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private boolean isFirst;
+    private FragmentAdapter fragmentAdapter;
     private Fragment fragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        if (!isFirst){
+        if (!isFirst) {
             initViewPager();
             isFirst = !isFirst;
         }
@@ -68,25 +70,37 @@ public class MainActivity extends BaseActivity {
             TabLayoutSupport.setupWithViewPager(binding.activityMainTab, binding.activityMainVP, viewPagerTabAdapter);
         */
 
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
         ArrayList<FragmentAdapter.TabItem> items = new ArrayList<>();
-        items.add(fragmentAdapter.new TabItem(HomeFragment.getInstance(), R.drawable.tab_home));
-        items.add(fragmentAdapter.new TabItem(Forecast5DayFragment.getInstance(), R.drawable.tab_week));
-        items.add(fragmentAdapter.new TabItem(TestFragment.getInstance(), R.drawable.tab_dust));
-        items.add(fragmentAdapter.new TabItem(AlarmFragment.getInstance(), R.drawable.tab_alarm));
-        fragmentAdapter.setItems(items);
-        fragmentAdapter.setSetTabItem((index, item) -> {
+        items.add(new FragmentAdapter.TabItem(HomeFragment.getInstance(), R.drawable.tab_home));
+        items.add(new FragmentAdapter.TabItem(Forecast5DayFragment.getInstance(), R.drawable.tab_week));
+        items.add(new FragmentAdapter.TabItem(TestFragment.getInstance(), R.drawable.tab_dust));
+        items.add(new FragmentAdapter.TabItem(AlarmFragment.getInstance(), R.drawable.tab_alarm));
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), items, (index, item) -> {
             binding.activityMainTab.getTabAt(index).setCustomView(fragmentAdapter.getView(MainActivity.this, R.layout.item_tab, item.getResIcon()));
+            logger.log(HLogger.LogType.INFO, "setTabItem", "index : "+index);
+
            /* ItemTabBinding itemTabBinding = ItemTabBinding.inflate(getLayoutInflater());
             View tabItem = itemTabBinding.getRoot();
             itemTabBinding.setItem(item);
             itemTabBinding.executePendingBindings();
             binding.activityMainTab.getTabAt(index).setCustomView(tabItem);*/
         });
+       /* fragmentAdapter.setSetTabItem((index, item) -> {
+            binding.activityMainTab.getTabAt(index).setCustomView(fragmentAdapter.getView(MainActivity.this, R.layout.item_tab, item.getResIcon()));
+            logger.log(HLogger.LogType.INFO, "setTabItem", "index : "+index);
+
+           *//* ItemTabBinding itemTabBinding = ItemTabBinding.inflate(getLayoutInflater());
+            View tabItem = itemTabBinding.getRoot();
+            itemTabBinding.setItem(item);
+            itemTabBinding.executePendingBindings();
+            binding.activityMainTab.getTabAt(index).setCustomView(tabItem);*//*
+        });*/
+//        fragmentAdapter.setItems(items);
         binding.activityMainTab.setupWithViewPager(binding.activityMainVP);
         binding.activityMainVP.setAdapter(fragmentAdapter);
         binding.activityMainVP.setOffscreenPageLimit(items.size() - 1);
 
+        logger.log(HLogger.LogType.INFO, "initViewPager()", "initViewPager()");
     }
 
     private void initNavigation() {

@@ -1,15 +1,12 @@
 package com.graction.developer.lumi.Adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.graction.developer.lumi.Adapter.Listener.ItemOnClickListener;
-import com.graction.developer.lumi.Adapter.Listener.OnScrollEndListener;
-import com.graction.developer.lumi.Model.Address.AddressModelResult;
+import com.graction.developer.lumi.Model.Address.AddressModel;
 import com.graction.developer.lumi.UI.UIFactory;
-import com.graction.developer.lumi.Util.Parser.MathematicsManager;
 import com.graction.developer.lumi.databinding.ItemSearchAddressBinding;
 
 import java.util.ArrayList;
@@ -22,19 +19,11 @@ import static com.graction.developer.lumi.UI.UIFactory.TYPE_BASIC;
 
 public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.ViewHolder> {
     private ItemOnClickListener itemOnClickListener;
-    private OnScrollEndListener onScrollEndListener;
-    private AddressModelResult model;
-    private ArrayList<AddressModelResult.AddressModel.Juso> items;
-    private int totalCount, currentPage, maxPage;
+    private ArrayList<AddressModel.Prediction> items;
 
-    public AddressListAdapter(AddressModelResult model, int currentPage, ItemOnClickListener itemOnClickListener, OnScrollEndListener onScrollEndListener) {
-        this.model = model;
-        this.currentPage = currentPage;
+    public AddressListAdapter(ArrayList<AddressModel.Prediction> items, ItemOnClickListener itemOnClickListener) {
+        this.items = items;
         this.itemOnClickListener = itemOnClickListener;
-        this.onScrollEndListener = onScrollEndListener;
-        items = model.getResults().getJuso();
-        totalCount = Integer.parseInt(model.getResults().getCommon().getTotalCount());
-        maxPage = MathematicsManager.getInstance().rounds(model.getResults().getCommon().getTotalCount(), model.getResults().getCommon().getCountPerPage(), 2);
     }
 
     @Override
@@ -44,17 +33,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.onBind(items.get(position), totalCount == position + 1);
-
-        if (onScrollEndListener != null && currentPage < maxPage && position + 1 == getItemCount()) {
-            Log.i("AddressListAdapter",String.format("%d / %d / %d / %d", currentPage, maxPage, position, getItemCount()));
-            //  1 / 10 / 0 / 1
-            onScrollEndListener.scroll();
-        }
-    }
-
-    public void addItems(ArrayList<AddressModelResult.AddressModel.Juso> items){
-        this.items.addAll(items);
+        holder.onBind(items.get(position), position+1 == getItemCount());
     }
 
     @Override
@@ -71,14 +50,14 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
             UIFactory.setViewWithRateParams(binding.itemSearchAddressRoot, TYPE_BASIC);
         }
 
-        public void onBind(AddressModelResult.AddressModel.Juso item, boolean isLast) {
+        public void onBind(AddressModel.Prediction item, boolean isLast) {
             binding.setItem(item);
             binding.setViewHolder(this);
             binding.setIsLast(isLast);
             binding.executePendingBindings();
         }
 
-        public void onClick(AddressModelResult.AddressModel.Juso item) {
+        public void onClick(AddressModel.Prediction item) {
             itemOnClickListener.onClick(item);
         }
     }

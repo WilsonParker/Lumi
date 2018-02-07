@@ -11,7 +11,7 @@ import android.widget.TimePicker;
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.DataBase.DataBaseParserManager;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
-import com.graction.developer.lumi.Model.Address.AddressModelResult;
+import com.graction.developer.lumi.Model.Address.AddressModel;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.R;
@@ -147,8 +147,8 @@ public class ModifyAlarmActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == DataStorage.Request.SEARCH_ADDRESS_REQUEST && resultCode == DataStorage.Request.SEARCH_ADDRESS_OK) {
-            AddressModelResult.AddressModel.Juso item = (AddressModelResult.AddressModel.Juso) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
-            binding.activityAddAlarmTVAddress.setText((address = item.getRoadAddr()));
+            AddressModel.Prediction item = (AddressModel.Prediction) data.getSerializableExtra(DataStorage.Key.KEY_ADDRESS_ITEM);
+            binding.activityAddAlarmTVAddress.setText((address = item.getDescription()));
         }
     }
 }

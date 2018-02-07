@@ -1,5 +1,7 @@
 package com.graction.developer.lumi;
 
+import com.graction.developer.lumi.Util.Parser.MathematicsManager;
+
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -13,7 +15,7 @@ import java.net.URLEncoder;
 public class A1Test {
     @Test
     public void addition_isCorrect() throws Exception {
-        test4();
+        test5();
     }
 
     private void test1() {
@@ -81,5 +83,15 @@ public class A1Test {
         }
 
         System.out.println(text);
+    }
+
+    private void test5(){
+        System.out.println(5 / 4);
+        System.out.println(5 / 10);
+        System.out.println(MathematicsManager.getInstance().rounds(5/4,2));
+        System.out.println(MathematicsManager.getInstance().rounds(1/10,3));
+        System.out.println(MathematicsManager.getInstance().rounds(-1/3,3));
+        System.out.println(MathematicsManager.getInstance().rounds(-1*3,3));
+        System.out.println(Math.pow(2,22));
     }
 }

@@ -12,6 +12,7 @@
     <!-- Value-->
     <string name="DEVICE_STANDARD_WIDTH">360</string>
     <string name="DEVICE_STANDARD_HEIGHT">640</string>
+    <string name="DEVICE_FULL_HEIGHT">614</string>
     <string name="FRAGMENT_STANDARD_HEIGHT">530</string>
 
     <!-- Text -->

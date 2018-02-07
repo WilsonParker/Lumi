@@ -3,59 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.graction.developer.lumi.Activity.MainActivity">
+        android:layout_height="match_parent">
 
-        <View
-            style="@style/Style_MarginView"
-            android:layout_weight="37.3" />
-
-        <!-- <com.graction.developer.lumi.UI.Layout.CustomNavigationView
-             android:id="@+id/activity_main_CNV"
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-             android:layout_weight="45.7"
-             android:background="#3a5bca" />-->
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/activity_main_Tab"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="45.7"
-            app:tabIndicatorColor="@color/Top_Tab_indicator"
-            android:background="@color/Top_Tab_Background" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/activity_main_VP"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/activity_main_VP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="529" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="614">
 
-        <!-- <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
-            android:id="@+id/activity_main_VP"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="529"
-            android:clipToPadding="false"
-            app:rvp_singlePageFling="true"
-            app:rvp_triggerOffset="0.1" />-->
+            <View
+                style="@style/Style_MarginView"
+                android:layout_weight="14.3" />
 
-        <!--<FrameLayout
-            android:id="@+id/activity_main_FL"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="529"></FrameLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="23"
+                android:weightSum="@string/DEVICE_STANDARD_WIDTH">
 
-        <!-- <android.support.design.widget.BottomNavigationView
-             android:id="@+id/navigation"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_gravity="bottom"
-             android:background="?android:attr/windowBackground"
-             app:menu="@menu/navigation" />-->
+                <View
+                    style="@style/Style_MarginView"
+                    android:layout_weight="14.7" />
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="334.3"
+                    app:srcCompat="@drawable/top" />
+
+                <View
+                    style="@style/Style_MarginView"
+                    android:layout_weight="11" />
+            </LinearLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/activity_main_Tab"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="45.7"
+                app:tabIndicatorColor="@color/Top_Tab_indicator" />
+
+            <!--<android.support.design.widget.TabLayout
+                android:id="@+id/activity_main_Tab"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                app:tabIndicatorColor="@color/Top_Tab_indicator" />-->
+        </LinearLayout>
+    </RelativeLayout>
 </layout>

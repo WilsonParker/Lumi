@@ -18,366 +18,371 @@
             type="com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel.IntegratedAirQualityModelItem" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/fragment_home_root"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#eeeeee">
+        android:background="@drawable/main">
 
-        <ImageView
-            android:id="@+id/fragment_home_IV_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/fragment_home_IV_character"
-            android:layout_width="100dp"
-            android:layout_height="128dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/fragment_home_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주소" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:id="@+id/fragment_home_TV_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{weatherModel.addressModel.address}' />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="온도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:id="@+id/fragment_home_TV_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{weatherModel.main.temp+""}' />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="최저 온도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{weatherModel.main.temp_min+""}' />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="최고 온도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{weatherModel.main.temp_max+""}' />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="미세 먼지" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{weatherModel.fineDustModel.grade}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{weatherModel.fineDustModel.value+""}' />
-            </LinearLayout>
+            android:background="#eeeeee"
+            android:visibility="invisible">
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="15dp" />
-            
-            <LinearLayout
+                android:id="@+id/fragment_home_IV_background"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="미세 먼지" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_PM10)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.pm10Value+""}' />
-            </LinearLayout>
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/fragment_home_IV_character"
+                android:layout_width="100dp"
+                android:layout_height="128dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="초미세 먼지" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주소" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/fragment_home_TV_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{weatherModel.addressModel.address}' />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="온도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/fragment_home_TV_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{weatherModel.main.temp+""}' />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최저 온도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{weatherModel.main.temp_min+""}' />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고 온도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{weatherModel.main.temp_max+""}' />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="미세 먼지" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{weatherModel.fineDustModel.grade}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{weatherModel.fineDustModel.value+""}' />
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="15dp" />
 
-                <TextView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="미세 먼지" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_PM10)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.pm10Value+""}' />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초미세 먼지" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_PM25)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.pm25Value+""}' />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일산화탄소 농도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_CO)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.coValue+""}' />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이산화질소 농도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_NO2)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.no2Value+""}' />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="오존 농도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_O3)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.o3Value+""}' />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="아황산가스 농도" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_SO2)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.so2Value+""}' />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="통합환경대기 수치" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_KHAI)}' />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{integratedAirQualityModelItem.khaiValue+""}' />
+                </LinearLayout>
+
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/donut_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_PM25)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.pm25Value+""}' />
+                    android:layout_marginLeft="50dp"
+                    app:donut_background_color="#3d3d3d"
+                    app:donut_circle_starting_degree="-90"
+                    app:donut_finished_color="#eaeaeaea"
+                    app:donut_inner_bottom_text="h2"
+                    app:donut_max="100"
+                    app:donut_progress="40"
+                    app:donut_show_text="true" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="일산화탄소 농도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_CO)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.coValue+""}' />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이산화질소 농도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_NO2)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.no2Value+""}' />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="오존 농도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_O3)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.o3Value+""}' />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="아황산가스 농도" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_SO2)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.so2Value+""}' />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="통합환경대기 수치" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.gradeToStringForKey(integratedAirQualityModelItem.KEY_KHAI)}' />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{integratedAirQualityModelItem.khaiValue+""}' />
-            </LinearLayout>
-
-            <com.github.lzyzsd.circleprogress.DonutProgress
-                android:layout_marginLeft="50dp"
-                android:id="@+id/donut_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:donut_progress="40"
-                app:donut_background_color="#3d3d3d"
-                app:donut_finished_color="#eaeaeaea"
-                app:donut_circle_starting_degree="-90"
-                app:donut_show_text="true"
-                app:donut_inner_bottom_text="h2"
-                app:donut_max="100"
-                />
-        </LinearLayout>
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
 </layout>

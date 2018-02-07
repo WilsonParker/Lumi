@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.graction.developer.lumi.Model.Address.AddressModelResult.AddressModel.Juso" />
+            type="com.graction.developer.lumi.Model.Address.AddressModel.Prediction" />
 
         <variable
             name="viewHolder"
@@ -48,34 +48,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="343.3"
                 android:gravity="center_vertical"
-                android:text='@{item.jibunAddr}'
+                android:text='@{item.description}'
                 android:textColor="@color/item_search_address_text"
                 android:lines="1"
                 android:textSize="@dimen/item_search_address_text_font_size"
                 tool:text="경기도 안양시 만안구 안양동 1-6" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="45"
-            android:weightSum="@string/DEVICE_STANDARD_WIDTH">
-
-            <View
-                style="@style/Style_MarginView"
-                android:layout_weight="16.7" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="343.3"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:text='@{item.roadAddr}'
-                android:textColor="@color/item_search_address_text"
-                android:textSize="@dimen/item_search_address_text_font_size"
-                tool:text="경기도 안양시 만안구 예술공원로118번길 21-27" />
 
         </LinearLayout>
 

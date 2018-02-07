@@ -70,7 +70,7 @@ public class TestFragment extends BaseFragment {
 
     private void initService() {
         Intent serviceIntent = new Intent(getActivity(), AlarmService.class);
-        getActivity().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+//        getActivity().bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     // onClick

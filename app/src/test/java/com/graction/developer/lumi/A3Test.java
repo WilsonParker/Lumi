@@ -4,18 +4,12 @@ import android.content.ContentValues;
 
 import com.graction.developer.lumi.DataBase.DataBaseParserManager;
 import com.graction.developer.lumi.DataBase.DataBaseStorage;
-import com.graction.developer.lumi.Model.Address.AddressModelResult;
 import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
-import com.graction.developer.lumi.Net.Net;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.StringUtil;
 
 import org.junit.Test;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Example local unit currentWeather, which will execute on the development machine (host).
@@ -27,7 +21,7 @@ public class A3Test {
 
     @Test
     public void addition_isCorrect() throws Exception {
-        test2();
+        test1();
     }
 
     private void test1() {
@@ -46,7 +40,7 @@ public class A3Test {
 //        DataBaseStorage.alarmDataBaseHelper.update(DataBaseStorage.Table.TABLE_ALARM, values, whereClause, args);
     }
 
-    boolean isRunning = true;
+   /* boolean isRunning = true;
     private void test2() {
         Net.getInstance().getAddressFactoryIm().searchAddress(AddressModelResult.getParameter("안양시", 1)).enqueue(new Callback<AddressModelResult>() {
             @Override
@@ -69,5 +63,5 @@ public class A3Test {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 }

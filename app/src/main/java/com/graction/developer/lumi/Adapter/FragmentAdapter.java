@@ -22,6 +22,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     private ArrayList<TabItem> items;
     private OnTabSelected onTabSelected;
     private SetTabItem setTabItem;
+    private static boolean isFirst;
 
     public FragmentAdapter(FragmentManager fm) {
         super(fm);
@@ -30,19 +31,19 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     public FragmentAdapter(FragmentManager fm, OnTabSelected onTabSelected) {
         super(fm);
-        items = new ArrayList<>();
         this.onTabSelected = onTabSelected;
+        items = new ArrayList<>();
     }
 
     public FragmentAdapter(FragmentManager fm, ArrayList<TabItem> items) {
         super(fm);
-        this.items = items;
+        setItems(items);
     }
 
     public FragmentAdapter(FragmentManager fm, ArrayList<TabItem> items, OnTabSelected onTabSelected) {
         super(fm);
-        this.items = items;
         this.onTabSelected = onTabSelected;
+        setItems(items);
     }
 
     public void setOnTabSelected(OnTabSelected onTabSelected) {
@@ -55,6 +56,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     public void setItems(ArrayList<TabItem> items) {
         this.items = items;
+        if (setTabItem != null)
+            for (int i = 0; i < items.size(); i++)
+                setTabItem.setTabItem(i, items.get(i));
     }
 
     public void addItem(TabItem tabItem) {
@@ -77,8 +81,12 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     @Override
     public void finishUpdate(ViewGroup container) {
         super.finishUpdate(container);
-        for(int i=0; i<items.size(); i++)
-            setTabItem.setTabItem(i, items.get(i));
+        /*if (!isFirst) {
+            for (int i = 0; i < items.size(); i++)
+                setTabItem.setTabItem(i, items.get(i));
+            Log.i("FragmentAdapter", "finishUpdate(ViewGroup container) size : " + items.size());
+            isFirst = true;
+        }*/
     }
 
     @Override
@@ -86,7 +94,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
-    public View getDefaultView(Context context, int resId){
+    public View getDefaultView(Context context, int resId) {
         ImageView view = new ImageView(context);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view.setImageResource(resId);
@@ -94,13 +102,13 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     }
 
     // ImageView id must be icon
-    public View getView(Context context, int layout, int resId){
+    public View getView(Context context, int layout, int resId) {
         View view = LayoutInflater.from(context).inflate(layout, null);
-        ((ImageView)view.findViewById(R.id.icon)).setImageResource(resId);
+        ((ImageView) view.findViewById(R.id.icon)).setImageResource(resId);
         return view;
     }
 
-    public class TabItem {
+    public static class TabItem {
         private Fragment fragment;
         private int resIcon;
 

@@ -7,15 +7,23 @@ package com.graction.developer.lumi.Util.Parser;
 public class MathematicsManager {
     private static final MathematicsManager instance = new MathematicsManager();
 
+    enum Operator {
+        ADD, MINUS, MULTIPLY, DIVISION
+    }
+
+
     public static MathematicsManager getInstance() {
         return instance;
     }
 
-    public int rounds(double d, double rat, double digit) {
-        return (int) Math.round(Math.round((d * rat) * digit) / digit);
+    public int rounds(double d, double digit) {
+        double p = Math.pow(10, digit);
+        return (int) Math.round(Math.round((d * p)) / p);
     }
 
-    public int rounds(String d, String rat, double digit) {
-        return (int) Math.round(Math.round((Double.parseDouble(d) * Double.parseDouble(rat)) * digit) / digit);
+
+    public int rounds(String d, double digit) {
+        double p = Math.pow(10, digit);
+        return (int) Math.round(Math.round((Double.parseDouble(d) * p)) / p);
     }
 }
