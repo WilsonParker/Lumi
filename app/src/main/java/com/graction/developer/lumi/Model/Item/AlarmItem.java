@@ -44,28 +44,20 @@ public class AlarmItem implements Serializable {
         this.index = index;
     }
 
-    public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int isRunning) {
-        this(address, memo, days, hour, minute, isRunning);
+    public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int volume, int isRunning, boolean isSpeaker) {
+        this(address, memo, days, hour, minute, volume, isRunning, isSpeaker);
         this.index = index;
     }
 
-    public AlarmItem(int index, String address, String memo, int[] days, int hour, int minute, int volume, int isRunning) {
-        this(address, memo, days, hour, minute, volume, isRunning);
-        this.index = index;
-    }
-
-    public AlarmItem(String address, String memo, int[] days, int hour, int minute, int isRunning) {
+    public AlarmItem(String address, String memo, int[] days, int hour, int minute, int volume, int isRunning, boolean isSpeaker) {
         this.address = address;
         this.memo = memo;
         this.days = days;
         this.minute = minute;
         this.isRunning = isRunning;
+        this.isSpeaker = isSpeaker;
+        this.volume = volume;
         setHour(hour);
-    }
-
-    public AlarmItem(String address, String memo, int[] days, int hour, int minute, int volume, int isRunning) {
-        this(address, memo, days, hour, minute, isRunning);
-        setVolume(volume);
     }
 
     private void setMorning(int hour) {

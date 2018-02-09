@@ -50,6 +50,7 @@ public class DataStorage {
                                     , KEY_ALARM_ITEM = "alarm_item"
                                     , KEY_ALARM_INDEX = "alarm_index"
                                     , KEY_ADDRESS_ITEM = "address_item"
+                                    , KEY_NOTIFICATION_ITEM = "notification_item"
 
                                     ;
 

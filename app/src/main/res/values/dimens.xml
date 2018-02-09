@@ -11,6 +11,12 @@
     <dimen name="fragment_alarm_bottom_add_button_width">74dp</dimen>
     <dimen name="fragment_alarm_bottom_add_button_height">74dp</dimen>
 
+    <dimen name="fragment_home_TV_weather_info_1">13.9sp</dimen>
+    <dimen name="fragment_home_TV_weather_delim">14.8sp</dimen>
+    <dimen name="fragment_home_TV_weather_current_temp">65.4sp</dimen>
+    <dimen name="fragment_home_TV_message">18sp</dimen>
+    <dimen name="fragment_home_TV_weather_info_2">14sp</dimen>
+
     <!--
         Activity
     -->

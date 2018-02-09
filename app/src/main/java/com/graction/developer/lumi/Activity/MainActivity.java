@@ -10,6 +10,7 @@ import com.graction.developer.lumi.Adapter.FragmentAdapter;
 import com.graction.developer.lumi.Fragment.AlarmFragment;
 import com.graction.developer.lumi.Fragment.Forecast5DayFragment;
 import com.graction.developer.lumi.Fragment.HomeFragment;
+import com.graction.developer.lumi.Fragment.Test2Fragment;
 import com.graction.developer.lumi.Fragment.TestFragment;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Util.Log.HLogger;
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity {
 
         ArrayList<FragmentAdapter.TabItem> items = new ArrayList<>();
         items.add(new FragmentAdapter.TabItem(HomeFragment.getInstance(), R.drawable.tab_home));
-        items.add(new FragmentAdapter.TabItem(Forecast5DayFragment.getInstance(), R.drawable.tab_week));
+        items.add(new FragmentAdapter.TabItem(Test2Fragment.getInstance(), R.drawable.tab_week));
         items.add(new FragmentAdapter.TabItem(TestFragment.getInstance(), R.drawable.tab_dust));
         items.add(new FragmentAdapter.TabItem(AlarmFragment.getInstance(), R.drawable.tab_alarm));
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), items, (index, item) -> {

@@ -34,6 +34,9 @@
     <color name="activity_add_alarm_TV_address_form">#333333</color>
     <color name="activity_add_alarm_ET_alarm_name_hint">#999999</color>
 
+    <!-- Fragment Color-->
+    <color name="fragment_home_TV_weather_info">#ffffff</color>
+
     <!-- Line Color-->
     <color name="item_search_address_line">#dddddd</color>
 

@@ -18,6 +18,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="100dp"
+                android:onClick="@{(view ) -> activity.test1()}"
+                android:text="test1" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{(view ) -> activity.test2()}"
+                android:text="test2" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{(view ) -> activity.test3(false)}"
+                android:text="test3 vibrate" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="@{(view ) -> activity.test3(true)}"
+                android:text="test3 speaker" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone">
 

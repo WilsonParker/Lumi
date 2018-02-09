@@ -16,8 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.graction.developer.lumi.Data.DataStorage;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Service.AlarmService;
+import com.graction.developer.lumi.UI.NotificationManager;
+import com.graction.developer.lumi.Util.System.VSManager;
 import com.graction.developer.lumi.databinding.FragmentTestBinding;
 
 import java.text.SimpleDateFormat;
@@ -74,18 +77,19 @@ public class TestFragment extends BaseFragment {
     }
 
     // onClick
-    public void alarmTest(View view){
+    public void alarmTest(View view) {
 //        getActivity().registerReceiver(new AlarmReceiver(), new IntentFilter(DataStorage.Action.RECEIVE_ACTION_SINGLE_ALARM));
         logger.log(INFO, "alarmTest onClick");
         Calendar mCalendar = Calendar.getInstance();
-        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText()+""));
-        mCalendar.set(Calendar.MINUTE, Integer.parseInt(binding.fragmentTestETMinute.getText()+""));
-        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText()+""));
+        mCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(binding.fragmentTestETHour.getText() + ""));
+        mCalendar.set(Calendar.MINUTE, Integer.parseInt(binding.fragmentTestETMinute.getText() + ""));
+        mCalendar.set(Calendar.SECOND, Integer.parseInt(binding.fragmentTestETSecond.getText() + ""));
 //        mCalendar.set(Calendar.SECOND, mCalendar.get(Calendar.SECOND)+3);
 //        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
 //        mCalendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
 
         Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_SINGLE_ALARM);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getContext(),
                 0,
@@ -104,4 +108,33 @@ public class TestFragment extends BaseFragment {
         logger.log(INFO, simpleDateFormat.format(mCalendar.getTimeInMillis()));
     }
 
+    public void test1() {
+        VSManager.getInstance().vibrate(getActivity(), VSManager.PATTERN_1, VSManager.REPEAT_NONE);
+    }
+
+    public void test2() {
+        VSManager.getInstance().vibrate(getActivity(),2000);
+    }
+
+    public void test3(boolean isSpeaker) {
+        Context context = getActivity();
+        AlarmItem item = new AlarmItem(3, "address", "memo", new int[]{1,1,1,1,1,1,1,1}, 0,0,5,1, isSpeaker);
+        AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_ALARM_START);
+//        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DataStorage.Key.KEY_ALARM_ITEM, item);
+        bundle.putSerializable(DataStorage.Key.KEY_NOTIFICATION_ITEM, new NotificationManager.NotificationItem("1", item.getMemo(), item.getMemo(), R.mipmap.ic_launcher_round));
+        alarmIntent.putExtra(DataStorage.Key.KEY_BUNDLE, bundle);
+        alarmIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                item.getIndex(),
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+//        alarmManager.setInexactRepeating(android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, 5000, pendingIntent);
+
+    }
 }

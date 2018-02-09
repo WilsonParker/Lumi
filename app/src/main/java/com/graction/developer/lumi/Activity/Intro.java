@@ -14,12 +14,12 @@ import com.graction.developer.lumi.DataBase.DataBaseStorage;
 import com.graction.developer.lumi.Model.Xml.Weather;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.UIFactory;
-import com.graction.developer.lumi.Util.Alarm.AlarmManager;
 import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
 import com.graction.developer.lumi.Util.File.PreferenceManager;
 import com.graction.developer.lumi.Util.GPS.GpsManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.Parser.XmlPullParserManager;
+import com.graction.developer.lumi.Util.System.AlarmManager;
 
 import java.util.HashMap;
 
@@ -87,7 +87,7 @@ public class Intro extends BaseActivity {
 //            FontManager.getInstance().setAssetManager(getAssets());
         BaseActivityFileManager.getInstance().setActivity(this);
         ;
-        PreferenceManager.setContext(this);
+        PreferenceManager.setContext(getBaseContext());
         AlarmManager.getInstance().init(getApplicationContext());
         DataBaseStorage.alarmDataBaseHelper = new DataBaseHelper(getBaseContext(), DATABASE_NAME, null, DataBaseStorage.Version.TABLE_ALARM_VERSION);
         try {
@@ -111,8 +111,8 @@ public class Intro extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        for(int grant : grantResults)
-            if(grant == -1)
+        for (int grant : grantResults)
+            if (grant == -1)
                 return;
         runState++;
     }

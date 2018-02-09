@@ -1,11 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schmas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/weekly">
+
+    </FrameLayout>-->
     <FrameLayout
         android:layout_width="match_parent"
-        android:background="@drawable/weekly"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#806a6a">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="100dp" />
+            '
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:gravity="center_horizontal"
+                android:weightSum="10">
+
+                <com.androidplot.xy.XYPlot
+                    android:id="@+id/xyplot"
+                    style="@style/Custom_APDefacto2.Dark2"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="9"
+                    ap:lineLabesRotationBottom="-45" />
+            </LinearLayout>
+
+        </LinearLayout>
     </FrameLayout>
 </layout>

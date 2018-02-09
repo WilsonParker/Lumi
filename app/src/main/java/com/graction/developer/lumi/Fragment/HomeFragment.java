@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -154,12 +155,14 @@ public class HomeFragment extends BaseFragment {
                     String character_path = "/assets/images/character/", character_img = "test2.gif";
 //                        baseActivityFileManager.saveImage(imageModel.getCharacter_img_path(), imageModel.getCharacter_img_name(), weatherModel.getCharacter_img_url());
                     baseActivityFileManager.isExistsAndSaveFile(character_path, character_img, "http://192.168.0.8:8101/lumiAssets/" + character_path + character_img);
-                    GifDrawable gifDrawable = new GifDrawable(new BufferedInputStream(new FileInputStream(baseActivityFileManager.getFile(character_path + character_img))));
+                    /*GifDrawable gifDrawable = new GifDrawable(new BufferedInputStream(new FileInputStream(baseActivityFileManager.getFile(character_path + character_img))));
                     GifManager.getInstance().bindGif(gifDrawable
                             , binding.fragmentHomeIVCharacter
                             , loopNumber -> gifDrawable.stop()
                             , (view) -> gifDrawable.start()
-                    );
+                    );*/
+
+                    setGifAnimate(binding.fragmentHomeIVCharacter2, character_path + character_img);
                 } catch (Exception e) {
                     logger.log(HLogger.LogType.ERROR, "reloadWeatherInfo()", "reloadWeatherInfo Error", e);
                 }
@@ -191,6 +194,15 @@ public class HomeFragment extends BaseFragment {
                 endThread();
             }
         });
+    }
+
+    private void setGifAnimate(GifImageView gifImageView, String path) throws IOException {
+        GifDrawable gifDrawable = new GifDrawable(new BufferedInputStream(new FileInputStream(baseActivityFileManager.getFile(path))));
+        GifManager.getInstance().bindGif(gifDrawable
+                , gifImageView
+                , loopNumber -> gifDrawable.stop()
+                , (view) -> gifDrawable.start()
+        );
     }
 
     private void endThread(){

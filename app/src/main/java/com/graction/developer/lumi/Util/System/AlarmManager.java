@@ -1,4 +1,4 @@
-package com.graction.developer.lumi.Util.Alarm;
+package com.graction.developer.lumi.Util.System;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,7 +7,9 @@ import android.os.Bundle;
 
 import com.graction.developer.lumi.Data.DataStorage;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
+import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.Service.AlarmService;
+import com.graction.developer.lumi.UI.NotificationManager;
 import com.graction.developer.lumi.Util.Date.DateManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 
@@ -43,16 +45,18 @@ public class AlarmManager {
     }
 
     public void setAlarm(Context context, AlarmItem item) {
-        alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar mCalendar = Calendar.getInstance();
         mCalendar.setTimeInMillis(System.currentTimeMillis());
         mCalendar.set(Calendar.HOUR_OF_DAY, item.isMorning() ? item.getHour() : item.getHour() + 12);
         mCalendar.set(Calendar.MINUTE, item.getMinute());
+        mCalendar.set(Calendar.SECOND, 0);
 
+        alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(DataStorage.Action.RECEIVE_ACTION_ALARM_START);
 //        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(DataStorage.Key.KEY_ALARM_ITEM, item);
+        bundle.putSerializable(DataStorage.Key.KEY_NOTIFICATION_ITEM, new NotificationManager.NotificationItem("1", item.getMemo(), item.getMemo(), R.mipmap.ic_launcher_round));
         alarmIntent.putExtra(DataStorage.Key.KEY_BUNDLE, bundle);
         alarmIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = getPendingIntent(context, item.getIndex(), alarmIntent);
@@ -82,7 +86,7 @@ public class AlarmManager {
         context.startService(alarmIntent);
     }
 
-        public PendingIntent getPendingIntent(Context context, int index, Intent intent) {
+    public PendingIntent getPendingIntent(Context context, int index, Intent intent) {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context,
                 index,

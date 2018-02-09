@@ -16,7 +16,7 @@ import com.graction.developer.lumi.Model.DataBase.AlarmTable;
 import com.graction.developer.lumi.Model.Item.AlarmItem;
 import com.graction.developer.lumi.R;
 import com.graction.developer.lumi.UI.Layout.CustomArrayView;
-import com.graction.developer.lumi.Util.Alarm.AlarmManager;
+import com.graction.developer.lumi.Util.System.AlarmManager;
 import com.graction.developer.lumi.Util.Log.HLogger;
 import com.graction.developer.lumi.Util.NullChecker;
 import com.graction.developer.lumi.Util.StringUtil;

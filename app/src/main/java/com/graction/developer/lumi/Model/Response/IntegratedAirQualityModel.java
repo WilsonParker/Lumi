@@ -63,7 +63,7 @@ public class IntegratedAirQualityModel {
 
 	public class IntegratedAirQualityModelItem{
 		private String _returnType
-						, dateTerm		// 데이트 기간
+						, dateTerm		// 날짜 기간
 						, dataTime
 						, mangName		// 측정망 정보
 						, resultCode	// 결과 코드
