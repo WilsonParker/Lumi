@@ -4,6 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="activity"
+            type="com.graction.developer.lumi.Fragment.Test2Fragment" />
+
+    </data>
+
     <!--<FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,7 +21,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#806a6a">
+        android:background="#ffffff">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,23 +31,42 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="100dp" />
-            '
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:weightSum="10">
+
+                <!--<com.androidplot.xy.XYPlot
+                    android:id="@+id/xyplot"
+                    style="@style/Custom_APDefacto2.Dark2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="250dp"
+                    android:layout_weight="9"
+                    ap:lineLabesRotationBottom="-45" />-->
 
                 <com.androidplot.xy.XYPlot
                     android:id="@+id/xyplot"
-                    style="@style/Custom_APDefacto2.Dark2"
-                    android:layout_width="0dp"
+                    style="@style/Custom_APDefacto.Dark"
+                    android:layout_width="wrap_content"
                     android:layout_height="250dp"
-                    android:layout_weight="9"
                     ap:lineLabesRotationBottom="-45" />
-            </LinearLayout>
 
+                <!--<com.graction.developer.lumi.UI.Layout.CustomXYPlot-->
+                <com.androidplot.xy.XYPlot
+                    android:id="@+id/xyplot2"
+                    style="@style/Custom_APDefacto2.Dark2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="250dp"
+                    android:layout_below="@+id/xyplot"
+                    ap:lineLabesRotationBottom="-45" />
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:onClick="@{(view)->activity.reLoad()}"
+                android:text="reload" />
         </LinearLayout>
     </FrameLayout>
 </layout>

@@ -149,10 +149,10 @@
         <item name="titleTextSize">0sp</item>
         <item name="rangeTitleTextSize">0sp</item>
         <item name="domainTitleTextSize">0sp</item>
-        <item name="graphMarginTop">0dp</item>
-        <item name="graphMarginBottom">0dp</item>
-        <item name="graphMarginLeft">0dp</item>
-        <item name="graphMarginRight">0dp</item>
+        <item name="graphMarginTop">15dp</item>
+        <item name="graphMarginBottom">15dp</item>
+        <item name="graphMarginLeft">15dp</item>
+        <item name="graphMarginRight">15dp</item>
         <item name="domainLineThickness">0dp</item>
         <item name="rangeLineThickness">0dp</item>
         <item name="domainOriginLineThickness">0dp</item>
@@ -163,10 +163,10 @@
         <item name="legendHeight">0dp</item>
         <item name="legendAnchor">right_bottom</item>
         <item name="borderColor">@color/ap_transparent</item>
-        <item name="gridInsetTop">0dp</item>
-        <item name="gridInsetBottom">0dp</item>
-        <item name="gridInsetLeft">0dp</item>
-        <item name="gridInsetRight">0dp</item>
+        <item name="gridInsetTop">15dp</item>
+        <item name="gridInsetBottom">15dp</item>
+        <item name="gridInsetLeft">15dp</item>
+        <item name="gridInsetRight">15dp</item>
         <item name="lineLabels">left|bottom</item>
         <item name="lineLabelInsetTop">0dp</item>
         <item name="lineLabelInsetBottom">0dp</item>
@@ -187,21 +187,21 @@
     </style>
 
     <style name="Custom_APDefacto2.Dark2">
-        <item name="android:background">#ffffff</item>
-        <item name="backgroundColor">#c68c8c</item>
-        <item name="graphBackgroundColor">#ffffff</item>
-        <item name="gridBackgroundColor">#ffffff</item>
-        <item name="domainLineColor">#ffffff</item>
-        <item name="rangeLineColor">#ffffff</item>
-        <item name="domainOriginLineColor">#ffffff</item>
-        <item name="rangeOriginLineColor">#ffffff</item>
-        <item name="lineLabelTextColorTop">#ffffff</item>
-        <item name="lineLabelTextColorBottom">#ffffff</item>
-        <item name="lineLabelTextColorLeft">#ffffff</item>
-        <item name="lineLabelTextColorRight">#ffffff</item>
-        <item name="titleTextColor">#ffffff</item>
-        <item name="domainTitleTextColor">#ffffff</item>
-        <item name="rangeTitleTextColor">#ffffff</item>
-        <item name="legendTextColor">#ffffff</item>
+        <item name="android:background">#00000000</item>
+        <item name="backgroundColor">#00000000</item>
+        <item name="graphBackgroundColor">#00000000</item>
+        <item name="gridBackgroundColor">#00000000</item>
+        <item name="domainLineColor">#00000000</item>
+        <item name="rangeLineColor">#00000000</item>
+        <item name="domainOriginLineColor">#00000000</item>
+        <item name="rangeOriginLineColor">#00000000</item>
+        <item name="lineLabelTextColorTop">#00000000</item>
+        <item name="lineLabelTextColorBottom">#00000000</item>
+        <item name="lineLabelTextColorLeft">#00000000</item>
+        <item name="lineLabelTextColorRight">#00000000</item>
+        <item name="titleTextColor">#00000000</item>
+        <item name="domainTitleTextColor">#00000000</item>
+        <item name="rangeTitleTextColor">#00000000</item>
+        <item name="legendTextColor">#00000000</item>
     </style>
 </resources>
