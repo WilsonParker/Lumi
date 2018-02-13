@@ -7,11 +7,11 @@
 
         <variable
             name="viewHolder"
-            type="com.graction.developer.lumi.Adapter.AlarmListAdapter.ViewHolder" />
+            type="com.graction.developer.zoocaster.Adapter.AlarmListAdapter.ViewHolder" />
 
         <variable
             name="item"
-            type="com.graction.developer.lumi.Model.Item.AlarmItem" />
+            type="com.graction.developer.zoocaster.Model.Item.AlarmItem" />
 
     </data>
 

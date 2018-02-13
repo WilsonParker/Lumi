@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.graction.developer.lumi">
+    package="com.graction.developer.zoocaster">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -21,9 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity.MainActivity"
+            android:name="com.graction.developer.zoocaster.Activity.MainActivity"
             android:label="@string/app_name" />
-        <activity android:name=".Activity.Intro">
+        <activity android:name="com.graction.developer.zoocaster.Activity.Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,18 +32,18 @@
         </activity>
 
         <!-- Receiver -->
-        <receiver android:name=".Receiver.AlarmReceiver">
+        <receiver android:name="com.graction.developer.zoocaster.Receiver.AlarmReceiver">
             <intent-filter>
-                <action android:name="com.graction.developer.lumi.SINGLE_ALARM" />
-                <action android:name="com.graction.developer.lumi.MULTI_ALARM" />
-                <action android:name="com.graction.developer.lumi.ALARM_START" />
+                <action android:name="com.graction.developer.zoocaster.SINGLE_ALARM" />
+                <action android:name="com.graction.developer.zoocaster.MULTI_ALARM" />
+                <action android:name="com.graction.developer.zoocaster.ALARM_START" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" /> <!-- Starting a Service at Device Boot-->
             </intent-filter>
         </receiver>
 
         <!-- Service -->
-        <service android:name=".Service.AlarmService" />
-        <service android:name=".Service.AlarmStartService" />
+        <service android:name="com.graction.developer.zoocaster.Service.AlarmService" />
+        <service android:name="com.graction.developer.zoocaster.Service.AlarmStartService" />
 
         <!-- Google Map API KEY -->
         <meta-data
@@ -51,12 +51,12 @@
             android:value="AIzaSyCEJrAe1Go07xiXi5lykoOs74ewu-y-xEQ" />
 
         <activity
-            android:name=".Activity.AlarmActivity"
+            android:name="com.graction.developer.zoocaster.Activity.AlarmActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".Activity.AddAlarmActivity" />
-        <activity android:name=".Activity.ModifyAlarmActivity" />
+        <activity android:name="com.graction.developer.zoocaster.Activity.AddAlarmActivity" />
+        <activity android:name="com.graction.developer.zoocaster.Activity.ModifyAlarmActivity" />
         <activity
-            android:name=".Activity.SearchAddressActivity"
+            android:name="com.graction.developer.zoocaster.Activity.SearchAddressActivity"
             android:windowSoftInputMode="adjustPan|stateVisible" />
     </application>
 

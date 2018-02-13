@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.graction.developer.lumi.Activity.ModifyAlarmActivity" />
+            type="com.graction.developer.zoocaster.Activity.ModifyAlarmActivity" />
     </data>
 
     <RelativeLayout
@@ -277,7 +277,7 @@
                                     style="@style/Style_MarginView"
                                     android:layout_weight="10" />
 
-                                <com.graction.developer.lumi.UI.Layout.CustomArrayView
+                                <com.graction.developer.zoocaster.UI.Layout.CustomArrayView
                                     android:id="@+id/activity_add_alarm_CustomArrayView"
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"

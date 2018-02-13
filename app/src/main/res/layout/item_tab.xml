@@ -6,7 +6,7 @@
         <data>
               <variable
                   name="item"
-                  type="com.graction.developer.lumi.Adapter.FragmentAdapter.TabItem" />
+                  type="com.graction.developer.zoocaster.Adapter.FragmentAdapter.TabItem" />
         </data>
     -->
 

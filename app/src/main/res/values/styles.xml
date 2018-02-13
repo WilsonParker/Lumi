@@ -187,10 +187,10 @@
     </style>
 
     <style name="Custom_APDefacto2.Dark2">
-        <item name="android:background">#00000000</item>
-        <item name="backgroundColor">#00000000</item>
-        <item name="graphBackgroundColor">#00000000</item>
-        <item name="gridBackgroundColor">#00000000</item>
+        <item name="android:background">#00ffffff</item>
+        <item name="backgroundColor">#00ffffff</item>
+        <item name="graphBackgroundColor">#00ffffff</item>
+        <item name="gridBackgroundColor">#00ffffff</item>
         <item name="domainLineColor">#00000000</item>
         <item name="rangeLineColor">#00000000</item>
         <item name="domainOriginLineColor">#00000000</item>

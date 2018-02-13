@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.2'
     defaultConfig {
-        applicationId "com.graction.developer.lumi"
+        applicationId "com.graction.developer.zoocaster"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1

@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.graction.developer.lumi.Fragment.TestFragment" />
+            type="com.graction.developer.zoocaster.Fragment.TestFragment" />
     </data>
 
     <FrameLayout
@@ -20,30 +20,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:id="@+id/donut_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="100dp"
-                android:onClick="@{(view ) -> activity.test1()}"
-                android:text="test1" />
-
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:onClick="@{(view ) -> activity.test2()}"
-                android:text="test2" />
-
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:onClick="@{(view ) -> activity.test3(false)}"
-                android:text="test3 vibrate" />
-
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:onClick="@{(view ) -> activity.test3(true)}"
-                android:text="test3 speaker" />
+                app:donut_background_color="#efeded"
+                app:donut_circle_starting_degree="-90"
+                app:donut_finished_color="#ead77a7a"
+                app:donut_inner_bottom_text="h2"
+                app:donut_max="100"
+                app:donut_progress="30"
+                app:donut_show_text="true" />
         </LinearLayout>
 
         <LinearLayout
