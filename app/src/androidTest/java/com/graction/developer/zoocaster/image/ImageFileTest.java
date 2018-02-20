@@ -1,4 +1,4 @@
-package com.graction.developer.zoocaster.image;
+package com.graction.developer.lumi.image;
 
 
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.graction.developer.zoocaster.Util.File.BaseActivityFileManager;
-import com.graction.developer.zoocaster.Util.Log.HLogger;
+import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
+import com.graction.developer.lumi.Util.Log.HLogger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +48,7 @@ public class ImageFileTest {
             logger.log(HLogger.LogType.DEBUG, " " + appContext.getCacheDir());
 
             String fName = "sunny.jpg"
-                    , url = "http://192.168.0.8:8101/zoocasterAssets/assets/images/background/sunny.jpg";
+                    , url = "http://192.168.0.8:8101/lumiAssets/assets/images/background/sunny.jpg";
             Bitmap b = bafm.getBitmapFromURL(url);
             byte[] bytes = bafm.getByteFromURL(url);
             FileOutputStream fos = appContext.openFileOutput(fName, Context.MODE_PRIVATE);

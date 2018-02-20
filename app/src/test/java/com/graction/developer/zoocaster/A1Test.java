@@ -1,6 +1,6 @@
-package com.graction.developer.zoocaster;
+package com.graction.developer.lumi;
 
-import com.graction.developer.zoocaster.Util.Parser.MathematicsManager;
+import com.graction.developer.lumi.Util.Parser.MathematicsManager;
 
 import org.junit.Test;
 

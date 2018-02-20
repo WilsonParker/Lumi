@@ -7,15 +7,15 @@
 
         <variable
             name="weatherModel"
-            type="com.graction.developer.zoocaster.Model.Response.WeatherModel" />
+            type="com.graction.developer.lumi.Model.Response.WeatherModel" />
 
         <variable
             name="integratedAirQualityModel"
-            type="com.graction.developer.zoocaster.Model.Response.IntegratedAirQualityModel" />
+            type="com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel" />
 
         <variable
             name="integratedAirQualityModelItem"
-            type="com.graction.developer.zoocaster.Model.Response.IntegratedAirQualityModel.IntegratedAirQualityModelItem" />
+            type="com.graction.developer.lumi.Model.Response.IntegratedAirQualityModel.IntegratedAirQualityModelItem" />
     </data>
 
     <RelativeLayout

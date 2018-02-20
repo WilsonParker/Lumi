@@ -1,4 +1,4 @@
-package com.graction.developer.zoocaster;
+package com.graction.developer.lumi;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under currentWeather.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.graction.developer.zoocaster", appContext.getPackageName());
+        assertEquals("com.graction.developer.lumi", appContext.getPackageName());
     }
 }

@@ -8,7 +8,7 @@
 
         <variable
             name="activity"
-            type="com.graction.developer.zoocaster.Fragment.Test2Fragment" />
+            type="com.graction.developer.lumi.Fragment.Test2Fragment" />
 
     </data>
 
@@ -69,7 +69,7 @@
 
                 </HorizontalScrollView>
 
-                <!--<com.graction.developer.zoocaster.UI.Layout.CustomXYPlot-->
+                <!--<com.graction.developer.lumi.UI.Layout.CustomXYPlot-->
                 <com.androidplot.xy.XYPlot
                     android:id="@+id/xyplot2"
                     style="@style/Custom_APDefacto.Dark"

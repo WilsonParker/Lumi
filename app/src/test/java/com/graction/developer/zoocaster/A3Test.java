@@ -1,13 +1,13 @@
-package com.graction.developer.zoocaster;
+package com.graction.developer.lumi;
 
 import android.content.ContentValues;
 
-import com.graction.developer.zoocaster.DataBase.DataBaseParserManager;
-import com.graction.developer.zoocaster.DataBase.DataBaseStorage;
-import com.graction.developer.zoocaster.Model.DataBase.AlarmTable;
-import com.graction.developer.zoocaster.Model.Item.AlarmItem;
-import com.graction.developer.zoocaster.Util.Log.HLogger;
-import com.graction.developer.zoocaster.Util.StringUtil;
+import com.graction.developer.lumi.DataBase.DataBaseParserManager;
+import com.graction.developer.lumi.DataBase.DataBaseStorage;
+import com.graction.developer.lumi.Model.DataBase.AlarmTable;
+import com.graction.developer.lumi.Model.Item.AlarmItem;
+import com.graction.developer.lumi.Util.Log.HLogger;
+import com.graction.developer.lumi.Util.StringUtil;
 
 import org.junit.Test;
 

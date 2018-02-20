@@ -1,5 +1,5 @@
-package com.graction.developer.zoocaster.image;/*
-package com.graction.developer.zoocaster.image;
+package com.graction.developer.lumi.image;/*
+package com.graction.developer.lumi.image;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,15 +12,15 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.ViewTarget;
-import com.graction.developer.zoocaster.Fragment.BaseFragment;
-import com.graction.developer.zoocaster.Listener.AddressHandleListener;
-import com.graction.developer.zoocaster.R;
-import com.graction.developer.zoocaster.Util.File.BaseActivityFileManager;
-import com.graction.developer.zoocaster.Util.GPS.GoogleLocationManager;
-import com.graction.developer.zoocaster.Util.GPS.GpsManager;
-import com.graction.developer.zoocaster.Util.Log.HLogger;
-import com.graction.developer.zoocaster.Util.Weather.WeatherManager;
-import com.graction.developer.zoocaster.databinding.FragmentHomeBinding;
+import com.graction.developer.lumi.Fragment.BaseFragment;
+import com.graction.developer.lumi.Listener.AddressHandleListener;
+import com.graction.developer.lumi.R;
+import com.graction.developer.lumi.Util.File.BaseActivityFileManager;
+import com.graction.developer.lumi.Util.GPS.GoogleLocationManager;
+import com.graction.developer.lumi.Util.GPS.GpsManager;
+import com.graction.developer.lumi.Util.Log.HLogger;
+import com.graction.developer.lumi.Util.Weather.WeatherManager;
+import com.graction.developer.lumi.databinding.FragmentHomeBinding;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 import retrofit2.Call;
 
-import static com.graction.developer.zoocaster.Data.DataStorage.weatherModel;
+import static com.graction.developer.lumi.Data.DataStorage.weatherModel;
 
 public class ImageTest extends BaseFragment{
     private static final ImageTest instance = new ImageTest();

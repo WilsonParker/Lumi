@@ -9,11 +9,11 @@
 
         <variable
             name="item"
-            type="com.graction.developer.zoocaster.Model.Address.AddressModel.Prediction" />
+            type="com.graction.developer.lumi.Model.Address.AddressModel.Prediction" />
 
         <variable
             name="viewHolder"
-            type="com.graction.developer.zoocaster.Adapter.AddressListAdapter.ViewHolder" />
+            type="com.graction.developer.lumi.Adapter.AddressListAdapter.ViewHolder" />
 
         <variable
             name="isLast"

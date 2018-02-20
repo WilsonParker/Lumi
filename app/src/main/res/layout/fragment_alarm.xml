@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.graction.developer.zoocaster.Fragment.AlarmFragment" />
+            type="com.graction.developer.lumi.Fragment.AlarmFragment" />
     </data>
 
     <LinearLayout

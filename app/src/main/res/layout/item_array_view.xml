@@ -6,7 +6,7 @@
 
         <variable
             name="itemModel"
-            type="com.graction.developer.zoocaster.UI.Layout.CustomArrayView.CustomItemViewModel" />
+            type="com.graction.developer.lumi.UI.Layout.CustomArrayView.CustomItemViewModel" />
 
     </data>
 

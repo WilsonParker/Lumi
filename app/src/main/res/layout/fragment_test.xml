@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.graction.developer.zoocaster.Fragment.TestFragment" />
+            type="com.graction.developer.lumi.Fragment.TestFragment" />
     </data>
 
     <FrameLayout
@@ -22,11 +22,13 @@
 
             <com.github.lzyzsd.circleprogress.DonutProgress
                 android:id="@+id/donut_progress"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
+                app:donut_finished_stroke_width="5dp"
+                app:donut_unfinished_stroke_width="3dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="100dp"
-                app:donut_background_color="#efeded"
+                app:donut_background_color="#00efeded"
                 app:donut_circle_starting_degree="-90"
                 app:donut_finished_color="#ead77a7a"
                 app:donut_inner_bottom_text="h2"

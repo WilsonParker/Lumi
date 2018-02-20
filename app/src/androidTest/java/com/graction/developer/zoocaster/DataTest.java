@@ -1,4 +1,4 @@
-package com.graction.developer.zoocaster;
+package com.graction.developer.lumi;
 
 
 import android.content.Context;
@@ -32,7 +32,7 @@ public class DataTest {
         // Context of the app under currentWeather.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.graction.developer.zoocaster", appContext.getPackageName());
+        assertEquals("com.graction.developer.lumi", appContext.getPackageName());
 
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy - MM - dd HH : mm : ss");

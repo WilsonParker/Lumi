@@ -1,4 +1,4 @@
-package com.graction.developer.zoocaster;
+package com.graction.developer.lumi;
 
 import org.junit.Test;
 

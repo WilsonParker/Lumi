@@ -1,8 +1,8 @@
-package com.graction.developer.zoocaster;
+package com.graction.developer.lumi;
 
-import com.graction.developer.zoocaster.Model.DataBase.AlarmTable;
-import com.graction.developer.zoocaster.Util.Parser.ObjectParserManager;
-import com.graction.developer.zoocaster.Util.StringUtil;
+import com.graction.developer.lumi.Model.DataBase.AlarmTable;
+import com.graction.developer.lumi.Util.Parser.ObjectParserManager;
+import com.graction.developer.lumi.Util.StringUtil;
 
 import org.junit.Test;
 
